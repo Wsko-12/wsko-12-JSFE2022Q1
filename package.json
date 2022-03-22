@@ -1,0 +1,19 @@
+{
+  "name": "shelter",
+  "version": "1.0.0",
+  "description": "RS School task",
+  "main": "index.js",
+  "scripts": {
+    "styleMain":"sass ./sass/main/main.scss ./pages/main/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolling-scopes-school/wsko-12-JSFE2022Q1.git"
+  },
+  "author": "Vlad Vasko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rolling-scopes-school/wsko-12-JSFE2022Q1/issues"
+  },
+  "homepage": "https://github.com/rolling-scopes-school/wsko-12-JSFE2022Q1#readme"
+}
