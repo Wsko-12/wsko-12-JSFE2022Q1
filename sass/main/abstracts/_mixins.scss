@@ -1,0 +1,11 @@
+@mixin media-laptop{
+    @media (min-width:$content-width) { @content; }
+}
+
+@mixin media-tablet{
+    @media (max-width:($content-width - 1px)) { @content; }
+}
+
+@mixin media-mobile{
+    @media (max-width:($tablet-width - 1px)) { @content; }
+}

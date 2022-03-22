@@ -4,7 +4,7 @@
   "description": "RS School task",
   "main": "index.js",
   "scripts": {
-    "styleMain":"sass ./sass/main/main.scss ./pages/main/style.css"
+    "styleMain":"sass --watch ./sass/main/main.scss ./pages/main/style.css"
   },
   "repository": {
     "type": "git",

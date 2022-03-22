@@ -1,0 +1,34 @@
+html{
+    font-size: 10px;
+}
+body{
+    @extend %font-subtitles;
+}
+
+%font-titles{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+%font-subtitles{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+@mixin font($size:1.2em,$weight:400,$style:normal,$height:1em, $spacing:1em){
+    font-size:$size;
+    font-weight:$weight;
+    font-style:$style;
+    line-height:$height;
+    letter-spacing: $spacing;
+}
+
+h2{
+    @extend %font-titles;
+    @include font($size:4.4em,$style:normal,$height:130%, $spacing:0px);
+
+    @include media-mobile{
+        @include font($size:2.5em,$style:normal,$height:130%, $spacing:0.06em);
+    };
+}
+p{
+    @extend %font-subtitles;
+    @include font($size:1.5em,$style:normal,$height:160%, $spacing:0px);
+}

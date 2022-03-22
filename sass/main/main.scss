@@ -3,17 +3,25 @@
 @import 'abstracts/mixins';
 @import 'abstracts/placeholders';
 
+//--Vendors--
+@import 'vendors/normalize';
+@import 'vendors/reset';
+
 //--Base--
 @import 'base/typography';
 
-//--Components--
-@import 'components/buttons';
-
 //--Layout--
 @import 'layout/header';
+@import 'layout/wrapper';
+
+//--Components--
+@import 'components/navigation';
+@import 'components/buttons';
+@import 'components/logo';
+
+@import 'components/not-only';
 
 //--Pages--
 @import 'pages/_main';
 
-//--Vendors--
-@import 'vendors/normalize';
+

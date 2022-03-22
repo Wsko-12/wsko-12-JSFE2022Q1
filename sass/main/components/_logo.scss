@@ -1,0 +1,21 @@
+.logo{
+
+}
+.logo__title{
+    @extend %font-titles;
+    @include font($size:3.2rem,$height:115%,$spacing: 0.06em);
+    margin: 0 0 7.8px;
+    color:$color-primary;
+    &_colored{
+        color:$color-dark-l;
+    }
+}
+.logo__subtitle{
+    @extend %font-subtitles;
+    @include font($size:1.3rem,$height:15px,$spacing: 0.1em);
+    text-align: center;
+    color:$color-light-xl;
+    &_colored{
+        color:$color-dark-3xl;
+    }
+}

@@ -1,0 +1,20 @@
+.header{
+    width: 100vw;
+    position: absolute;
+    // background:darkslategray;
+    padding:60px 0 30px;
+    &_colored{
+        // Уточнить padding top
+        padding:30px 0;
+        background:$color-light-xl;
+        
+    }
+
+    @include media-tablet{
+        padding:30px 0 30px;
+    };
+}
+.header__wrapper{
+    display: flex;
+    justify-content: space-between;
+}

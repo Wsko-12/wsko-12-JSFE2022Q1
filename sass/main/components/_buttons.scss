@@ -1,0 +1,15 @@
+.button{
+    padding: 15px 45px 15px;
+    @extend %font-titles;
+    @include font($size:17px,$height:130%,$spacing:0.06em);
+    border: none;
+    border-radius:100px;
+    align-items: center;
+    color:$color-dark-3xl;
+    background: $color-primary;
+
+    &:hover{
+        background:$color-primary-light
+    }
+
+}
