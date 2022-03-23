@@ -15,6 +15,7 @@
     @include font($size:1.3rem,$height:15px,$spacing: 0.1em);
     text-align: center;
     color:$color-light-xl;
+    padding-left: 2px;
     &_colored{
         color:$color-dark-3xl;
     }

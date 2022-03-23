@@ -16,18 +16,30 @@
         color:$color-dark-s;
     }
     &:hover{
-        border-bottom: 3px solid $color-primary-light;
-        padding-bottom: 0px;
+        // border-bottom: 3px solid $color-primary-light;
+        // padding-bottom: 0px;
     }
     
+    &:hover>*{
+        color:$color-light-s;
+        // border-bottom: 3px solid $color-primary-light;
+        // padding-bottom: 0px;
+    }
+
+
+
     &_selected{
         border-bottom: 3px solid $color-primary;
         padding-bottom: 0px;
         >*{
             color: $color-light-s;
         }
+        &:hover>*{
+            color:$color-light-s;
+            // border-bottom: 3px solid $color-primary-light;
+            // padding-bottom: 0px;
+        }
     }
-
 
 
 
@@ -43,7 +55,12 @@
         border-bottom: 3px solid $color-primary;
         padding-bottom: 0px;
         >*{
-            color: $color-dark-3xl;
+            color: $color-dark-l;
+        }
+        &:hover>*{
+            color:$color-dark-l;
+            // border-bottom: 3px solid $color-primary-light;
+            // padding-bottom: 0px;
         }
     }
    

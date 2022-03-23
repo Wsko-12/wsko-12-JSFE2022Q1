@@ -12,7 +12,7 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-@mixin font($size:1.2em,$weight:400,$style:normal,$height:1em, $spacing:1em){
+@mixin font($size:1.2rem,$weight:400,$style:normal,$height:1em, $spacing:1em){
     font-size:$size;
     font-weight:$weight;
     font-style:$style;
@@ -22,13 +22,27 @@ body{
 
 h2{
     @extend %font-titles;
-    @include font($size:4.4em,$style:normal,$height:130%, $spacing:0px);
+    @include font($size:4.4rem,$style:normal,$height:130%, $spacing:0px);
 
     @include media-mobile{
-        @include font($size:2.5em,$style:normal,$height:130%, $spacing:0.06em);
+        @include font($size:2.5rem,$style:normal,$height:130%, $spacing:0.06em);
     };
+
+}
+h3{
+    @extend %font-titles;
+    @include font($size:3.5rem,$style:normal,$height:130%, $spacing:0.06em);
+
+    @include media-mobile{
+        @include font($size:2.5rem,$style:normal,$height:130%, $spacing:0.06em);
+    };
+
 }
 p{
     @extend %font-subtitles;
-    @include font($size:1.5em,$style:normal,$height:160%, $spacing:0px);
+    @include font($size:1.5rem,$style:normal,$height:160%, $spacing:0px);
+}
+
+h3:lang(en){
+    quotes: '\201c' '\201d';
 }
