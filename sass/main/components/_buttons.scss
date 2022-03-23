@@ -1,10 +1,17 @@
-.button{
-    padding: 15px 45px 15px;
+%button-view{
     @extend %font-titles;
-    @include font($size:17px,$height:130%,$spacing:0.06em);
-    border: none;
+    @include font($size:1.7rem,$height:130%,$spacing:0.06em);
     border-radius:100px;
     align-items: center;
+    background: none;
+}
+
+
+.button{
+    @extend %button-view;
+    padding: 15px 45px 15px;
+    
+    border: none;
     color:$color-dark-3xl;
     background: $color-primary;
 
@@ -12,4 +19,65 @@
         background:$color-primary-light
     }
 
+}
+.button-add{
+    @extend %button-view;
+    padding: 13px 43px 13px;
+    border: 2px solid $color-primary;
+    color:$color-dark-3xl;
+
+    &:hover{
+        border: 2px solid $color-primary-light;
+        background:$color-primary-light;
+    }
+}
+
+
+.slider-button{
+    width: 52px;
+    height: 52px;
+    border-radius: 52px;
+    border: 2px solid $color-primary;
+    background:none;
+    color:$color-dark-3xl;
+    fill:$color-dark-3xl;
+    @extend %font-titles;
+    @include font($size:2.0rem,$weight:400,$style:normal,$height:115%, $spacing:0.06em);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &>svg>path{
+        fill:$color-dark-3xl
+    }
+    &:hover{
+        border: 2px solid $color-primary-light;
+        background:$color-primary-light;
+    }
+    &_inactive{
+        color:$color-dark-s;
+        border: 2px solid $color-dark-s;
+        &>svg>path{
+            fill:$color-dark-s
+        }
+        &:hover{
+            border: 2px solid $color-dark-s;
+            background:none;
+            color:$color-dark-s;
+        }
+    }
+
+
+
+    &_next{
+        background: url(../../../assets/icons/arrow_next.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    &_previous{
+        background: url(../../../assets/icons/arrow_previous.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 }

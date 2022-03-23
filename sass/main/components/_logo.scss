@@ -1,6 +1,4 @@
-.logo{
 
-}
 .logo__title{
     @extend %font-titles;
     @include font($size:3.2rem,$height:115%,$spacing: 0.06em);

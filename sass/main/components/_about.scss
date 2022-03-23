@@ -1,14 +1,14 @@
 .about__wrapper{
     display: flex;
     justify-content: space-between;
-    padding: 80px 175px 100px;
+    padding: 80px 175px 89px;
     @include media-tablet{
         flex-direction: column-reverse;
-        padding: 80px 0px;
+        padding: 80px 0px 100px;
         align-items: center;
     }
     @include media-mobile{
-        padding:42px 10px 42.4px;
+        padding:42px 10px 42px;
     }
 }
 

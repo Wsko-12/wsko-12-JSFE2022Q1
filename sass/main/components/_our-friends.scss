@@ -1,0 +1,75 @@
+.our-friends{
+    background: $color-light-l;
+}
+
+.our-friends__wrapper{
+    padding: 80px 0 100px;
+    overflow: hidden;
+    @include media-tablet{
+        padding: 80px 30px 100px;
+    }
+    @include media-mobile{
+        padding: 41px 10px 100px;
+    }
+}
+
+.our-friends__title{
+    color: $color-dark-l;
+    max-width: 402px;
+    padding: 1px 0px 0px 2px;
+    text-align: center;
+    margin: 0 auto 59px;
+    // @include media-tablet{
+    //     margin: 0 auto 59px;
+    //  }
+    @include media-mobile{
+       width: 100%;
+       margin: 0 auto 42px;
+    }
+
+}
+
+.our-friends__slider{
+    margin: 0 0 59px;
+
+    
+    @include media-mobile{
+        width: 270px;
+        height: auto;
+        margin: 0 auto 42px;
+    } 
+}
+.our-friends__slider-window{
+    width: 990px;
+    @include media-tablet{
+        width: 580px;
+    } 
+    @include media-mobile{
+        width: 270px;
+        height: 435px;
+    } 
+}
+
+
+
+
+
+.our-friends__pet-card{
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    margin-right: 90px;
+
+    @include media-tablet{
+        margin-right:40px;
+    } 
+}
+.our-friends__button{
+    display: block;
+    margin: 0 auto;
+    padding: 15px 45px 15px 46px;
+    
+    @include media-tablet{
+        padding: 15px 45px 15px;
+    }
+}

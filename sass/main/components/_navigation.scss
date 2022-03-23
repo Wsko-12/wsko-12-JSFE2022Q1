@@ -15,10 +15,10 @@
     >*{
         color:$color-dark-s;
     }
-    &:hover{
-        // border-bottom: 3px solid $color-primary-light;
-        // padding-bottom: 0px;
-    }
+    // &:hover{
+    //     // border-bottom: 3px solid $color-primary-light;
+    //     // padding-bottom: 0px;
+    // }
     
     &:hover>*{
         color:$color-light-s;
