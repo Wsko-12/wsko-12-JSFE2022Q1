@@ -5,6 +5,7 @@
     padding:60px 0 30px;
     &_colored{
         // Уточнить padding top
+        position: static;
         padding:30px 0;
         background:$color-light-xl;
         
