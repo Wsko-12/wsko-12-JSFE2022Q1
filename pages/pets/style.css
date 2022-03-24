@@ -845,17 +845,24 @@ h3:lang(en) {
   margin: auto;
 }
 
+.pets {
+  background-color: #F6F6F6;
+}
+
 .pets__wrapper {
   padding-top: 81px;
+  padding-bottom: 100px;
 }
 @media (max-width: 1279px) {
   .pets__wrapper {
     padding-top: 81px;
+    padding-bottom: 76px;
   }
 }
 @media (max-width: 767px) {
   .pets__wrapper {
     padding-top: 42px;
+    padding-bottom: 43px;
   }
 }
 
@@ -935,25 +942,22 @@ h3:lang(en) {
   margin: auto;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 100px;
 }
 .pets__buttons-container > * {
   margin: 0px;
 }
-@media (max-width: 1279px) {
-  .pets__buttons-container {
-    margin-bottom: 76px;
-  }
-}
 @media (max-width: 767px) {
   .pets__buttons-container {
     width: 300px;
-    margin-bottom: 43px;
   }
 }
 
 .pets__card {
   flex: 0 0 auto;
+}
+.pets__card:hover > button {
+  border: 2px solid #FDDCC4;
+  background: #FDDCC4;
 }
 
 /*# sourceMappingURL=style.css.map */
