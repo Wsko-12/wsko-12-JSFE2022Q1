@@ -1,8 +1,10 @@
 .help__wrapper{
     padding-top: 80px;
+    padding-bottom: 44px;
 
     @include media-mobile{
         padding-top: 42px;
+        padding-bottom: 11px;
     }
 }
 
@@ -11,6 +13,7 @@
     max-width: 310px;
     text-align: center;
     margin: 0 auto 60px;
+    color:$color-dark-l;
 
     @include media-mobile{
         max-width: 225px;
@@ -71,6 +74,7 @@
    
     // align-self: center;
     // padding-left: 0.1px;
+    color:$color-dark-l;
     position: relative;
     left: 1px;
     @include media-tablet{

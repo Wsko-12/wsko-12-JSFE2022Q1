@@ -1,5 +1,5 @@
 .header{
-    width: 100vw;
+    width: 100%;
     position: absolute;
     // background:darkslategray;
     padding:60px 0 30px;
@@ -17,4 +17,21 @@
 .header__wrapper{
     display: flex;
     justify-content: space-between;
+}
+
+
+.header__burger{
+    display: none;
+    >*{
+        stroke: $color-primary;
+    }
+    &_colored >*{
+        stroke: #000000;
+    }
+
+    @include media-mobile{
+        display: block;
+        margin-top: 15px;
+        margin-right: 43px;
+    };
 }

@@ -17,6 +17,7 @@
     margin-bottom: 27px;
 }
 .pet-card__title{
+    color:$color-dark-l;
     @extend %font-titles;
     @include font($size:2.0rem,$height:23px,$spacing:0.06em);
     text-align: center;
