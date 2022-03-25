@@ -504,7 +504,7 @@ h3:lang(en) {
 @media (max-width: 1279px) {
   .footer__column {
     padding-top: 0px;
-    margin-bottom: 65px;
+    margin-bottom: 64px;
   }
 }
 @media (max-width: 767px) {
@@ -729,6 +729,10 @@ h3:lang(en) {
   border: 2px solid #CDCDCD;
   background: none;
   color: #CDCDCD;
+}
+.slider-button_active {
+  border: 2px solid #FDDCC4;
+  background: #FDDCC4;
 }
 .slider-button_next {
   background: url(../../../assets/icons/arrow_next.svg);
