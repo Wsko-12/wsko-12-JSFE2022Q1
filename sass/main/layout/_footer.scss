@@ -13,6 +13,7 @@
         justify-content: space-around;
     }
     @include media-mobile{
+        padding-top: 30px;
         max-width: 320px;
     }
 }
@@ -29,7 +30,7 @@
     }
     @include media-mobile{
         max-width: 300px;
-        margin-bottom: 39px;
+        margin-bottom: 40px;
     }
 }
 
