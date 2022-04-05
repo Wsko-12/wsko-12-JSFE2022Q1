@@ -4,8 +4,8 @@
   "description": "RS School task",
   "main": "index.js",
   "scripts": {
-    "styleMain":"sass --watch ./sass/main/main.scss ./pages/main/style.css",
-    "stylePets":"sass --watch ./sass/main/main.scss ./pages/pets/style.css"
+    "styleMain":"sass --watch ./shelter/sass/main/main.scss ./shelter/pages/main/style.css",
+    "stylePets":"sass --watch ./shelter/sass/main/main.scss ./shelter/pages/pets/style.css"
   },
   "repository": {
     "type": "git",

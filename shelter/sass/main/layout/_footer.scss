@@ -1,5 +1,5 @@
 .footer{
-    background:url(../../../assets/images/main/noise_transparent@2x.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
+    background:url(../../assets/images/main/noise_transparent@2x.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
     background-size: auto;
 }
 .footer__wrapper{
@@ -97,15 +97,15 @@
     height: 32px;
     &_email{
         width: 40px;
-        background-image: url(../../../assets/icons/icon-email.svg);
+        background-image: url(../../assets/icons/icon-email.svg);
     }
     &_phone{
         width: 40px;
-        background-image: url(../../../assets/icons/icon-phone.svg);
+        background-image: url(../../assets/icons/icon-phone.svg);
     }
     &_marker{
         width: 22px;
-        background-image: url(../../../assets/icons/icon-marker.svg);
+        background-image: url(../../assets/icons/icon-marker.svg);
     }
 }
 

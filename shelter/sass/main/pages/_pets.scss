@@ -85,6 +85,7 @@
     
 
     >*{
+        
         margin: 0px;
     }
     @include media-mobile{
@@ -93,6 +94,7 @@
 }
 
 .pets__card{
+    cursor: pointer;
     flex: 0 0 auto;
     &:hover>button{
         border: 2px solid $color-primary-light;

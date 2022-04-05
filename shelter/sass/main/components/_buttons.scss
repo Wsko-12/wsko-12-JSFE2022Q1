@@ -47,6 +47,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     &>svg>path{
         fill:$color-dark-3xl
@@ -56,6 +57,7 @@
         background:$color-primary-light;
     }
     &_disabled{
+        cursor: auto;
         color:$color-dark-s;
         border: 2px solid $color-dark-s;
         &>svg>path{
@@ -68,18 +70,20 @@
         }
     }
     &_active{
+        
+        cursor: auto;
         border: 2px solid $color-primary-light;
         background:$color-primary-light;
     }
 
 
     &_next{
-        background: url(../../../assets/icons/arrow_next.svg);
+        background: url(../../assets/icons/arrow_next.svg);
         background-repeat: no-repeat;
         background-position: center;
     }
     &_previous{
-        background: url(../../../assets/icons/arrow_previous.svg);
+        background: url(../../assets/icons/arrow_previous.svg);
         background-repeat: no-repeat;
         background-position: center;
     }
