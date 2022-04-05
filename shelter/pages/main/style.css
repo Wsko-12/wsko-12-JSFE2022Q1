@@ -363,7 +363,7 @@ html {
   font-size: 10px;
 }
 
-.donation__card > *, .donation__subtitle, .help__description, .pet-card__title, .logo__title, .slider-button, .button-add, .button, .footer__subtitle-wrapper > *, .footer__title, h3, h2 {
+.donation__card, .donation__subtitle, .help__description, .pet-card__title, .logo__title, .slider-button, .button-add, .button, .footer__subtitle-wrapper > *, .footer__title, h3, h2 {
   font-family: Georgia, "Times New Roman", Times, serif;
 }
 
@@ -710,6 +710,7 @@ h3:lang(en) {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .slider-button > svg > path {
   fill: #292929;
@@ -719,6 +720,7 @@ h3:lang(en) {
   background: #FDDCC4;
 }
 .slider-button_disabled {
+  cursor: auto;
   color: #CDCDCD;
   border: 2px solid #CDCDCD;
 }
@@ -731,6 +733,7 @@ h3:lang(en) {
   color: #CDCDCD;
 }
 .slider-button_active {
+  cursor: auto;
   border: 2px solid #FDDCC4;
   background: #FDDCC4;
 }
@@ -826,10 +829,15 @@ h3:lang(en) {
   border-radius: 9px;
   overflow: hidden;
   margin: 0;
+  cursor: pointer;
 }
 .pet-card:hover {
   background: #ffffff;
   box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+}
+.pet-card:hover > button {
+  border: 2px solid #FDDCC4;
+  background: #FDDCC4;
 }
 
 .pet-card__image {
@@ -1053,6 +1061,12 @@ h3:lang(en) {
 }
 
 .donation__card {
+  color: #545454;
+  font-size: 2rem;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 115%;
+  letter-spacing: 0.06em;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -1062,14 +1076,6 @@ h3:lang(en) {
   background: #F1CDB3;
   max-width: 349px;
 }
-.donation__card > * {
-  color: #545454;
-  font-size: 2rem;
-  font-weight: 400;
-  font-style: normal;
-  line-height: 115%;
-  letter-spacing: 0.06em;
-}
 .donation__card:hover {
   background: #FDDCC4;
 }
@@ -1077,8 +1083,6 @@ h3:lang(en) {
   .donation__card {
     max-width: 281px;
     margin: 0 auto 20px;
-  }
-  .donation__card > * {
     font-size: 1.5rem;
     font-weight: 400;
     font-style: normal;
@@ -1362,6 +1366,7 @@ h3:lang(en) {
   z-index: 2;
   flex: 0 0 auto;
   margin-right: 90px;
+  cursor: pointer;
 }
 @media (max-width: 1279px) {
   .our-friends__pet-card {

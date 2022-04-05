@@ -60,11 +60,9 @@
     }
 }
 .donation__card{
-    >*{
-        color:$color-dark-l;
-        @extend %font-titles;
-        @include font($size:2.0rem,$height:115%,$spacing:0.06em);
-    }
+    color:$color-dark-l;
+    @extend %font-titles;
+    @include font($size:2.0rem,$height:115%,$spacing:0.06em);
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -83,9 +81,7 @@
     @include media-mobile{
         max-width: 281px;
         margin: 0 auto 20px;
-        &>*{
-            @include font($size:1.5rem,$height:115%,$spacing:0.06em);
-        }
+        @include font($size:1.5rem,$height:115%,$spacing:0.06em);
     }
 
 }
