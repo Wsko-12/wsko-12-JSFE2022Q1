@@ -685,6 +685,7 @@ h3:lang(en) {
   margin-left: 36px;
 }
 .navigation__item > * {
+  transition: color 0.2s;
   color: #CDCDCD;
 }
 .navigation__item:hover > * {
@@ -738,6 +739,7 @@ h3:lang(en) {
 
 .button {
   padding: 15px 45px 15px;
+  transition: background-color 0.2s;
   border: none;
   color: #292929;
   background: #F1CDB3;
@@ -747,6 +749,7 @@ h3:lang(en) {
 }
 
 .button-add {
+  transition: background-color 0.2s;
   padding: 13px 43px 13px;
   border: 2px solid #F1CDB3;
   color: #292929;
@@ -757,6 +760,7 @@ h3:lang(en) {
 }
 
 .slider-button {
+  transition: background-color 0.2s;
   width: 52px;
   height: 52px;
   border-radius: 52px;
@@ -893,6 +897,7 @@ h3:lang(en) {
   overflow: hidden;
   margin: 0;
   cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
 }
 .pet-card:hover {
   background: #ffffff;
