@@ -14,10 +14,12 @@
     border: none;
     color:$color-dark-3xl;
     background: $color-primary;
+    transition: background-color 0.2s;
 
     &:hover{
         background:$color-primary-light
     }
+    
 
 }
 .button-add{
@@ -25,6 +27,7 @@
     padding: 13px 43px 13px;
     border: 2px solid $color-primary;
     color:$color-dark-3xl;
+    transition: background-color 0.2s;
 
     &:hover{
         border: 2px solid $color-primary-light;
@@ -48,6 +51,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background-color 0.2s;
 
     &>svg>path{
         fill:$color-dark-3xl
