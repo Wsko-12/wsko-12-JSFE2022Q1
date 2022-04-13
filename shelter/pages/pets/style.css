@@ -342,6 +342,10 @@ template {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 h1, h2, h3, h4, h5, p {
   margin: 0;
 }
@@ -693,12 +697,34 @@ h3:lang(en) {
   background: #ffffff;
 }
 
+.menu__overlay {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  display: none;
+  z-index: 1;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+}
+
 .menu__header {
   display: flex;
   position: fixed;
   padding-top: 30px;
   padding-left: 10px;
   margin-bottom: 158px;
+}
+
+.menu__logo {
+  width: 200px;
+}
+.menu__logo > .logo__subtitle {
+  text-align: left;
+}
+.menu__logo > .logo__subtitle_colored {
+  padding-left: 3px;
+  text-align: left;
 }
 
 .menu__nav {

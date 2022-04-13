@@ -13,7 +13,16 @@
     &_colored{
         background:$color-light-xl;
     }
-
+}
+.menu__overlay{
+    position: fixed;
+    left: 0px;
+    top:0px;
+    display: none;
+    z-index: 1;
+    height: 100vh;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    width: 100vw;
 }
 .menu__header{
     display: flex;
@@ -22,6 +31,16 @@
     padding-left: 10px;
     margin-bottom: 158px;
     
+}
+.menu__logo{
+    width: 200px;
+    > .logo__subtitle{
+        text-align: left;
+    }
+    > .logo__subtitle_colored{
+        padding-left: 3px;
+        text-align: left;
+    }
 }
 .menu__nav{
     width: 100%;

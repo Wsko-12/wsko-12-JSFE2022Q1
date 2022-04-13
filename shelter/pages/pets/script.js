@@ -4,40 +4,44 @@ const burgerButton = {
     button: document.querySelector("#burgerButton"),
     flag:false,
     menu: document.querySelector("#burgerMenu"),
-    mainLogo:document.querySelector("#mainLogo")
-}
-burgerButton.button.addEventListener('click',openBurgerMenu);
+    mainLogo:document.querySelector("#mainLogo"),
+    overlay:document.querySelector('#burgerMenuOverlay'),
+    linksContainer:document.querySelector('#linksContainer'),
 
-function openBurgerMenu(){
-    // console.log(burgerButton.flag);
-    const html =  document.querySelector('html');
-    if(burgerButton.flag){
-        burgerButton.flag = false;
-        burgerButton.menu.style.right = '-100%';
-        burgerButton.button.classList.remove('header__burger_active');
-        
-        burgerButton.mainLogo.style.visibility = 'visible';
-
-        html.style.maxHeight = 'auto';
-        html.style.overflow = 'scroll';
-
-    }else{
-        burgerButton.flag = true;
-        burgerButton.menu.style.visibility = 'visible';
-        burgerButton.menu.style.right = '0px';
-        burgerButton.button.classList.add('header__burger_active');
-        burgerButton.mainLogo.style.visibility = 'hidden';
-        html.style.maxHeight = '100vh';
-        html.style.overflow = 'hidden';
-
-
-        
-  
+    open: function(){
+        const html =  document.querySelector('html');
+        if(this.flag){
+            this.flag = false;
+            this.menu.style.right = '-100%';
+            this.button.classList.remove('header__burger_active');
+            
+            this.mainLogo.style.visibility = 'visible';
+            this.overlay.style.display = 'none';
+    
+            html.style.maxHeight = 'auto';
+            html.style.overflow = 'scroll';
+        }else{
+            this.flag = true;
+            this.menu.style.visibility = 'visible';
+            this.menu.style.right = '0px';
+            this.button.classList.add('header__burger_active');
+            this.mainLogo.style.visibility = 'hidden';
+            this.overlay.style.display = 'block';
+    
+            html.style.maxHeight = '100vh';
+            html.style.overflow = 'hidden';
+        };
     }
 }
+burgerButton.button.addEventListener('click',()=>{burgerButton.open()});
+burgerButton.linksContainer.addEventListener('click',()=>{
+    if(burgerButton.flag){
+        burgerButton.open();
+    }
+});
 
 window.addEventListener('resize',()=>{
     if(burgerButton.flag){
-        openBurgerMenu();
+        burgerButton.open();
     }
 })
