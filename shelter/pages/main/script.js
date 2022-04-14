@@ -44,10 +44,12 @@ const burgerButton = {
 
 
 burgerButton.button.addEventListener('click',()=>{burgerButton.open()});
-burgerButton.linksContainer.addEventListener('click',()=>{
-    if(burgerButton.flag){
-        burgerButton.open();
-    }
+burgerButton.linksContainer.addEventListener('click',(e)=>{
+    if(e.target != burgerButton.linksContainer){
+        if(burgerButton.flag){
+            burgerButton.open();
+        };
+    };
 });
 
 window.addEventListener('resize',()=>{
