@@ -51,6 +51,11 @@ burgerButton.linksContainer.addEventListener('click',(e)=>{
         };
     };
 });
+burgerButton.overlay.addEventListener('click', ()=>{
+    if(burgerButton.flag){
+        burgerButton.open();
+    };
+});
 
 window.addEventListener('resize',()=>{
     if(burgerButton.flag){
