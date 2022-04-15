@@ -755,6 +755,7 @@ h3:lang(en) {
 }
 
 .modal__overlay {
+  
   position: fixed;
   display: flex;
   top: 0px;
@@ -764,6 +765,7 @@ h3:lang(en) {
   background-color: rgba(41, 41, 41, 0.6);
   align-items: center;
   justify-content: center;
+  display: none;
 }
 
 .modal__container {
