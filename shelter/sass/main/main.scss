@@ -11,9 +11,12 @@
 @import 'base/typography';
 
 //--Layout--
+
 @import 'layout/header';
 @import 'layout/wrapper';
 @import 'layout/footer';
+@import 'layout/menu';
+
 
 //--Components--
 @import 'components/navigation';
