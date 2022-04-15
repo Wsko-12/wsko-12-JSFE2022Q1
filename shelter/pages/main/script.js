@@ -97,6 +97,7 @@ const slider = {
     prev: [],
     inProgress:false,
     cardsCount:0,
+    body:document.querySelector('#sliderBody'),
     generate(useOld,nextButton){
         if(this.inProgress){
             return;
@@ -150,11 +151,13 @@ const slider = {
         };
 
         //now we can add new pet cards and move slider;
-        const speed = 500
+        const speed = 500;
 
         if(nextButton){
-            const windowWidthBefore = this.window.getBoundingClientRect().width * 1.09;
+            const bodySize = this.body.getBoundingClientRect().width;
+            const windowWidthBefore = this.cardsCount === 3 ? bodySize+5 : bodySize-40;
             this.window.style.transitionDuration = speed + 'ms';
+            
             this.window.append(...newCards);
             //move slider
             this.window.style.transform = `translate(-${windowWidthBefore}px)`;
@@ -172,9 +175,10 @@ const slider = {
                 this.window.style.transitionDuration ='0ms';
                 this.window.style.transform = 'translate(0)';
                 this.inProgress = false;
-            },speed);
+            },speed+20);
         }else{
-            const windowWidthBefore = this.window.getBoundingClientRect().width * 1.09;
+            const bodySize = this.body.getBoundingClientRect().width;
+            const windowWidthBefore = this.cardsCount === 3 ? bodySize+5 : bodySize-40;
             //make slider shift because we add new elements in start of window
             this.window.style.transitionDuration = '0ms';
 
@@ -201,7 +205,7 @@ const slider = {
                 };
 
                 this.inProgress = false;
-            },speed);
+            },speed+20);
         }
     },
     init(){
