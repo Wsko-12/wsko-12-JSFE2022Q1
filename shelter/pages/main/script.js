@@ -12,6 +12,8 @@ const burgerButton = {
         if(this.flag){
             this.flag = false;
             this.menu.style.right = '-100%';
+            this.menu.style.visibility = 'hidden';
+
             this.button.classList.remove('header__burger_active');
             
             this.mainLogo.style.visibility = 'visible';
@@ -19,7 +21,7 @@ const burgerButton = {
     
     
             html.style.maxHeight = 'auto';
-            html.style.overflow = 'scroll';
+            html.style.overflow = 'auto';
             this.button.style.position = 'static';
     
         }else{

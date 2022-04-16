@@ -13,13 +13,15 @@ const burgerButton = {
         if(this.flag){
             this.flag = false;
             this.menu.style.right = '-100%';
+            this.menu.style.visibility = 'hidden';
+
             this.button.classList.remove('header__burger_active');
             
             this.mainLogo.style.visibility = 'visible';
             this.overlay.style.display = 'none';
     
             html.style.maxHeight = 'auto';
-            html.style.overflow = 'scroll';
+            html.style.overflow = 'auto';
         }else{
             this.flag = true;
             this.menu.style.visibility = 'visible';
