@@ -360,8 +360,10 @@ class Modal{
         overlay.append(container);
 
 
-        overlay.addEventListener('click',(e)=>{
-            if(e.target === overlay || e.target === button){
+        overlay.addEventListener('click',(e)=>{ 
+            const path = e.path || (e.composedPath && e.composedPath());
+            const buttonClicked = ~path.indexOf(button);
+            if(e.target === overlay || buttonClicked){
                 this.element.remove();
             };
 
