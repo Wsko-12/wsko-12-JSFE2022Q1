@@ -780,7 +780,7 @@ h3:lang(en) {
   display: flex;
   margin: 0;
   width: 900px;
-  height: 500px;
+  min-height: 500px;
   background: #FAFAFA;
   cursor: auto;
   border-radius: 9px;
@@ -792,13 +792,13 @@ h3:lang(en) {
 @media (max-width: 1279px) {
   .modal__card {
     width: 630px;
-    height: 350px;
+    min-height: 350px;
   }
 }
 @media (max-width: 767px) {
   .modal__card {
     width: 240px;
-    height: 341px;
+    min-height: 341px;
   }
 }
 

@@ -64,9 +64,11 @@ window.addEventListener('resize',()=>{
 });
 
 class PetCard{
-    constructor(data){
+    constructor(id){
+        const data = PETS[id];
         const card = document.createElement('figure');
         card.classList.add('pet-card', 'our-friends__pet-card');
+        card.dataset.pet_id = id;
 
         const image = document.createElement('img');
         const link = `../../assets/images/main/pets-${data.name.toLowerCase()}.png`;
@@ -121,9 +123,13 @@ const slider = {
         this.prev = [...generated];
         generated.length = count;
         const cards = generated.map(id=>{
-            return new PetCard(PETS[id]).element;
+            return new PetCard(id).element;
         });
         this.animate(cards,useOld,nextButton);
+    },
+    openModal(id){
+        const modal = new Modal(id);
+        document.querySelector('main').insertAdjacentElement('beforeend',modal.element);
     },
     animate(newCards,useOld,nextButton){
         const childrenBefore = [...this.window.children];
@@ -213,6 +219,121 @@ const slider = {
         this.nextBtn.addEventListener('click',()=>{this.generate(false,true)});
         window.addEventListener('resize',()=>{this.generate(true,true,true)});
         this.generate();
+
+
+        this.window.addEventListener('click', (e)=>{
+            if(e.target != this.window){
+                const card = e.path.find(item => {
+                    if(item.tagName === "FIGURE"){
+                        return item;
+                    };
+                });
+                this.openModal(+card.dataset.pet_id);
+            };
+        });
     },  
 };
 slider.init();
+
+
+
+
+
+
+class Modal{
+    constructor(id){
+        const data = PETS[id];
+        const overlay = document.createElement('section');
+        overlay.classList.add('modal__overlay');
+
+        const container = document.createElement('div');
+        container.classList.add('modal__container');
+
+        const button = document.createElement('button');
+        button.classList.add('modal__button','slider-button','slider-button_cross');
+        button.innerHTML = `
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.42618 6.00003L11.7046 1.72158C12.0985 1.32775 12.0985 0.689213 11.7046 0.295433C11.3108 -0.0984027 10.6723 -0.0984027 10.2785 0.295433L5.99998 4.57394L1.72148 0.295377C1.32765 -0.098459 0.68917 -0.098459 0.295334 0.295377C-0.0984448 0.689213 -0.0984448 1.32775 0.295334 1.72153L4.57383 5.99997L0.295334 10.2785C-0.0984448 10.6723 -0.0984448 11.3108 0.295334 11.7046C0.68917 12.0985 1.32765 12.0985 1.72148 11.7046L5.99998 7.42612L10.2785 11.7046C10.6723 12.0985 11.3108 12.0985 11.7046 11.7046C12.0985 11.3108 12.0985 10.6723 11.7046 10.2785L7.42618 6.00003Z" fill="#292929"/>
+            </svg>
+        `;
+
+        const card = this.generateCard(data);
+
+        container.append(card,button);
+        overlay.append(container);
+
+
+        overlay.addEventListener('click',(e)=>{
+            if(e.target === overlay || e.target === button){
+                this.element.remove();
+            };
+
+        });
+
+        this.element = overlay;
+    };
+
+    generateCard(data){
+        const figure = document.createElement('figure');
+        figure.classList.add('modal__card');
+
+
+        const image = document.createElement('img');
+        const link = `../../assets/images/500px/${data.name.toLocaleLowerCase()}.png`;
+        image.src = link;
+        image.alt = data.name;
+        image.classList.add('modal__image');
+
+        const figcaption = this.generateCardDescription(data);
+
+        figure.append(image,figcaption);
+
+        return figure;
+    };
+
+    generateCardDescription(data){
+        const figcaption = document.createElement('figcaption');
+        figcaption.classList.add('modal__content');
+
+        const title = document.createElement('h3');
+        title.classList.add('modal__content_title');
+        title.innerHTML = data.name;
+
+        const subtitle = document.createElement('h4');
+        subtitle.classList.add('modal__content_subtitle');
+        subtitle.innerHTML = data.type + " - " + data.breed;
+
+        const description = document.createElement('p');
+        description.classList.add('modal__content_text');
+        description.innerHTML = data.description; 
+
+        const list = document.createElement('ul');
+        list.classList.add('modal__content_list');
+
+        const itemsKeys = ['Age', 'Inoculations', 'Diseases', 'Parasites'];
+
+        const listItems = itemsKeys.map(item => {
+            const _data = data[item.toLocaleLowerCase()];
+            const element = document.createElement('li');
+            element.classList.add('modal__content_list-item');
+            let content = `<b>${item}: </b>`
+            if(Array.isArray(_data)){
+                _data.forEach(str =>{
+                    content += str;
+                });
+            }else{
+                content += _data;
+            }
+            element.innerHTML = content;
+            return element;
+        });
+        list.append(...listItems);
+
+        figcaption.append(title,subtitle,description,list);
+
+        return figcaption
+    }
+
+
+
+}
