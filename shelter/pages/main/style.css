@@ -755,7 +755,6 @@ h3:lang(en) {
 }
 
 .modal__overlay {
-  
   position: fixed;
   display: flex;
   top: 0px;
@@ -765,12 +764,16 @@ h3:lang(en) {
   background-color: rgba(41, 41, 41, 0.6);
   align-items: center;
   justify-content: center;
-  display: none;
+  cursor: pointer;
+}
+.modal__overlay:hover .modal__button {
+  border: 2px solid #FDDCC4;
+  background: #FDDCC4;
 }
 
 .modal__container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 }
 
 .modal__card {
@@ -779,8 +782,12 @@ h3:lang(en) {
   width: 900px;
   height: 500px;
   background: #FAFAFA;
+  cursor: auto;
   border-radius: 9px;
   overflow: hidden;
+}
+.modal__card:hover ~ .modal__button {
+  background-color: transparent;
 }
 @media (max-width: 1279px) {
   .modal__card {

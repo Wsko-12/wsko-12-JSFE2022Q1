@@ -8,12 +8,16 @@
     background-color: rgba($color: #292929, $alpha: 0.6);
     align-items: center;
     justify-content: center;
-    // display: none;
+    cursor: pointer;
+    &:hover .modal__button{
+        border: 2px solid $color-primary-light;
+        background:$color-primary-light;
+    }
 
 }
 .modal__container{
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 .modal__card{
     display: flex;
@@ -21,8 +25,12 @@
     width: 900px;
     height: 500px;
     background: $color-light-s;
+    cursor: auto;
     border-radius: 9px;
     overflow: hidden;
+    &:hover ~ .modal__button{
+        background-color: transparent;
+    }
     @include media-tablet{
         width: 630px;
         height: 350px;
