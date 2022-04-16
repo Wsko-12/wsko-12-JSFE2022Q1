@@ -80,7 +80,7 @@ class PetCard{
 
         const button = document.createElement('button');
         button.classList.add('button-add', 'pet-card__button');
-        button.innerHTML = 'Learn More'
+        button.innerHTML = 'Learn more';
 
         card.append(image, caption, button);
 
