@@ -798,7 +798,7 @@ h3:lang(en) {
 @media (max-width: 767px) {
   .modal__card {
     width: 240px;
-    min-height: 341px;
+    min-height: 340px;
   }
 }
 
@@ -836,18 +836,22 @@ h3:lang(en) {
 .modal__content {
   padding-top: 50.5px;
   padding-left: 30px;
+  padding-right: 20px;
   color: #000000;
 }
 @media (max-width: 1279px) {
   .modal__content {
     padding-top: 11px;
     padding-left: 11px;
+    padding-right: 8px;
   }
 }
 @media (max-width: 767px) {
   .modal__content {
     padding-top: 13px;
     padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
   }
 }
 .modal__content_title {
@@ -895,7 +899,6 @@ h3:lang(en) {
   font-style: normal;
   line-height: 1.7rem;
   letter-spacing: 0.06em;
-  width: 350px;
   margin-bottom: 40px;
 }
 @media (max-width: 1279px) {
@@ -905,7 +908,6 @@ h3:lang(en) {
     font-style: normal;
     line-height: 1.4rem;
     letter-spacing: 0.06em;
-    width: 265px;
     margin-bottom: 19px;
   }
 }
@@ -917,7 +919,6 @@ h3:lang(en) {
     font-style: normal;
     line-height: 1.4rem;
     letter-spacing: 0.06em;
-    width: 220px;
     margin-bottom: 23.5px;
   }
 }
@@ -951,6 +952,11 @@ h3:lang(en) {
   content: "•";
   color: #F1CDB3;
   margin-right: 8px;
+}
+@media (max-width: 767px) {
+  .modal__content_list:last-child {
+    margin-bottom: -5.5px;
+  }
 }
 
 .navigation {
