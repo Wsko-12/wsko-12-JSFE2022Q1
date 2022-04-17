@@ -183,10 +183,11 @@ const pagination = {
     nextBtn:document.querySelector('#pagination_next'),
     lastBtn:document.querySelector('#pagination_last'),
     pageNumber:document.querySelector('#pagination_number'),
+    current_i:0,
 
     generateMainArr (){
         const base = [0,1,2,3,4,5,6,7];
-        for(let i = 0;i<1;i++){
+        for(let i = 0;i<2;i++){
             //Это ужас, признаю. Иначе я уходил в бесконечность или зависало надолго
             //Можно еще его описать на подобии пузырьковой сортировки массива, где повторяещиеся элементы будут уходить,
             //Но там тоже тогда будет очень большая сложность алгоритма
@@ -267,12 +268,55 @@ const pagination = {
             
             this.mainArr.push(...a_1, ...a_2, ...a_3);
         };
-        console.log(this.mainArr)
+    },
+    changePageNumber(){
+        const windowSize = window.innerWidth
+        let maxCard = 8;
+        if(windowSize >= 768 && windowSize < 1280 ){
+            maxCard = 6;
+        }else if(windowSize < 768){
+            maxCard = 3;
+        };
+        const number =  Math.round(this.current_i/maxCard)+1;
+        this.pageNumber.innerHTML = number;
+
+        this.prevBtn.classList.remove('slider-button_disabled')
+        this.firstBtn.classList.remove('slider-button_disabled');
+
+        this.nextBtn.classList.remove('slider-button_disabled')
+        this.lastBtn.classList.remove('slider-button_disabled');
+
+
+        if(number === 1){
+            this.prevBtn.classList.add('slider-button_disabled');
+            this.firstBtn.classList.add('slider-button_disabled');
+        };
+        if(number === 48/maxCard){
+            this.nextBtn.classList.add('slider-button_disabled')
+            this.lastBtn.classList.add('slider-button_disabled');
+        };
+
 
     },
-
     showSet(){
-
+        const set = [];
+        this.window.innerHTML = '';
+        const windowSize = window.innerWidth
+        let maxCard = 8;
+        if(windowSize >= 768 && windowSize < 1280 ){
+            maxCard = 6;
+        }else if(windowSize < 768){
+            maxCard = 3;
+        };
+        for(let i = 0;i<maxCard;i++){
+            const id = this.mainArr[this.current_i + i];
+            
+            const card = new PetCard(id);
+            set.push(card.element);
+        }
+        this.window.append(...set);
+        
+        this.changePageNumber();
     },
 
     init(){
@@ -293,13 +337,40 @@ const pagination = {
         window.addEventListener('resize',()=>{
             this.changePage(0);
         });
+        this.showSet();
     },
 
     changePage(value){
+        //все далее сделано для того, что при динамической смене экрана 
+        //не возвращаться к первой странице, хоть в реальной жизни это редкость
 
+        
+        const windowSize = window.innerWidth
+        let maxCard = 8;
+        if(windowSize >= 768 && windowSize < 1280 ){
+            maxCard = 6;
+        }else if(windowSize < 768){
+            maxCard = 3;
+        };
+
+        //находим начальный индекс для этого размера страницы;
+        this.current_i = this.current_i -  this.current_i % maxCard;
+        if(value === -Infinity){
+            this.current_i = 0;
+        }else if(value === Infinity){
+            this.current_i = 48 - maxCard;
+        }else{
+            this.current_i += maxCard*value;
+            if(this.current_i < 0){
+                this.current_i = 0;
+            }else if(this.current_i > 48 - maxCard){
+                this.current_i = 48 - maxCard;
+            };
+            
+        };
+        this.showSet();
     },
 };
 pagination.init();
-// console.log(pagination.mainArr)
 
 
