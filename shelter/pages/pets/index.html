@@ -52,8 +52,65 @@
                 <h3 class="pets__title">Our friends who <br> are looking for a house</h3>
                 <div class="pets__catalog-window">
                     <div class="pets__catalog">
-                        <div class="pets__catalog-slider">
-                            <figure class="pet-card pets__card">
+                        <div class="pets__catalog-slider" id="pagination">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="pets__buttons-container">
+                    <button class="slider-button slider-button_disabled" id="pagination_first">
+                        <<
+                    </button>
+                    <button class="slider-button slider-button_disabled" id="pagination_prev">
+                        <
+                    </button>
+                    <button class="slider-button slider-button_active" id="pagination_number"> 
+                        1
+                    </button>
+                    <button class="slider-button" id="pagination_next">
+                        >
+                    </button>
+                    <button class="slider-button" id="pagination_last">
+                        >>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="contactsSection">
+        <div class="wrapper footer__wrapper">
+            <div class="footer__column footer__column_contacts">
+                <h3 class="footer__title">For questions and suggestions</h3>
+                <a class="footer__subtitle-wrapper" href="mailto:email@shelter.com">
+                    <span class="footer__icon footer__icon_email"></span>
+                    <p class="footer__subtitle" >email@shelter.com</p>
+                </a>
+                <a class="footer__subtitle-wrapper" href="tel:+136745677554">
+                    <span class="footer__icon footer__icon_phone"></span>
+                    <p class="footer__subtitle" >+13 674 567 75 54</p>
+                </a>
+            </div>
+            <div class="footer__column footer__column_adress">
+                <h3 class="footer__title footer__title_adress">We are waiting for your visit</h3>
+                <a href="https://goo.gl/maps/t8Uyt55FhKvRU5iF7" target="_blank" class="footer__subtitle-wrapper footer__subtitle-wrapper_first footer__subtitle-wrapper_adress">
+                    <div class="footer__icon footer__icon_marker"></div>
+                    <p class="footer__subtitle">1 Central Street, Boston (entrance from the store)</p>
+                </a>
+                <a class="footer__subtitle-wrapper footer__subtitle-wrapper_adress" href="https://goo.gl/maps/t8Uyt55FhKvRU5iF7" target="_blank">
+                    <div class="footer__icon footer__icon_marker"></div>
+                    <p class="footer__subtitle">18 South Park, London</p>
+                </a>
+
+            </div>
+            <img class="footer__image" src="../../assets/images/main/footer-puppy.png" alt="Puppy image">
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
+
+                            <!-- <figure class="pet-card pets__card">
                                 <img src="../../assets/images/main/pets-katrine.png" alt="Katrine" class="pet-card__image">
                                 <figcaption class="pet-card__title">Katrine</figcaption>
                                 <button class="button-add pet-card__button">Learn more</button>
@@ -99,59 +156,4 @@
                                 <img src="../../assets/images/main/pets-freddie.png" alt="Katrine" class="pet-card__image">
                                 <figcaption class="pet-card__title">Freddie</figcaption>
                                 <button class="button-add pet-card__button">Learn more</button>
-                            </figure>
-                        </div>
-                    </div>
-                </div>
-                <div class="pets__buttons-container">
-                    <button class="slider-button slider-button_disabled">
-                        <<
-                    </button>
-                    <button class="slider-button slider-button_disabled">
-                        <
-                    </button>
-                    <button class="slider-button slider-button_active">
-                        1
-                    </button>
-                    <button class="slider-button ">
-                        >
-                    </button>
-                    <button class="slider-button ">
-                        >>
-                    </button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer" id="contactsSection">
-        <div class="wrapper footer__wrapper">
-            <div class="footer__column footer__column_contacts">
-                <h3 class="footer__title">For questions and suggestions</h3>
-                <a class="footer__subtitle-wrapper" href="mailto:email@shelter.com">
-                    <span class="footer__icon footer__icon_email"></span>
-                    <p class="footer__subtitle" >email@shelter.com</p>
-                </a>
-                <a class="footer__subtitle-wrapper" href="tel:+136745677554">
-                    <span class="footer__icon footer__icon_phone"></span>
-                    <p class="footer__subtitle" >+13 674 567 75 54</p>
-                </a>
-            </div>
-            <div class="footer__column footer__column_adress">
-                <h3 class="footer__title footer__title_adress">We are waiting for your visit</h3>
-                <a href="https://goo.gl/maps/t8Uyt55FhKvRU5iF7" target="_blank" class="footer__subtitle-wrapper footer__subtitle-wrapper_first footer__subtitle-wrapper_adress">
-                    <div class="footer__icon footer__icon_marker"></div>
-                    <p class="footer__subtitle">1 Central Street, Boston (entrance from the store)</p>
-                </a>
-                <a class="footer__subtitle-wrapper footer__subtitle-wrapper_adress" href="https://goo.gl/maps/t8Uyt55FhKvRU5iF7" target="_blank">
-                    <div class="footer__icon footer__icon_marker"></div>
-                    <p class="footer__subtitle">18 South Park, London</p>
-                </a>
-
-            </div>
-            <img class="footer__image" src="../../assets/images/main/footer-puppy.png" alt="Puppy image">
-        </div>
-    </footer>
-    <script src="script.js"></script>
-</body>
-</html>
+                            </figure> -->
