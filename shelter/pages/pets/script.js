@@ -183,6 +183,10 @@ const pagination = {
     nextBtn:document.querySelector('#pagination_next'),
     lastBtn:document.querySelector('#pagination_last'),
     pageNumber:document.querySelector('#pagination_number'),
+
+    nextActive:true,
+    prevActive:false,
+    inProgress:false,
     current_i:0,
 
     generateMainArr (){
@@ -278,6 +282,7 @@ const pagination = {
             maxCard = 3;
         };
         const number =  Math.round(this.current_i/maxCard)+1;
+
         this.pageNumber.innerHTML = number;
 
         this.prevBtn.classList.remove('slider-button_disabled')
@@ -285,22 +290,24 @@ const pagination = {
 
         this.nextBtn.classList.remove('slider-button_disabled')
         this.lastBtn.classList.remove('slider-button_disabled');
-
+        this.prevActive = true;
+        this.nextActive = true;
 
         if(number === 1){
             this.prevBtn.classList.add('slider-button_disabled');
             this.firstBtn.classList.add('slider-button_disabled');
+            this.prevActive = false;
         };
         if(number === 48/maxCard){
-            this.nextBtn.classList.add('slider-button_disabled')
+            this.nextBtn.classList.add('slider-button_disabled');
             this.lastBtn.classList.add('slider-button_disabled');
+            this.nextActive = false;
         };
 
 
     },
-    showSet(){
-        const set = [];
-        this.window.innerHTML = '';
+    showSet(value){
+        this.window.style.transitionDuration ='0.25s';
         const windowSize = window.innerWidth
         let maxCard = 8;
         if(windowSize >= 768 && windowSize < 1280 ){
@@ -308,15 +315,31 @@ const pagination = {
         }else if(windowSize < 768){
             maxCard = 3;
         };
-        for(let i = 0;i<maxCard;i++){
-            const id = this.mainArr[this.current_i + i];
-            
-            const card = new PetCard(id);
-            set.push(card.element);
-        }
-        this.window.append(...set);
-        
+        this.window.style.opacity = 0;
         this.changePageNumber();
+
+        const applySet = () => {
+            const set = [];
+            this.window.innerHTML = '';
+
+            for(let i = 0;i<maxCard;i++){
+                const id = this.mainArr[this.current_i + i];
+                const card = new PetCard(id);
+                set.push(card.element);
+            }
+            this.window.append(...set);
+        
+            this.window.style.opacity = 1;
+            this.inProgress = false;
+        }
+
+        if(value === 0){
+            applySet();
+        }else{
+            setTimeout(()=>{
+                applySet();
+            },250);
+        };
     },
 
     init(){
@@ -337,17 +360,28 @@ const pagination = {
         window.addEventListener('resize',()=>{
             this.changePage(0);
         });
-        this.showSet();
+        this.changePage(0);
     },
 
     changePage(value){
-        //все далее сделано для того, что при динамической смене экрана 
+        //все далее сделано для того, что при динамической смене размера экрана 
         //не возвращаться к первой странице, хоть в реальной жизни это редкость
 
-        
-        const windowSize = window.innerWidth
+        if(value > 0){
+            if(!this.nextActive){
+                return;
+            };
+        }else if(value < 0){
+            if(!this.prevActive){
+                return;
+            };
+        };
+        if(this.inProgress) return;
+        this.inProgress = true;
+
+        const windowSize = window.innerWidth;
         let maxCard = 8;
-        if(windowSize >= 768 && windowSize < 1280 ){
+        if(windowSize < 1280 && windowSize >= 768){
             maxCard = 6;
         }else if(windowSize < 768){
             maxCard = 3;
@@ -368,7 +402,7 @@ const pagination = {
             };
             
         };
-        this.showSet();
+        this.showSet(value);
     },
 };
 pagination.init();
