@@ -188,12 +188,32 @@ const pagination = {
     prevActive:false,
     inProgress:false,
     current_i:0,
+    init(){
+        this.generateMainArr();
 
+        this.firstBtn.addEventListener('click', ()=>{
+            this.changePage(-Infinity);
+        });
+        this.nextBtn.addEventListener('click', ()=>{
+            this.changePage(1);
+        });
+        this.prevBtn.addEventListener('click', ()=>{
+            this.changePage(-1);
+        });
+        this.lastBtn.addEventListener('click', ()=>{
+            this.changePage(Infinity);
+        });
+        window.addEventListener('resize',()=>{
+            this.changePage(0);
+        });
+        this.changePage(0);
+    },
     generateMainArr (){
         const base = [0,1,2,3,4,5,6,7];
         for(let i = 0;i<2;i++){
             //Это ужас, признаю. Иначе я уходил в бесконечность или зависало надолго
-            //Можно еще его описать на подобии пузырьковой сортировки массива, где повторяещиеся элементы будут уходить,
+            //Тут алгоритм хоть и захаркодил, но он работает быстро
+            //Можно еще его описать наподобие пузырьковой сортировки массива, где повторяещиеся элементы будут уходить,
             //Но там тоже тогда будет очень большая сложность алгоритма
 
 
@@ -273,95 +293,6 @@ const pagination = {
             this.mainArr.push(...a_1, ...a_2, ...a_3);
         };
     },
-    changePageNumber(){
-        const windowSize = window.innerWidth
-        let maxCard = 8;
-        if(windowSize >= 768 && windowSize < 1280 ){
-            maxCard = 6;
-        }else if(windowSize < 768){
-            maxCard = 3;
-        };
-        const number =  Math.round(this.current_i/maxCard)+1;
-
-        this.pageNumber.innerHTML = number;
-
-        this.prevBtn.classList.remove('slider-button_disabled')
-        this.firstBtn.classList.remove('slider-button_disabled');
-
-        this.nextBtn.classList.remove('slider-button_disabled')
-        this.lastBtn.classList.remove('slider-button_disabled');
-        this.prevActive = true;
-        this.nextActive = true;
-
-        if(number === 1){
-            this.prevBtn.classList.add('slider-button_disabled');
-            this.firstBtn.classList.add('slider-button_disabled');
-            this.prevActive = false;
-        };
-        if(number === 48/maxCard){
-            this.nextBtn.classList.add('slider-button_disabled');
-            this.lastBtn.classList.add('slider-button_disabled');
-            this.nextActive = false;
-        };
-
-
-    },
-    showSet(value){
-        this.window.style.transitionDuration ='0.25s';
-        const windowSize = window.innerWidth
-        let maxCard = 8;
-        if(windowSize >= 768 && windowSize < 1280 ){
-            maxCard = 6;
-        }else if(windowSize < 768){
-            maxCard = 3;
-        };
-        this.window.style.opacity = 0;
-        this.changePageNumber();
-
-        const applySet = () => {
-            const set = [];
-            this.window.innerHTML = '';
-
-            for(let i = 0;i<maxCard;i++){
-                const id = this.mainArr[this.current_i + i];
-                const card = new PetCard(id);
-                set.push(card.element);
-            }
-            this.window.append(...set);
-        
-            this.window.style.opacity = 1;
-            this.inProgress = false;
-        }
-
-        if(value === 0){
-            applySet();
-        }else{
-            setTimeout(()=>{
-                applySet();
-            },250);
-        };
-    },
-
-    init(){
-        this.generateMainArr();
-
-        this.firstBtn.addEventListener('click', ()=>{
-            this.changePage(-Infinity);
-        });
-        this.nextBtn.addEventListener('click', ()=>{
-            this.changePage(1);
-        });
-        this.prevBtn.addEventListener('click', ()=>{
-            this.changePage(-1);
-        });
-        this.lastBtn.addEventListener('click', ()=>{
-            this.changePage(Infinity);
-        });
-        window.addEventListener('resize',()=>{
-            this.changePage(0);
-        });
-        this.changePage(0);
-    },
 
     changePage(value){
         //все далее сделано для того, что при динамической смене размера экрана 
@@ -403,6 +334,76 @@ const pagination = {
             
         };
         this.showSet(value);
+    },
+
+    showSet(value){
+        this.window.style.transitionDuration ='0.25s';
+        const windowSize = window.innerWidth
+        let maxCard = 8;
+        if(windowSize >= 768 && windowSize < 1280 ){
+            maxCard = 6;
+        }else if(windowSize < 768){
+            maxCard = 3;
+        };
+        this.window.style.opacity = 0;
+        this.changePageNumber();
+
+        const applySet = () => {
+            const set = [];
+            this.window.innerHTML = '';
+
+            for(let i = 0;i<maxCard;i++){
+                const id = this.mainArr[this.current_i + i];
+                const card = new PetCard(id);
+                set.push(card.element);
+            }
+            this.window.append(...set);
+        
+            this.window.style.opacity = 1;
+            this.inProgress = false;
+        }
+
+        if(value === 0){
+            applySet();
+        }else{
+            setTimeout(()=>{
+                applySet();
+            },250);
+        };
+    },
+    
+    changePageNumber(){
+        const windowSize = window.innerWidth
+        let maxCard = 8;
+        if(windowSize >= 768 && windowSize < 1280 ){
+            maxCard = 6;
+        }else if(windowSize < 768){
+            maxCard = 3;
+        };
+        const number =  Math.round(this.current_i/maxCard)+1;
+
+        this.pageNumber.innerHTML = number;
+
+        this.prevBtn.classList.remove('slider-button_disabled')
+        this.firstBtn.classList.remove('slider-button_disabled');
+
+        this.nextBtn.classList.remove('slider-button_disabled')
+        this.lastBtn.classList.remove('slider-button_disabled');
+        this.prevActive = true;
+        this.nextActive = true;
+
+        if(number === 1){
+            this.prevBtn.classList.add('slider-button_disabled');
+            this.firstBtn.classList.add('slider-button_disabled');
+            this.prevActive = false;
+        };
+        if(number === 48/maxCard){
+            this.nextBtn.classList.add('slider-button_disabled');
+            this.lastBtn.classList.add('slider-button_disabled');
+            this.nextActive = false;
+        };
+
+
     },
 };
 pagination.init();
