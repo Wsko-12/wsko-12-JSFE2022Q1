@@ -25,6 +25,7 @@
 .header__burger{
     display: none;
     transition-duration: 0.1s;
+    cursor: pointer;
     z-index: 3;
     >*{
         stroke: $color-primary;

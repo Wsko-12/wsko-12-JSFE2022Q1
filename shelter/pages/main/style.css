@@ -509,6 +509,7 @@ h3:lang(en) {
 .header__burger {
   display: none;
   transition-duration: 0.1s;
+  cursor: pointer;
   z-index: 3;
 }
 .header__burger > * {
@@ -765,6 +766,7 @@ h3:lang(en) {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 110;
 }
 .modal__overlay:hover .modal__button {
   border: 2px solid #FDDCC4;
@@ -1829,6 +1831,8 @@ h3:lang(en) {
   max-width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-auto-flow: column;
   grid-column-gap: 40px;
   grid-row-gap: 30px;
   justify-items: center;
@@ -1836,11 +1840,13 @@ h3:lang(en) {
 @media (max-width: 1279px) {
   .pets__catalog-slider {
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
   }
 }
 @media (max-width: 767px) {
   .pets__catalog-slider {
     grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
   }
 }
 
