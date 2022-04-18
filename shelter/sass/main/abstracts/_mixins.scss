@@ -3,9 +3,9 @@
 }
 
 @mixin media-tablet{
-    @media (max-width:($content-width - 1px)) { @content; }
+    @media (max-width:($content-width - 0.1px)) { @content; }
 }
 
 @mixin media-mobile{
-    @media (max-width:($tablet-width - 1px)) { @content; }
+    @media (max-width:($tablet-width - 0.1px)) { @content; }
 }
