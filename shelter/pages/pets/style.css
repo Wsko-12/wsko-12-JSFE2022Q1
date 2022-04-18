@@ -765,6 +765,7 @@ h3:lang(en) {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 5;
 }
 .modal__overlay:hover .modal__button {
   border: 2px solid #FDDCC4;
