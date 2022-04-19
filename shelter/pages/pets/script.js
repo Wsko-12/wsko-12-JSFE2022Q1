@@ -111,6 +111,7 @@ const burgerButton = {
     
             html.style.maxHeight = 'auto';
             html.style.overflow = 'auto';
+            html.style.overflowX = 'hidden';
         }else{
             this.flag = true;
             this.menu.style.visibility = 'visible';

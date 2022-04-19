@@ -116,6 +116,7 @@ const burgerButton = {
     
             html.style.maxHeight = 'auto';
             html.style.overflow = 'auto';
+            html.style.overflowX = 'hidden';
             this.button.style.position = 'static';
     
         }else{
