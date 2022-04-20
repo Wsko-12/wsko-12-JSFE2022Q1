@@ -688,7 +688,7 @@ h3:lang(en) {
   position: fixed;
   width: 320px;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   background-color: #292929;
   z-index: 2;
   right: -100%;
