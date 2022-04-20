@@ -509,7 +509,7 @@ h3:lang(en) {
 
 .header__burger {
   display: none;
-  transition-duration: 0.1s;
+  transition-duration: 0.4s;
   cursor: pointer;
   z-index: 3;
 }
@@ -708,6 +708,7 @@ h3:lang(en) {
   height: 100vh;
   background-color: rgba(41, 41, 41, 0.6);
   width: 100vw;
+  cursor: pointer;
 }
 
 .menu__header {
