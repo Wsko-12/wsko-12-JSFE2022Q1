@@ -226,6 +226,8 @@ const slider = {
     },
     openModal(id){
         const modal = new Modal(id);
+        const html =  document.querySelector('html');
+        html.style.overflow = 'hidden';
         document.querySelector('main').insertAdjacentElement('beforeend',modal.element);
     },
     animate(newCards,useOld,nextButton){
@@ -365,6 +367,9 @@ class Modal{
             const path = e.path || (e.composedPath && e.composedPath());
             const buttonClicked = ~path.indexOf(button);
             if(e.target === overlay || buttonClicked || e.target === container){
+                const html =  document.querySelector('html');
+                html.style.overflow = 'auto';
+                html.style.overflowX = 'hidden';
                 this.element.remove();
             };
 
