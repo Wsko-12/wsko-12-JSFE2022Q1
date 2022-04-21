@@ -778,6 +778,7 @@ h3:lang(en) {
 .modal__container {
   display: flex;
   flex-direction: column-reverse;
+  transform: translate(0px, -26px);
 }
 
 .modal__card {
