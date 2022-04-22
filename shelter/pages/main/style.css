@@ -1040,6 +1040,7 @@ h3:lang(en) {
   border: none;
   color: #292929;
   background: #F1CDB3;
+  transition: background-color 0.2s;
 }
 .button:hover {
   background: #FDDCC4;
@@ -1050,6 +1051,7 @@ h3:lang(en) {
   padding: 13px 43px 13px;
   border: 2px solid #F1CDB3;
   color: #292929;
+  transition: background-color 0.2s;
 }
 .button-add:hover {
   border: 2px solid #FDDCC4;
@@ -1075,6 +1077,7 @@ h3:lang(en) {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 .slider-button > svg > path {
   fill: #292929;
