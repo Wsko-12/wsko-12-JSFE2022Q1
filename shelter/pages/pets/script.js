@@ -421,6 +421,8 @@ const pagination = {
         const html =  document.querySelector('html');
         html.style.overflow = 'hidden';
         const modal = new Modal(id);
+        //ios
+        // modal.open();
         document.querySelector('main').insertAdjacentElement('beforeend',modal.element);
     },
 };
@@ -459,12 +461,29 @@ class Modal{
                 html.style.overflow = 'auto';
                 html.style.overflowX = 'hidden';
                 this.element.remove();
+
+                //ios
+                // const body = document.body;
+                // body.style.overflow = 'auto';
+                // body.style.position = 'static';
+                // body.style.top = ``;
+                // body.style.width = '';
+                // window.scrollTo(0, this.scrollPos);
             };
 
         });
 
         this.element = overlay;
     };
+    open(){
+        //ios
+        // this.scrollPos = window.pageYOffset;
+        // const body = document.body;
+        // body.style.overflow = 'hidden';
+        // body.style.position = 'fixed';
+        // body.style.top = `-${this.scrollPos}px`;
+        // body.style.width = '100%';
+    }
 
     generateCard(data){
         const figure = document.createElement('figure');

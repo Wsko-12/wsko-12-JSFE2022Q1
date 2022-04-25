@@ -688,7 +688,7 @@ h3:lang(en) {
   position: fixed;
   width: 320px;
   height: 100vh;
-  overflow: hidden;
+  overflow: auto;
   background-color: #292929;
   z-index: 2;
   right: -100%;
@@ -736,7 +736,7 @@ h3:lang(en) {
   flex-direction: column;
   padding: 0;
   text-align: center;
-  padding: 240px 38px 100px;
+  padding: 240px 38px 0px;
 }
 .menu__nav > .navigation__item > a {
   display: block;
