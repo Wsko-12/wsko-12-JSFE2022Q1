@@ -1189,10 +1189,12 @@ h3:lang(en) {
   height: 100%;
   transform: translate(-40px, -40px);
   overflow: hidden;
+  pointer-events: none;
 }
 
 .slider__slicer {
   display: flex;
+  pointer-events: auto;
 }
 
 .pet-card {
