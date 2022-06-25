@@ -13,7 +13,7 @@ class Loader {
         this.options = options;
     }
 
-    getResp(
+    protected getResp(
         { endpoint, options = {} }: { endpoint: string; options?: { sources?: string } },
         callback = () => {
             console.error('No callback for GET response');
