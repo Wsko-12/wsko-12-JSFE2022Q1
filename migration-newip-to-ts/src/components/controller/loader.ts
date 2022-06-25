@@ -1,3 +1,5 @@
+import { Callback } from '../interface/interface';
+
 interface LoaderOptions {
     apiKey: string;
 }
@@ -41,12 +43,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(
-        method: string,
-        endpoint: string,
-        callback: <DataType>(data?: DataType) => void,
-        options: { sources?: string } = {}
-    ) {
+    load(method: string, endpoint: string, callback: Callback, options: { sources?: string } = {}) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())

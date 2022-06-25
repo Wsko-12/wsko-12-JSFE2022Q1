@@ -18,3 +18,5 @@ export interface ArticleData {
     url: string;
     urlToImage: string | null;
 }
+
+export type Callback = <DataType>(data?: DataType) => void;
