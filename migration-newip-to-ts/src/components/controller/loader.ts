@@ -5,8 +5,8 @@ interface LoaderOptions {
 }
 
 class Loader {
-    baseLink: string;
-    options: LoaderOptions;
+    private baseLink: string;
+    private options: LoaderOptions;
 
     constructor(baseLink: string, options: LoaderOptions) {
         this.baseLink = baseLink;
