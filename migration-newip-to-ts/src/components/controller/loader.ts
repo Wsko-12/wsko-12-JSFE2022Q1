@@ -22,7 +22,7 @@ class Loader {
         this.load('GET', endpoint, callback, options);
     }
 
-    errorHandler(res: Response) {
+    private errorHandler(res: Response) {
         if (!res.ok) {
             if (res.status === 401 || res.status === 404)
                 console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
@@ -32,7 +32,7 @@ class Loader {
         return res;
     }
 
-    makeUrl(options: { sources?: string }, endpoint: string) {
+    private makeUrl(options: { sources?: string }, endpoint: string) {
         const urlOptions: { [key: string]: string } = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
@@ -43,7 +43,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method: string, endpoint: string, callback: Callback, options: { sources?: string } = {}) {
+    private load(method: string, endpoint: string, callback: Callback, options: { sources?: string } = {}) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
