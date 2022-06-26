@@ -1,16 +1,23 @@
 import { Callback } from '../interface/interface';
 
+interface Options {
+    apiKey: string;
+    sources?: string;
+}
+
+type OptionsAdd = Pick<Options, 'sources'>;
+
 class Loader {
     private baseLink: string;
-    private options: { apiKey: string };
+    private options: Options;
 
-    constructor(baseLink: string, options: { apiKey: string }) {
+    constructor(baseLink: string, options: Options) {
         this.baseLink = baseLink;
         this.options = options;
     }
 
     protected getResp(
-        { endpoint, options = {} }: { endpoint: string; options?: { sources?: string } },
+        { endpoint, options = {} }: { endpoint: string; options?: OptionsAdd },
         callback = () => {
             console.error('No callback for GET response');
         }
@@ -28,7 +35,7 @@ class Loader {
         return res;
     }
 
-    private makeUrl(options: { sources?: string }, endpoint: string) {
+    private makeUrl(options: OptionsAdd, endpoint: string) {
         const urlOptions: { [key: string]: string } = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
@@ -39,7 +46,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    private load(method: string, endpoint: string, callback: Callback, options: { sources?: string } = {}) {
+    private load(method: string, endpoint: string, callback: Callback, options: OptionsAdd = {}) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
