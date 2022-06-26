@@ -39,7 +39,7 @@ class Loader {
 
     protected getResp(
         { endpoint, options = {} }: { endpoint: string; options?: OptionsAdd },
-        callback = () => {
+        callback: Callback = () => {
             console.error('No callback for GET response');
         }
     ): void {
