@@ -1,4 +1,4 @@
-import { Char, SourceData, Chars } from '../../interface/interface';
+import { Category, SourceData, Chars } from '../../interface/interface';
 import './categories.css';
 
 class Categories {
@@ -12,7 +12,7 @@ class Categories {
             return false;
         }
     }
-    public draw(data: readonly SourceData[], favoriteSources: string[] = []): Char {
+    public draw(data: readonly SourceData[], favoriteSources: string[] = []): Category {
         data.forEach((item) => {
             this.all.push(item);
             if (favoriteSources.includes(item.id)) this.categories.Favorites.push(item);
@@ -45,10 +45,10 @@ class Categories {
         const category = document.querySelector('.categories') as HTMLElement;
         category.append(fragment);
 
-        return this.current as Char;
+        return this.current as Category;
     }
 
-    public getSourcesByCategory(category: Char): SourceData[] {
+    public getSourcesByCategory(category: Category): SourceData[] {
         this.current = category;
         return this.categories[category];
     }
@@ -64,7 +64,7 @@ class Categories {
     }
 
     public getCurrentCategory() {
-        return this.current as Char;
+        return this.current as Category;
     }
 }
 

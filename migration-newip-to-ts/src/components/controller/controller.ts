@@ -16,7 +16,7 @@ class AppController extends AppLoader {
         }
     }
 
-    public toggleSourceAsFavorite(): string | null {
+    public toggleCurrentSourceInFavorites(): string | null {
         if (this.currentSource) this.localStorage.toggleSourceInFavorites(this.currentSource);
         return this.currentSource;
     }

@@ -21,7 +21,7 @@ export interface ArticleData {
 
 export type Callback = <DataType>(data?: DataType) => void;
 
-export type Char =
+export type Category =
     | 'A'
     | 'B'
     | 'C'

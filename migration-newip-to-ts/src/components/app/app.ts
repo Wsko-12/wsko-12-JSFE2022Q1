@@ -1,5 +1,5 @@
 import AppController from '../controller/controller';
-import { Char } from '../interface/interface';
+import { Category } from '../interface/interface';
 import { AppView } from '../view/appView';
 
 class App {
@@ -23,13 +23,13 @@ class App {
 
         sources.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
         this.controller.getSources((data) => {
-            const currentCategory: Char = this.view.drawCategories(data, this.controller.getFavoriteSources());
+            const currentCategory: Category = this.view.drawCategories(data, this.controller.getFavoriteSources());
             this.view.drawSources(currentCategory);
         });
 
         const addToFavoriteBtn = document.querySelector('#addToFavoriteBtn') as HTMLElement;
         addToFavoriteBtn.addEventListener('click', () => {
-            const sourceId: string | null = this.controller.toggleSourceAsFavorite();
+            const sourceId: string | null = this.controller.toggleCurrentSourceInFavorites();
             if (sourceId) {
                 this.view.updateFavoriteSources(sourceId);
             }
