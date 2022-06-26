@@ -1,7 +1,10 @@
 import AppLoader from './appLoader';
 import { Callback } from '../interface/interface';
+import LocalStorage from '../localStorage/localStorage';
 
 class AppController extends AppLoader {
+    private currentSource: string | null = null;
+    private localStorage: LocalStorage = new LocalStorage();
     public switchCategory(e: Event, callback: Callback): void {
         const target: HTMLElement = e.target as HTMLElement;
         const categoriesContainer: HTMLElement = e.currentTarget as HTMLElement;
@@ -11,6 +14,16 @@ class AppController extends AppLoader {
             const char: string = button.getAttribute('data-category-char') as string;
             callback(char);
         }
+    }
+
+    public toggleSourceAsFavorite(): string | null {
+        if (this.currentSource) this.localStorage.toggleSourceInFavorites(this.currentSource);
+        return this.currentSource;
+    }
+
+    public getFavoriteSources(): string[] {
+        const favorites: string[] | null = this.localStorage.read('favoriteSources');
+        return favorites ? favorites : [];
     }
 
     public getSources(callback: Callback): void {
@@ -32,6 +45,7 @@ class AppController extends AppLoader {
                 if (sourceId != null) {
                     if (newsContainer?.getAttribute('data-source') !== sourceId) {
                         newsContainer?.setAttribute('data-source', sourceId);
+                        this.currentSource = sourceId;
                         super.getResp(
                             {
                                 endpoint: 'everything',

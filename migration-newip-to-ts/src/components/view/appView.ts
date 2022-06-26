@@ -19,19 +19,26 @@ export class AppView {
         this.news.draw(values);
     }
 
-    public drawCategories(data?: { sources?: SourceData[] }): Char {
+    public drawCategories(data?: { sources?: SourceData[] }, favoriteSources?: string[]): Char {
         const values: SourceData[] = data?.sources ? data?.sources : [];
-        return this.categories.draw(values);
+        return this.categories.draw(values, favoriteSources);
     }
 
     public drawSources(data?: { sources?: SourceData[] } | Char) {
         let values: SourceData[];
         if (typeof data === 'string') {
-            values = this.categories.getSources(data);
+            values = this.categories.getSourcesByCategory(data);
         } else {
             values = data?.sources ? data?.sources : [];
         }
         this.sources.draw(values);
+    }
+
+    public updateFavoriteSources(sourceId: string) {
+        this.categories.toggleFavoriteSource(sourceId);
+        if (this.categories.getCurrentCategory() === 'Favorites') {
+            this.drawSources('Favorites');
+        }
     }
 }
 

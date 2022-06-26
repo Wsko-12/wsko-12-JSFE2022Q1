@@ -48,7 +48,8 @@ export type Char =
     | 'X'
     | 'Y'
     | 'Z'
-    | 'Other';
+    | 'Others'
+    | 'Favorites';
 export enum Chars {
     A = 1,
     B,
