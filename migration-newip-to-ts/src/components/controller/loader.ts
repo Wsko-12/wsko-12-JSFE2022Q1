@@ -5,7 +5,7 @@ interface Options {
     sources?: string;
 }
 
-type OptionsAdd = Pick<Options, 'sources'>;
+type OptionsAdd = Partial<Options>;
 
 enum ResponseStatus {
     'Bad Request' = 400,
