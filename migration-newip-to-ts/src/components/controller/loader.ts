@@ -1,14 +1,10 @@
 import { Callback } from '../interface/interface';
 
-interface LoaderOptions {
-    apiKey: string;
-}
-
 class Loader {
-    private readonly baseLink: string;
-    private readonly options: LoaderOptions;
+    private baseLink: string;
+    private options: { apiKey: string };
 
-    constructor(baseLink: string, options: LoaderOptions) {
+    constructor(baseLink: string, options: { apiKey: string }) {
         this.baseLink = baseLink;
         this.options = options;
     }
