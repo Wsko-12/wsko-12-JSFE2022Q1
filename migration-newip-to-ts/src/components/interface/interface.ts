@@ -13,7 +13,7 @@ export interface ArticleData {
     content: string;
     description: string;
     publishedAt: string;
-    source: { id: string; name: string };
+    source: Pick<SourceData, 'id' | 'name'>;
     title: string;
     url: string;
     urlToImage: string | null;
