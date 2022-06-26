@@ -19,6 +19,7 @@ class Sources {
         });
 
         const source = document.querySelector('.sources') as HTMLElement;
+        source.innerHTML = '';
         source.append(fragment);
     }
 }

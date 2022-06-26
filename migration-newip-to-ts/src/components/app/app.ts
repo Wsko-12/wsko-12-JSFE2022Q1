@@ -11,10 +11,17 @@ class App {
     }
 
     public start() {
+        const categories = document.querySelector('.categories') as HTMLElement;
+        categories.addEventListener('click', (e) =>
+            this.controller.switchCategory(e, (char) => {
+                this.view.drawSources(char);
+            })
+        );
+
         const sources = document.querySelector('.sources') as HTMLElement;
 
         sources.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
-        this.controller.getSources((data) => this.view.drawSources(data));
+        this.controller.getSources((data) => this.view.drawSources(this.view.drawCategories(data)));
     }
 }
 

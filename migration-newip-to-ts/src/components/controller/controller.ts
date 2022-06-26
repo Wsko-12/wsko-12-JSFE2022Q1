@@ -2,6 +2,17 @@ import AppLoader from './appLoader';
 import { Callback } from '../interface/interface';
 
 class AppController extends AppLoader {
+    public switchCategory(e: Event, callback: Callback): void {
+        const target: HTMLElement = e.target as HTMLElement;
+        const categoriesContainer: HTMLElement = e.currentTarget as HTMLElement;
+
+        if (target !== categoriesContainer) {
+            const button = target.closest('.category__item') as HTMLElement;
+            const char: string = button.getAttribute('data-category-char') as string;
+            callback(char);
+        }
+    }
+
     public getSources(callback: Callback): void {
         super.getResp(
             {
