@@ -7,6 +7,27 @@ interface Options {
 
 type OptionsAdd = Pick<Options, 'sources'>;
 
+enum ResponseStatus {
+    'Bad Request' = 400,
+    'Unauthorized',
+    'Payment Required',
+    'Forbidden',
+    'Not Found',
+    'Method Not Allowed',
+    'Not Acceptable',
+    'Proxy Authentication Required',
+    'Request Timeout',
+    'Conflict',
+    'Gone',
+    'Length Required',
+    'Precondition Failed',
+    'Request Entity Too Large',
+    'Request-URI Too Long',
+    'Unsupported Media Type',
+    'Requested Range Not Satisfiable',
+    'Expectation Failed',
+}
+
 class Loader {
     private baseLink: string;
     private options: Options;
@@ -27,8 +48,8 @@ class Loader {
 
     private errorHandler(res: Response) {
         if (!res.ok) {
-            if (res.status === 401 || res.status === 404)
-                console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
+            if (ResponseStatus[res.status])
+                console.log(`Sorry, but there is ${res.status} error: ${ResponseStatus[res.status]}`);
             throw Error(res.statusText);
         }
 
