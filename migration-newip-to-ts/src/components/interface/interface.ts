@@ -19,6 +19,16 @@ export interface ArticleData {
     urlToImage: string | null;
 }
 
+export interface ResponseExtended {
+    articles?: ArticleData[];
+    sources?: SourceData[];
+    sourceId?: string;
+}
+
+export interface SourceDescription {
+    name: string;
+    inFavorite: boolean;
+}
 export type Callback = <DataType>(data?: DataType) => void;
 
 export type Category =

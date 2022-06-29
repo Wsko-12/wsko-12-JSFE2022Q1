@@ -1,4 +1,4 @@
-import { Category, SourceData, Chars } from '../../interface/interface';
+import { Category, SourceData, Chars, SourceDescription } from '../../interface/interface';
 import './categories.css';
 
 class Categories {
@@ -12,6 +12,11 @@ class Categories {
             return false;
         }
     }
+
+    private isSourceInFavorite(sourceId: string): boolean {
+        return this.categories.Favorites.some((item) => item.id === sourceId);
+    }
+
     public draw(data: readonly SourceData[], favoriteSources: string[] = []): Category {
         data.forEach((item) => {
             this.all.push(item);
@@ -53,18 +58,32 @@ class Categories {
         return this.categories[category];
     }
 
-    public toggleFavoriteSource(sourceId: string) {
-        const index: number | boolean = this.categories.Favorites.findIndex((item) => item.id === sourceId);
+    public toggleFavoriteSource(sourceId: string): boolean {
+        const index: number = this.categories.Favorites.findIndex((item) => item.id === sourceId);
         if (index >= 0) {
             this.categories.Favorites.splice(index, 1);
+            return false;
         } else {
             const source: SourceData | undefined = this.all.find((item) => item.id === sourceId);
             if (source) this.categories.Favorites.push(source);
+            return true;
         }
     }
 
     public getCurrentCategory() {
         return this.current as Category;
+    }
+
+    public getSourceDescription(sourceId?: string): SourceDescription | null {
+        if (!sourceId) return null;
+        const source: SourceData | undefined = this.all.find((item: SourceData) => item.id === sourceId);
+        if (!source) return null;
+
+        const description: SourceDescription = {
+            name: source.name,
+            inFavorite: this.isSourceInFavorite(sourceId),
+        };
+        return description;
     }
 }
 

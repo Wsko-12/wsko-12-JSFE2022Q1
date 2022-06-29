@@ -1,4 +1,4 @@
-import { Callback } from '../interface/interface';
+import { Callback, ResponseExtended, SourceData, ArticleData } from '../interface/interface';
 
 interface Options {
     apiKey: string;
@@ -71,7 +71,14 @@ class Loader {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
-            .then((data) => callback(data))
+            .then((data: { status: string | number; sources?: SourceData[]; articles?: ArticleData[] }) => {
+                const dataExtended: ResponseExtended = {
+                    sources: data.sources,
+                    articles: data.articles,
+                    sourceId: options.sources,
+                };
+                callback(dataExtended);
+            })
             .catch((err) => console.error(err));
     }
 }

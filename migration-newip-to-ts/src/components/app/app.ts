@@ -14,14 +14,19 @@ class App {
     public start() {
         const categories = document.querySelector('.categories') as HTMLElement;
         categories.addEventListener('click', (e) =>
-            this.controller.switchCategory(e, (char) => {
-                this.view.drawSources(char);
+            this.controller.switchCategory(e, <Category>(category: Category) => {
+                this.view.drawSources(category);
             })
         );
 
         const sources = document.querySelector('.sources') as HTMLElement;
 
-        sources.addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
+        sources.addEventListener('click', (e) =>
+            this.controller.getNews(e, <ResponseExtended>(data: ResponseExtended) => {
+                this.view.drawTitle(data);
+                this.view.drawNews(data);
+            })
+        );
         this.controller.getSources((data) => {
             const currentCategory: Category = this.view.drawCategories(data, this.controller.getFavoriteSources());
             this.view.drawSources(currentCategory);
