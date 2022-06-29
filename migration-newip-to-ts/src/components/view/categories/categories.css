@@ -1,6 +1,31 @@
 .categories{
     display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
 }
 .category__item{
-    margin: 10px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #303030;
+    min-width: 20px;
+    min-height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    color: #b8b8b8;
+
+}
+.category__item:hover{
+    background-color: #ffffff;
+    color: #303030;
+
+}
+
+@media screen and (max-width: 425px) {
+    .categories{
+        justify-content: center;
+    }
 }

@@ -4,6 +4,9 @@
     align-items: center;
     gap: 10px;
 }
+.source-title{
+    font-size: 3em;
+}
 .favorite-btn{
     width: 25px;
     height: 25px;
@@ -15,8 +18,28 @@
 }
 
 .favorite-btn_active{
-    fill: gold;
+    fill: #5ad67d;
 }
 .favorite-btn:hover{
-    fill: #fdf0a1;
+    fill: #a2f5ba;
+}
+
+@media screen and (max-width: 768px) {
+    .title-container{
+        justify-content: flex-start;
+    }
+    .source-title {
+        font-size: 2.5em;
+        padding: 0px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .title-container{
+        justify-content: flex-start;
+    }
+    .source-title {
+        font-size: 2em;
+        padding: 0px;
+    }
 }
