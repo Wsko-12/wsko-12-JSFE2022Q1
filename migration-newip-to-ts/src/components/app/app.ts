@@ -1,5 +1,5 @@
 import AppController from '../controller/controller';
-import { Category } from '../interface/interface';
+import { Category, ResponseExtended } from '../interface/interface';
 import { AppView } from '../view/appView';
 
 class App {
@@ -11,7 +11,7 @@ class App {
         this.view = new AppView();
     }
 
-    public start() {
+    private applyEvents() {
         const categories = document.querySelector('.categories') as HTMLElement;
         categories.addEventListener('click', (e) =>
             this.controller.switchCategory(e, <Category>(category: Category) => {
@@ -20,17 +20,11 @@ class App {
         );
 
         const sources = document.querySelector('.sources') as HTMLElement;
-
         sources.addEventListener('click', (e) =>
             this.controller.getNews(e, <ResponseExtended>(data: ResponseExtended) => {
-                this.view.drawTitle(data);
                 this.view.drawNews(data);
             })
         );
-        this.controller.getSources((data) => {
-            const currentCategory: Category = this.view.drawCategories(data, this.controller.getFavoriteSources());
-            this.view.drawSources(currentCategory);
-        });
 
         const addToFavoriteBtn = document.querySelector('#addToFavoriteBtn') as HTMLElement;
         addToFavoriteBtn.addEventListener('click', () => {
@@ -38,6 +32,19 @@ class App {
             if (sourceId) {
                 this.view.updateFavoriteSources(sourceId);
             }
+        });
+    }
+
+    private updateSources(data: ResponseExtended) {
+        const currentCategory: Category = this.view.drawCategories(data, this.controller.getFavoriteSources());
+        this.view.drawSources(currentCategory);
+    }
+
+    public start() {
+        this.applyEvents();
+
+        this.controller.getSources(<ResponseExtended>(data: ResponseExtended) => {
+            this.updateSources(data);
         });
     }
 }

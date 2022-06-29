@@ -17,13 +17,14 @@ export class AppView {
         this.title = new SourceTitle();
     }
 
-    public drawTitle(data?: ResponseExtended) {
+    private drawTitle(data?: ResponseExtended) {
         const sourceDescription = this.categories.getSourceDescription(data?.sourceId);
         this.title.draw(sourceDescription);
         console.log('draw title', data);
     }
 
     public drawNews(data?: ResponseExtended) {
+        this.drawTitle(data);
         const values: ArticleData[] = data?.articles ? data?.articles : [];
         this.news.draw(values);
     }
