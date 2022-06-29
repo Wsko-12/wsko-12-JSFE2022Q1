@@ -13,8 +13,10 @@ class News {
 
             if (idx % 2) newsClone.querySelector('.news__item')?.classList.add('alt');
 
-            const image = newsClone.querySelector('.news__meta-photo') as HTMLElement;
-            image.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
+            if (item.urlToImage) {
+                const image = newsClone.querySelector('.news__meta-photo') as HTMLElement;
+                image.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
+            }
 
             const author = newsClone.querySelector('.news__meta-author') as HTMLElement;
             author.textContent = item.author || item.source.name;
@@ -34,6 +36,21 @@ class News {
             const link = newsClone.querySelector('.news__read-more a') as HTMLElement;
             link.setAttribute('href', item.url);
 
+            if (!item.urlToImage) {
+                newsClone.querySelector('.news__item')?.classList.add('news__item_no-image');
+                const readMoreContainer = newsClone.querySelector('.news__read-more') as HTMLElement;
+                readMoreContainer.classList.add('news__read-more_alt');
+                const dateSpan = document.createElement('span');
+
+                let metaData = '';
+                if (item.author) {
+                    metaData += `${item.author} | `;
+                }
+                metaData += item.publishedAt.slice(0, 10).split('-').reverse().join('-');
+
+                dateSpan.innerHTML = metaData;
+                readMoreContainer.prepend(dateSpan);
+            }
             fragment.append(newsClone);
         });
 
