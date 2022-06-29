@@ -20,7 +20,6 @@ export class AppView {
     private drawTitle(data?: ResponseExtended) {
         const sourceDescription = this.categories.getSourceDescription(data?.sourceId);
         this.title.draw(sourceDescription);
-        console.log('draw title', data);
     }
 
     public drawNews(data?: ResponseExtended) {

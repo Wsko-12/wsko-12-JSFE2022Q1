@@ -15,7 +15,11 @@ class SourceTitle {
     }
     public updateFavoriteButton(inFavorite: boolean): void {
         const button = document.querySelector('#addToFavoriteBtn') as HTMLElement;
-        button.innerHTML = inFavorite ? 'Remove' : 'Add';
+        if (inFavorite) {
+            button.classList.add('favorite-btn_active');
+        } else {
+            button.classList.remove('favorite-btn_active');
+        }
     }
 }
 

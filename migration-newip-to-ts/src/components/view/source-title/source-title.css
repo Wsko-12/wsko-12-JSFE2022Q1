@@ -1,3 +1,22 @@
 .title-container{
     display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.favorite-btn{
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+    border: none;
+    fill: gray;
+    background: none;
+    cursor: pointer;
+}
+
+.favorite-btn_active{
+    fill: gold;
+}
+.favorite-btn:hover{
+    fill: #fdf0a1;
 }
