@@ -16,12 +16,15 @@
     background: none;
     cursor: pointer;
 }
-
 .favorite-btn_active{
     fill: #5ad67d;
 }
-.favorite-btn:hover{
-    fill: #a2f5ba;
+
+
+@media screen and (min-width: 769px) {
+    .favorite-btn:hover{
+        fill: #a2f5ba;
+    }
 }
 
 @media screen and (max-width: 768px) {
