@@ -1,5 +1,5 @@
 import AppLoader from './appLoader';
-import { Callback } from '../interface/interface';
+import { Callback, Category } from '../interface/interface';
 import LocalStorage from '../localStorage/localStorage';
 
 class AppController extends AppLoader {
@@ -11,8 +11,8 @@ class AppController extends AppLoader {
 
         if (target !== categoriesContainer) {
             const button = target.closest('.category__item') as HTMLElement;
-            const char: string = button.getAttribute('data-category-char') as string;
-            callback(char);
+            const category: Category = button.getAttribute('data-category-char') as Category;
+            callback(category);
         }
     }
 

@@ -10,7 +10,7 @@ class LocalStorage {
         const item: string | null = window.localStorage.getItem(property);
         return item ? JSON.parse(item) : null;
     }
-    private set<T>(property: string, value: T) {
+    private set<T>(property: string, value: T): void {
         window.localStorage.setItem(property, JSON.stringify(value));
     }
     public toggleSourceInFavorites(sourceId: string): void {

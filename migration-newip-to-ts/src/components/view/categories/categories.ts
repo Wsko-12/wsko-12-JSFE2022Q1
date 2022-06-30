@@ -2,7 +2,7 @@ import { Category, SourceData, Chars, SourceDescription } from '../../interface/
 import './categories.css';
 
 class Categories {
-    private current = 'A';
+    private current: Category = 'A';
     private categories: { [key: string]: SourceData[] } = { Favorites: [] };
     private all: SourceData[] = [];
     private isAlphabetChar(char: string): boolean {
@@ -18,7 +18,7 @@ class Categories {
     }
 
     public draw(data: readonly SourceData[], favoriteSources: string[] = []): Category {
-        data.forEach((item) => {
+        data.forEach((item: SourceData) => {
             this.all.push(item);
             if (favoriteSources.includes(item.id)) this.categories.Favorites.push(item);
             const firstChar = item.name[0].toUpperCase();
@@ -45,7 +45,7 @@ class Categories {
             fragment.append(categoryClone);
         });
 
-        this.current = this.categories.Favorites.length > 0 ? 'Favorites' : categories[1];
+        this.current = this.categories.Favorites.length > 0 ? 'Favorites' : (categories[1] as Category);
 
         const category = document.querySelector('.categories') as HTMLElement;
         category.append(fragment);
@@ -70,7 +70,7 @@ class Categories {
         }
     }
 
-    public getCurrentCategory() {
+    public getCurrentCategory(): Category {
         return this.current as Category;
     }
 
