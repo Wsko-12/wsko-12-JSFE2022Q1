@@ -6,7 +6,7 @@ class App {
         this.view = new AppView();
     }
     public start() {
-        this.view.init();
+        this.view.build();
         return;
     }
 }

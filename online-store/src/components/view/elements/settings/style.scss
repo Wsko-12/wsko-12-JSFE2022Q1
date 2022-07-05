@@ -1,0 +1,22 @@
+.side {
+    max-width: 30%;
+
+    @include media-mobile{
+        max-width: 100%;
+    }
+}
+.side-item{
+    background-color: #fcfcfc;
+    width: 100%;
+    box-shadow: 0 0 5px 1px #c1c1c1;
+    padding: 10px;
+    border-radius: 5px;
+}
+.search{
+    width: 100%;
+    border: 1px solid #c5c5c5;
+    padding-left: 10px;
+}
+.search::placeholder{
+    color: #c5c5c5;
+}

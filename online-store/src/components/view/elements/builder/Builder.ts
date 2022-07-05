@@ -5,13 +5,13 @@ interface createElementProps {
     dataset?: { [key: string]: string | number };
     content?: string | HTMLElement[];
 }
-class ElementsBuilder {
-    private static _instance: ElementsBuilder;
+class Builder {
+    private static _instance: Builder;
     constructor() {
-        if (!ElementsBuilder._instance) ElementsBuilder._instance = this;
-        return ElementsBuilder._instance;
+        if (!Builder._instance) Builder._instance = this;
+        return Builder._instance;
     }
-    public createElement(tag: string, properties: createElementProps): HTMLElement {
+    public createElement(tag: string, properties: createElementProps = {}): HTMLElement {
         const element = document.createElement(tag) as HTMLElement;
         if (properties.classes) {
             if (typeof properties.classes === 'string') {
@@ -48,4 +48,4 @@ class ElementsBuilder {
         return element;
     }
 }
-export default ElementsBuilder;
+export default Builder;

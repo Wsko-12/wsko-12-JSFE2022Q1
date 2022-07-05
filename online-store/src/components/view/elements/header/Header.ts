@@ -1,8 +1,8 @@
-import ElementsBuilder from '../elementsBuilder/ElementsBuilder';
+import Builder from '../builder/Builder';
 import './style.scss';
 class Header {
-    init(): void {
-        const builder = new ElementsBuilder().createElement;
+    build(): HTMLElement {
+        const builder = new Builder().createElement;
 
         const logo = builder('h1', {
             classes: ['logo', 'header__logo'],
@@ -40,7 +40,7 @@ class Header {
             content: [container],
         });
 
-        document.querySelector('body')?.append(element);
+        return element;
     }
 }
 export default Header;
