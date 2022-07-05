@@ -1,8 +1,11 @@
 .side {
-    max-width: 30%;
+    width: 20%;
 
+    @include media-tablet{
+        width: 35%;
+    }
     @include media-mobile{
-        max-width: 100%;
+        width: 100%;
     }
 }
 .side-item{
@@ -10,12 +13,22 @@
     width: 100%;
     box-shadow: 0 0 5px 1px #c1c1c1;
     padding: 10px;
-    border-radius: 5px;
+    margin: 10px 0px;
+
+    @include media-mobile{
+        width: 300px;
+        margin: 10px auto;
+    }
 }
 .search{
     width: 100%;
     border: 1px solid #c5c5c5;
     padding-left: 10px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    @include media-mobile{
+        font-size: 1.5rem;
+    }
 }
 .search::placeholder{
     color: #c5c5c5;

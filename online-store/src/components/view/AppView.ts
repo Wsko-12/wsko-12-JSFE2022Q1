@@ -3,6 +3,7 @@ import Builder from './elements/builder/Builder';
 import Header from './elements/header/Header';
 import Settings from './elements/settings/Settings';
 import './style.scss';
+import { IDataItem } from '../../interface/interface';
 
 class AppView {
     private header: Header = new Header();
@@ -26,6 +27,10 @@ class AppView {
             content: [container],
         });
         document.body.append(header, main);
+    }
+
+    drawCards(data: IDataItem[]) {
+        this.catalog.fill(data);
     }
 }
 export default AppView;

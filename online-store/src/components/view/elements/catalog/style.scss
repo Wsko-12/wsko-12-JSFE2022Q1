@@ -1,4 +1,15 @@
 .catalog{
     width: 80%;
-    height: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    @include media-tablet{
+        width: 65%;
+    }
+    @include media-mobile{
+        width: 100%;
+        padding: 20px;
+        justify-content: center;
+    }
 }

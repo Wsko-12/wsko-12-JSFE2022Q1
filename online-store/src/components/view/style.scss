@@ -1,10 +1,10 @@
 .container{
     max-width: 1280px;
     width: 100%;
-    padding: 20px;
+    padding: 30px 10px;
     margin: auto;
     display: flex;
-    gap: 20px;
+    gap: 10px;
     @include media-tablet{
         gap: 10px;
         padding: 10px;
@@ -12,6 +12,6 @@
     @include media-mobile{
         flex-direction: column;
         gap: 5px;
-        padding: 5px;
+        padding: 25px 5px;
     };
 }

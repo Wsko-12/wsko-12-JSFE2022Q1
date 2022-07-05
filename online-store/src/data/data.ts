@@ -26,7 +26,7 @@ import { IDataItem } from '../interface/interface';
     'eBay'
 ]
 */
-const data: IDataItem[] = [
+const companiesData: IDataItem[] = [
     {
         name: 'AMD',
         color: ['black'],
@@ -248,4 +248,4 @@ const data: IDataItem[] = [
         logoUrl: 'https://cdn.worldvectorlogo.com/logos/ebay.svg',
     },
 ];
-export default data;
+export default companiesData;
