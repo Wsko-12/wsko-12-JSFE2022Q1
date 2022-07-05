@@ -15,7 +15,13 @@ module.exports = {
         use: [
           "style-loader",
           "css-loader",
-          "sass-loader",
+          'sass-loader',
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: ['./src/components/app/mixins.scss']
+            },
+          },
         ],
       },
     ],
