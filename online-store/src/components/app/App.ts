@@ -22,6 +22,7 @@ class App {
 
         this.view.setResetCallback(() => {
             this.controller.resetFilters();
+            this.view.applyFilters(this.controller.getFilters());
             this.view.drawCards(this.controller.getData());
         });
     }

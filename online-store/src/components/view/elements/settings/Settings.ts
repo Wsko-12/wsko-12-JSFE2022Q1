@@ -8,6 +8,7 @@ class Settings {
     private _onChangeCallback: ((filters: Filters) => void) | null = null;
     private _onResetCallback: (() => void) | null = null;
 
+    private _resetButton: HTMLButtonElement | undefined;
     private _priceRange: RangeElement | undefined;
     private _yearRange: RangeElement | undefined;
 
@@ -30,6 +31,17 @@ class Settings {
 
         const element = builder('aside', {
             classes: 'side',
+        });
+
+        this._resetButton = builder('input', {
+            attrs: {
+                type: 'button',
+                value: 'Reset',
+            },
+        }) as HTMLButtonElement;
+
+        this._resetButton.addEventListener('click', () => {
+            this.onReset();
         });
 
         const searchInput = builder('input', {
@@ -64,7 +76,7 @@ class Settings {
             content: [this._priceRange.getElement(), this._yearRange.getElement()],
         });
 
-        element.append(findSection, filterSection);
+        element.append(this._resetButton, findSection, filterSection);
         return element;
     }
 

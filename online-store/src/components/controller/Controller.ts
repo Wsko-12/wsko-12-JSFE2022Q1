@@ -3,22 +3,23 @@ import { Filters, IDataItem, MinMax } from '../../interface/interface';
 
 export default class Controller {
     private readonly data: IDataItem[];
-    private readonly _basicFilters: Filters;
+    private readonly _basicFiltersJson: string;
 
     private _filters: Filters;
 
     constructor() {
         this.data = companiesData;
-        this._basicFilters = this.createFilters();
-        this._filters = this._basicFilters;
+        const basicFilters = this.createFilters();
+        this._basicFiltersJson = JSON.stringify(basicFilters);
+        this._filters = basicFilters;
     }
 
     public resetFilters(): void {
-        this._filters = this._basicFilters;
+        this._filters = JSON.parse(this._basicFiltersJson);
     }
 
     public getBasicFilters(): Filters {
-        return this._basicFilters;
+        return JSON.parse(this._basicFiltersJson);;
     }
 
     public getFilters(): Filters {
