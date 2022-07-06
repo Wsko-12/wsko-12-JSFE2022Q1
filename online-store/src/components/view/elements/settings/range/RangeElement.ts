@@ -22,14 +22,47 @@ export default class RangeElement {
 
     constructor(id: string, range: [min: number, max: number]) {
         this._range = range;
-        this._currentMin = range[0];
-        this._currentMax = range[1];
+        this._currentMin = 0;
+        this._currentMax = 100;
         this._id = id;
         this._element = this.create();
         this.applyListeners();
     }
     public applyCallback(callback: Callback) {
         this._callback = callback;
+    }
+
+    public setMinMax(min: number, max: number): void {
+        this._range[0] = min;
+        this._range[1] = max;
+        this.update();
+    }
+
+    public setCurrentMinMax(min: number, max: number): void {
+        const newMax = ((max - this._range[0]) / (this._range[1] - this._range[0])) * 100;
+        this._currentMax = newMax < 0 ? 0 : newMax > 100 ? 100 : newMax;
+        const newMin = ((min - this._range[0]) / (this._range[1] - this._range[0])) * 100;
+
+        this._currentMin = newMin < 0 ? 0 : newMin > 100 ? 100 : newMin;
+        this.update();
+    }
+
+    private update() {
+        this.changeLabels();
+        this.changeProgressBar();
+        this.moveBothSliders();
+    }
+
+    private moveBothSliders() {
+        (this._sliderStartHidden as HTMLElement).style.left = this._currentMin + '%';
+        (this._sliderEndHidden as HTMLElement).style.left = this._currentMax + '%';
+
+        const step = 100 / (this._range[1] - this._range[0]);
+        const minStepped = Math.round(this._currentMin / step) * step;
+        const maxStepped = Math.round(this._currentMax / step) * step;
+
+        (this._sliderStart as HTMLElement).style.left = minStepped + '%';
+        (this._sliderEnd as HTMLElement).style.left = maxStepped + '%';
     }
 
     public getElement(): HTMLElement {
@@ -144,8 +177,11 @@ export default class RangeElement {
 
     private changeProgressBar() {
         if (this._progressBar) {
-            this._progressBar.style.width = this._currentMax - this._currentMin + '%';
-            this._progressBar.style.left = this._currentMin + '%';
+            const step = 100 / (this._range[1] - this._range[0]);
+            const minStepped = Math.round(this._currentMin / step) * step;
+            const maxStepped = Math.round(this._currentMax / step) * step;
+            this._progressBar.style.width = maxStepped - minStepped + '%';
+            this._progressBar.style.left = minStepped + '%';
         }
     }
 
@@ -194,8 +230,8 @@ export default class RangeElement {
     }
     private changeLabels() {
         const deltaValue = this._range[1] - this._range[0];
-        const minValue = this._range[0] + Math.floor((deltaValue * this._currentMin) / 100);
-        const maxValue = this._range[0] + Math.floor((deltaValue * this._currentMax) / 100);
+        const minValue = this._range[0] + Math.round((deltaValue * this._currentMin) / 100);
+        const maxValue = this._range[0] + Math.round((deltaValue * this._currentMax) / 100);
         (this._sliderStart?.firstChild as HTMLElement).innerHTML = minValue.toString();
         (this._sliderEnd?.firstChild as HTMLElement).innerHTML = maxValue.toString();
 
