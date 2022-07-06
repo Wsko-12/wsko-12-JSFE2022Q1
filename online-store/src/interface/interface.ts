@@ -10,9 +10,15 @@ export interface IDataItem {
     year: number;
     logoUrl: string;
 }
+export type MinMax = [min: number, max: number];
+
 export interface Filters {
     price: {
-        current: [min: number, max: number];
-        maxMin: [min: number, max: number];
+        current: MinMax;
+        maxMin: MinMax;
+    };
+    year: {
+        current: MinMax;
+        maxMin: MinMax;
     };
 }

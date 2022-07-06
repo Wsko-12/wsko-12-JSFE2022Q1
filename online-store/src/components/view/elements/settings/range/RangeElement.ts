@@ -1,3 +1,4 @@
+import { MinMax } from '../../../../../interface/interface';
 import Builder from '../../builder/Builder';
 import './style.scss';
 type Callback = (minValue: number, maxValue: number) => void;
@@ -24,7 +25,7 @@ export default class RangeElement {
     private _currentMinValue: number;
     private _currentMaxValue: number;
 
-    constructor(label: string, id: string, range: [min: number, max: number]) {
+    constructor(label: string, id: string, range: MinMax) {
         this._range = range;
         this._currentMin = 0;
         this._currentMax = 100;

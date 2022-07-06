@@ -1,5 +1,5 @@
 import companiesData from '../../data/data';
-import { Filters, IDataItem } from '../../interface/interface';
+import { Filters, IDataItem, MinMax } from '../../interface/interface';
 
 export default class Controller {
     private readonly data: IDataItem[];
@@ -14,14 +14,20 @@ export default class Controller {
     }
 
     private createFilters(): Filters {
-        const price: [min: number, max: number] = [Infinity, -Infinity];
+        function check(value: number, minMax: MinMax) {
+            if (value > minMax[1]) {
+                minMax[1] = Math.ceil(value);
+            }
+            if (value < minMax[0]) {
+                minMax[0] = Math.floor(value);
+            }
+        }
+
+        const price: MinMax = [Infinity, -Infinity];
+        const year: MinMax = [Infinity, -Infinity];
         this.data.forEach((item) => {
-            if (item.price > price[1]) {
-                price[1] = Math.ceil(item.price);
-            }
-            if (item.price < price[0]) {
-                price[0] = Math.floor(item.price);
-            }
+            check(item.price, price);
+            check(item.year, year);
         });
 
         return {
@@ -29,20 +35,25 @@ export default class Controller {
                 current: price,
                 maxMin: price,
             },
+            year: {
+                current: year,
+                maxMin: year,
+            },
         };
     }
 
-    private filterByPrice(data: IDataItem[]): IDataItem[] {
-        const min = this._filters.price.current[0];
-        const max = this._filters.price.current[1];
+    filterByMinMax(data: IDataItem[], property: 'year' | 'price') {
+        const min = this._filters[property].current[0];
+        const max = this._filters[property].current[1];
         return data.filter((item) => {
-            return item.price >= min && item.price <= max;
+            return item[property] >= min && item[property] <= max;
         });
     }
 
     private filter(): IDataItem[] {
         let filtered: IDataItem[] = [...this.data];
-        filtered = this.filterByPrice(filtered);
+        filtered = this.filterByMinMax(filtered, 'price');
+        filtered = this.filterByMinMax(filtered, 'year');
 
         return filtered;
     }
