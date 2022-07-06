@@ -172,7 +172,7 @@ const companiesData: IDataItem[] = [
         color: ['yellow', 'red'],
         country: 'Europe',
         discount: 0,
-        price: 2601.69,
+        price: 29.88,
         count: 50,
         year: 1907,
         logoUrl: 'https://cdn.worldvectorlogo.com/logos/shell.svg',
