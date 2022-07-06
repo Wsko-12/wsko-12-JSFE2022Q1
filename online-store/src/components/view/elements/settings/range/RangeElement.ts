@@ -20,10 +20,11 @@ export default class RangeElement {
     private _currentMin: number;
     private _currentMax: number;
     private _clicked = false;
-    private _callback: Callback | undefined;
 
     private _currentMinValue: number;
     private _currentMaxValue: number;
+
+    private _onChangeCallback: Callback | undefined;
 
     constructor(label: string, id: string, range: MinMax) {
         this._range = range;
@@ -32,11 +33,16 @@ export default class RangeElement {
         this._currentMinValue = range[0];
         this._currentMaxValue = range[1];
         this._id = id;
-        this._element = this.create(label);
+        this._element = this.build(label);
         this.applyListeners();
     }
-    public applyCallback(callback: Callback) {
-        this._callback = callback;
+
+    public getElement(): HTMLElement {
+        return this._element;
+    }
+
+    public setChangeCallback(callback: Callback) {
+        this._onChangeCallback = callback;
     }
 
     public setMinMax(min: number, max: number): void {
@@ -54,43 +60,7 @@ export default class RangeElement {
         this.update();
     }
 
-    private update() {
-        this.changeLabels();
-        this.changeProgressBar();
-        this.moveBothSliders();
-    }
-
-    private moveBothSliders() {
-        (this._sliderStartHidden as HTMLElement).style.left = this._currentMin + '%';
-        (this._sliderEndHidden as HTMLElement).style.left = this._currentMax + '%';
-
-        const step = 100 / (this._range[1] - this._range[0]);
-        const minStepped = Math.round(this._currentMin / step) * step;
-        const maxStepped = Math.round(this._currentMax / step) * step;
-
-        (this._sliderStart as HTMLElement).style.left = minStepped + '%';
-        (this._sliderEnd as HTMLElement).style.left = maxStepped + '%';
-    }
-
-    public getElement(): HTMLElement {
-        return this._element;
-    }
-    private addActiveClass(slider: HTMLElement): void {
-        this._progressBar?.classList.add('range-bar__progress_active');
-        slider.classList.add('range-bar__slider_active');
-    }
-    private removeActiveClass(): void {
-        this._progressBar?.classList.remove('range-bar__progress_active');
-        this._sliderStart?.classList.remove('range-bar__slider_active');
-        this._sliderEnd?.classList.remove('range-bar__slider_active');
-    }
-    private callCallback() {
-        if (this._callback) {
-            this._callback(this._currentMinValue, this._currentMaxValue);
-        }
-    }
-
-    private create(label: string): HTMLElement {
+    private build(label: string): HTMLElement {
         const builder = new Builder().createElement;
         this._label = builder('div', {
             classes: 'range__label',
@@ -153,6 +123,12 @@ export default class RangeElement {
         return container;
     }
 
+    private update() {
+        this.changeLabels();
+        this.changeProgressBar();
+        this.moveBothSliders();
+    }
+
     private applyListeners(): void {
         this._element.addEventListener('mousedown', (e) => {
             this._clicked = true;
@@ -170,7 +146,7 @@ export default class RangeElement {
         document.addEventListener('mouseup', () => {
             this._clicked = false;
             this.removeActiveClass();
-            this.callCallback();
+            this.onChange();
         });
 
         this._element.addEventListener('touchstart', (e) => {
@@ -189,8 +165,31 @@ export default class RangeElement {
         document.addEventListener('touchend', () => {
             this._clicked = false;
             this.removeActiveClass();
-            this.callCallback();
+            this.onChange();
         });
+    }
+
+    private moveBothSliders() {
+        (this._sliderStartHidden as HTMLElement).style.left = this._currentMin + '%';
+        (this._sliderEndHidden as HTMLElement).style.left = this._currentMax + '%';
+
+        const step = 100 / (this._range[1] - this._range[0]);
+        const minStepped = Math.round(this._currentMin / step) * step;
+        const maxStepped = Math.round(this._currentMax / step) * step;
+
+        (this._sliderStart as HTMLElement).style.left = minStepped + '%';
+        (this._sliderEnd as HTMLElement).style.left = maxStepped + '%';
+    }
+
+    private addActiveClass(slider: HTMLElement): void {
+        this._progressBar?.classList.add('range-bar__progress_active');
+        slider.classList.add('range-bar__slider_active');
+    }
+
+    private removeActiveClass(): void {
+        this._progressBar?.classList.remove('range-bar__progress_active');
+        this._sliderStart?.classList.remove('range-bar__slider_active');
+        this._sliderEnd?.classList.remove('range-bar__slider_active');
     }
 
     private changeProgressBar() {
@@ -246,6 +245,7 @@ export default class RangeElement {
             this._currentMax = percentStepped;
         }
     }
+
     private changeLabels() {
         const deltaValue = this._range[1] - this._range[0];
         const minValue = this._range[0] + Math.round((deltaValue * this._currentMin) / 100);
@@ -264,5 +264,11 @@ export default class RangeElement {
         this.moveSliderTo(slider, mousePosition);
         this.changeProgressBar();
         this.changeLabels();
+    }
+
+    private onChange() {
+        if (this._onChangeCallback) {
+            this._onChangeCallback(this._currentMinValue, this._currentMaxValue);
+        }
     }
 }

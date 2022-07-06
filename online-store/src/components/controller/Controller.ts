@@ -3,10 +3,22 @@ import { Filters, IDataItem, MinMax } from '../../interface/interface';
 
 export default class Controller {
     private readonly data: IDataItem[];
+    private readonly _basicFilters: Filters;
+
     private _filters: Filters;
+
     constructor() {
         this.data = companiesData;
-        this._filters = this.createFilters();
+        this._basicFilters = this.createFilters();
+        this._filters = this._basicFilters;
+    }
+
+    public resetFilters(): void {
+        this._filters = this._basicFilters;
+    }
+
+    public getBasicFilters(): Filters {
+        return this._basicFilters;
     }
 
     public getFilters(): Filters {

@@ -9,12 +9,18 @@ class AppView {
     private header: Header = new Header();
     private settings: Settings = new Settings();
     private catalog: Catalog = new Catalog();
-    private _onSettingsChange: ((filters: Filters) => void) | null = null;
+    private _onChangeCallback: ((filters: Filters) => void) | null = null;
+    private _onResetCallback: (() => void) | null = null;
 
     public build(): void {
-        this.settings.setCallback((filters: Filters) => {
-            this.onSettingsChange(filters);
+        this.settings.setChangeCallback((filters: Filters) => {
+            this.onChange(filters);
         });
+
+        this.settings.setResetCallback(() => {
+            this.onReset();
+        });
+
         const builder = new Builder().createElement;
 
         const header: HTMLElement = this.header.build();
@@ -27,26 +33,35 @@ class AppView {
             classes: ['container'],
             content: [settings, catalog],
         });
+
         const main = builder('main', {
             content: [container],
         });
+
         document.body.append(header, main);
+    }
+
+    public setChangeCallback(callback: (filters: Filters) => void) {
+        this._onChangeCallback = callback;
+    }
+
+    public setResetCallback(callback: () => void) {
+        this._onResetCallback = callback;
     }
 
     public drawCards(data: IDataItem[]) {
         this.catalog.fill(data);
     }
-
-    private onSettingsChange(filters: Filters) {
-        if (this._onSettingsChange) this._onSettingsChange(filters);
-    }
-
     public applyFilters(filter: Filters): void {
         this.settings.applyFilters(filter);
     }
 
-    public setOnSettingsChange(callback: (filters: Filters) => void) {
-        this._onSettingsChange = callback;
+    private onChange(filters: Filters) {
+        if (this._onChangeCallback) this._onChangeCallback(filters);
+    }
+
+    private onReset() {
+        if (this._onResetCallback) this._onResetCallback();
     }
 }
 export default AppView;

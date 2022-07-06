@@ -15,8 +15,13 @@ class App {
 
         this.view.drawCards(this.controller.getData());
 
-        this.view.setOnSettingsChange((filters: Filters) => {
+        this.view.setChangeCallback((filters: Filters) => {
             this.controller.applyFilters(filters);
+            this.view.drawCards(this.controller.getData());
+        });
+
+        this.view.setResetCallback(() => {
+            this.controller.resetFilters();
             this.view.drawCards(this.controller.getData());
         });
     }

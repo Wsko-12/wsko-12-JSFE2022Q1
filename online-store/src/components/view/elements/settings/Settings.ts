@@ -5,7 +5,9 @@ import './style.scss';
 
 class Settings {
     private _currentFilters: Filters;
-    private _callback: ((filters: Filters) => void) | null = null;
+    private _onChangeCallback: ((filters: Filters) => void) | null = null;
+    private _onResetCallback: (() => void) | null = null;
+
     private _priceRange: RangeElement | undefined;
     private _yearRange: RangeElement | undefined;
 
@@ -20,17 +22,6 @@ class Settings {
                 maxMin: [0, 0],
             },
         };
-    }
-    public setCallback(callback: (filters: Filters) => void) {
-        this._callback = callback;
-    }
-    public applyFilters(filters: Filters) {
-        this._currentFilters = filters;
-        this._priceRange?.setMinMax(...filters.price.maxMin);
-        this._priceRange?.setCurrentMinMax(...filters.price.current);
-
-        this._yearRange?.setMinMax(...filters.year.maxMin);
-        this._yearRange?.setCurrentMinMax(...filters.year.current);
     }
 
     public build(): HTMLElement {
@@ -55,14 +46,14 @@ class Settings {
         });
 
         this._priceRange = new RangeElement('Price', 'priceRange', [0, 100]);
-        this._priceRange.applyCallback((min, max) => {
+        this._priceRange.setChangeCallback((min, max) => {
             this._currentFilters.price.current[0] = min;
             this._currentFilters.price.current[1] = max;
             this.onChange();
         });
 
         this._yearRange = new RangeElement('Year', 'yearRange', [0, 100]);
-        this._yearRange.applyCallback((min, max) => {
+        this._yearRange.setChangeCallback((min, max) => {
             this._currentFilters.year.current[0] = min;
             this._currentFilters.year.current[1] = max;
             this.onChange();
@@ -77,8 +68,29 @@ class Settings {
         return element;
     }
 
+    public applyFilters(filters: Filters) {
+        this._currentFilters = filters;
+        this._priceRange?.setMinMax(...filters.price.maxMin);
+        this._priceRange?.setCurrentMinMax(...filters.price.current);
+
+        this._yearRange?.setMinMax(...filters.year.maxMin);
+        this._yearRange?.setCurrentMinMax(...filters.year.current);
+    }
+
+    public setChangeCallback(callback: (filters: Filters) => void) {
+        this._onChangeCallback = callback;
+    }
+
+    public setResetCallback(callback: () => void) {
+        this._onResetCallback = callback;
+    }
+
     private onChange() {
-        if (this._callback) this._callback(this._currentFilters);
+        if (this._onChangeCallback) this._onChangeCallback(this._currentFilters);
+    }
+
+    private onReset() {
+        if (this._onResetCallback) this._onResetCallback();
     }
 }
 export default Settings;
