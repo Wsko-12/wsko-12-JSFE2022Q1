@@ -20,10 +20,15 @@ export default class RangeElement {
     private _clicked = false;
     private _callback: Callback | undefined;
 
+    private _currentMinValue: number;
+    private _currentMaxValue: number;
+
     constructor(id: string, range: [min: number, max: number]) {
         this._range = range;
         this._currentMin = 0;
         this._currentMax = 100;
+        this._currentMinValue = range[0];
+        this._currentMaxValue = range[1];
         this._id = id;
         this._element = this.create();
         this.applyListeners();
@@ -76,6 +81,11 @@ export default class RangeElement {
         this._progressBar?.classList.remove('range-bar__progress_active');
         this._sliderStart?.classList.remove('range-bar__slider_active');
         this._sliderEnd?.classList.remove('range-bar__slider_active');
+    }
+    private callCallback() {
+        if (this._callback) {
+            this._callback(this._currentMinValue, this._currentMaxValue);
+        }
     }
 
     private create(): HTMLElement {
@@ -154,6 +164,7 @@ export default class RangeElement {
         document.addEventListener('mouseup', () => {
             this._clicked = false;
             this.removeActiveClass();
+            this.callCallback();
         });
 
         this._element.addEventListener('touchstart', (e) => {
@@ -172,6 +183,7 @@ export default class RangeElement {
         document.addEventListener('touchend', () => {
             this._clicked = false;
             this.removeActiveClass();
+            this.callCallback();
         });
     }
 
@@ -234,10 +246,8 @@ export default class RangeElement {
         const maxValue = this._range[0] + Math.round((deltaValue * this._currentMax) / 100);
         (this._sliderStart?.firstChild as HTMLElement).innerHTML = minValue.toString();
         (this._sliderEnd?.firstChild as HTMLElement).innerHTML = maxValue.toString();
-
-        if (this._callback) {
-            this._callback(minValue, minValue);
-        }
+        this._currentMinValue = minValue;
+        this._currentMaxValue = maxValue;
     }
 
     private moveSlider(clientX: number) {
