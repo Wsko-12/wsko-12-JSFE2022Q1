@@ -1,8 +1,10 @@
 import Builder from '../builder/Builder';
+import RangeElement from './range/RangeElement';
 import './style.scss';
 class Settings {
     build(): HTMLElement {
-        const builder = new Builder().createElement;
+        const build = new Builder();
+        const builder = build.createElement;
 
         const element = builder('aside', {
             classes: 'side',
@@ -20,8 +22,14 @@ class Settings {
             classes: ['side-item', 'search-section'],
             content: [searchInput],
         });
-        element.append(findSection);
 
+        const priceRange = new RangeElement('priceRange', [0, 100]);
+        const filterSection = builder('section', {
+            classes: ['side-item', 'filter-section'],
+            content: [priceRange.getElement()],
+        });
+
+        element.append(findSection, filterSection);
         return element;
     }
 }
