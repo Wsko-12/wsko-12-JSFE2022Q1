@@ -14,6 +14,7 @@ export default class RangeElement {
 
     private _progressBar: HTMLElement | undefined;
     private _bar: HTMLElement | undefined;
+    private _label: HTMLElement | undefined;
 
     private _currentMin: number;
     private _currentMax: number;
@@ -23,14 +24,14 @@ export default class RangeElement {
     private _currentMinValue: number;
     private _currentMaxValue: number;
 
-    constructor(id: string, range: [min: number, max: number]) {
+    constructor(label: string, id: string, range: [min: number, max: number]) {
         this._range = range;
         this._currentMin = 0;
         this._currentMax = 100;
         this._currentMinValue = range[0];
         this._currentMaxValue = range[1];
         this._id = id;
-        this._element = this.create();
+        this._element = this.create(label);
         this.applyListeners();
     }
     public applyCallback(callback: Callback) {
@@ -88,8 +89,12 @@ export default class RangeElement {
         }
     }
 
-    private create(): HTMLElement {
+    private create(label: string): HTMLElement {
         const builder = new Builder().createElement;
+        this._label = builder('div', {
+            classes: 'range__label',
+            content: label,
+        });
         this._sliderStart = builder('div', {
             classes: ['range-bar__slider', 'range-bar__slider_start'],
             id: this._id + 'Start',
@@ -141,7 +146,7 @@ export default class RangeElement {
 
         const container = builder('div', {
             classes: ['range-container'],
-            content: [this._bar],
+            content: [this._label, this._bar],
         });
 
         return container;

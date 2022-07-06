@@ -1,11 +1,15 @@
 .range-container{
-    height: 30px;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
 }
 
+.range__label{
+    color: #303030;
+    margin-bottom: 20px;
+}
 .range-bar{
-    width: 100%;
+    margin: auto;
+    width: 80%;
     height: 8px;
     background-color:rgb(105, 250, 250);
     display: flex;
@@ -14,6 +18,7 @@
     border-radius: 10px;
     background-color: gray;
 }
+
 .range-bar__progress{
     position: absolute;
     width: 100%;

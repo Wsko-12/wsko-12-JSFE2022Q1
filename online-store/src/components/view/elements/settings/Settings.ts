@@ -45,7 +45,7 @@ class Settings {
             content: [searchInput],
         });
 
-        this._priceRange = new RangeElement('priceRange', [0, 100]);
+        this._priceRange = new RangeElement('Price', 'priceRange', [0, 100]);
         const filterSection = builder('section', {
             classes: ['side-item', 'filter-section'],
             content: [this._priceRange.getElement()],
