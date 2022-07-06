@@ -5,25 +5,18 @@ export default class Controller {
     private readonly data: IDataItem[];
     private readonly _basicFiltersJson: string;
 
-    private _filters: Filters;
-
     constructor() {
         this.data = companiesData;
         const basicFilters = this.createFilters();
         this._basicFiltersJson = JSON.stringify(basicFilters);
-        this._filters = basicFilters;
-    }
-
-    public resetFilters(): void {
-        this._filters = JSON.parse(this._basicFiltersJson);
     }
 
     public getBasicFilters(): Filters {
-        return JSON.parse(this._basicFiltersJson);;
+        return JSON.parse(this._basicFiltersJson);
     }
 
-    public getFilters(): Filters {
-        return this._filters;
+    public getFilteredData(filters: Filters): IDataItem[] {
+        return this.filter(filters);
     }
 
     private createFilters(): Filters {
@@ -55,27 +48,19 @@ export default class Controller {
         };
     }
 
-    filterByMinMax(data: IDataItem[], property: 'year' | 'price') {
-        const min = this._filters[property].current[0];
-        const max = this._filters[property].current[1];
+    private filterByMinMax(filters: Filters, data: IDataItem[], property: 'year' | 'price') {
+        const min = filters[property].current[0];
+        const max = filters[property].current[1];
         return data.filter((item) => {
             return item[property] >= min && item[property] <= max;
         });
     }
 
-    private filter(): IDataItem[] {
+    private filter(filters: Filters): IDataItem[] {
         let filtered: IDataItem[] = [...this.data];
-        filtered = this.filterByMinMax(filtered, 'price');
-        filtered = this.filterByMinMax(filtered, 'year');
+        filtered = this.filterByMinMax(filters, filtered, 'price');
+        filtered = this.filterByMinMax(filters, filtered, 'year');
 
         return filtered;
-    }
-
-    getData(): IDataItem[] {
-        return this.filter();
-    }
-
-    applyFilters(filters: Filters) {
-        this._filters = filters;
     }
 }

@@ -11,19 +11,20 @@ class App {
     }
     public start() {
         this.view.build();
-        this.view.applyFilters(this.controller.getFilters());
+        const basicFilters = this.controller.getBasicFilters();
+        const startFilters = basicFilters; // | localStorage.getFilters();
+        this.view.setStartFilters(startFilters);
 
-        this.view.drawCards(this.controller.getData());
+        this.view.drawCards(this.controller.getFilteredData(startFilters));
 
-        this.view.setChangeCallback((filters: Filters) => {
-            this.controller.applyFilters(filters);
-            this.view.drawCards(this.controller.getData());
+        this.view.setSettingsChangeCallback((filters: Filters) => {
+            this.view.drawCards(this.controller.getFilteredData(filters));
         });
 
-        this.view.setResetCallback(() => {
-            this.controller.resetFilters();
-            this.view.applyFilters(this.controller.getFilters());
-            this.view.drawCards(this.controller.getData());
+        this.view.setSettingsResetCallback(() => {
+            const basicFilters = this.controller.getBasicFilters();
+            this.view.setStartFilters(basicFilters);
+            this.view.drawCards(this.controller.getFilteredData(basicFilters));
         });
     }
 }

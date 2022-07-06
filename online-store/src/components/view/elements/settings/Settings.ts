@@ -80,7 +80,7 @@ class Settings {
         return element;
     }
 
-    public applyFilters(filters: Filters) {
+    public setStartFilters(filters: Filters) {
         this._currentFilters = filters;
         this._priceRange?.setMinMax(...filters.price.maxMin);
         this._priceRange?.setCurrentMinMax(...filters.price.current);
