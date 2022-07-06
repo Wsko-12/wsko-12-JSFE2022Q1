@@ -10,3 +10,9 @@ export interface IDataItem {
     year: number;
     logoUrl: string;
 }
+export interface Filters {
+    price: {
+        current: [min: number, max: number];
+        maxMin: [min: number, max: number];
+    };
+}

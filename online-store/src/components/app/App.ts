@@ -1,6 +1,7 @@
 import './common.scss';
 import AppView from '../view/AppView';
 import Controller from '../controller/Controller';
+import { Filters } from '../../interface/interface';
 class App {
     view: AppView;
     controller: Controller;
@@ -10,7 +11,14 @@ class App {
     }
     public start() {
         this.view.build();
+        this.view.applyFilters(this.controller.getFilters());
+
         this.view.drawCards(this.controller.getData());
+
+        this.view.setOnSettingsChange((filters: Filters) => {
+            this.controller.applyFilters(filters);
+            this.view.drawCards(this.controller.getData());
+        });
     }
 }
 export default App;
