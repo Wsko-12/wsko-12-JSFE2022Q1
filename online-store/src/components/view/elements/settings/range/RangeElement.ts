@@ -35,6 +35,15 @@ export default class RangeElement {
     public getElement(): HTMLElement {
         return this._element;
     }
+    private addActiveClass(slider: HTMLElement): void {
+        this._progressBar?.classList.add('range-bar__progress_active');
+        slider.classList.add('range-bar__slider_active');
+    }
+    private removeActiveClass(): void {
+        this._progressBar?.classList.remove('range-bar__progress_active');
+        this._sliderStart?.classList.remove('range-bar__slider_active');
+        this._sliderEnd?.classList.remove('range-bar__slider_active');
+    }
 
     private create(): HTMLElement {
         const builder = new Builder().createElement;
@@ -45,7 +54,7 @@ export default class RangeElement {
                 start: 1,
                 end: 0,
             },
-            content: `<span>${this._range[0]}</span>`,
+            content: `<div>${this._range[0]}</div>`,
         });
         this._sliderStartHidden = builder('div', {
             classes: ['range-bar__slider_hidden', 'range-bar__slider_start'],
@@ -59,7 +68,7 @@ export default class RangeElement {
                 start: 0,
                 end: 1,
             },
-            content: `<span>${this._range[1]}</span>`,
+            content: `<div>${this._range[1]}</div>`,
         });
         this._sliderEndHidden = builder('div', {
             classes: ['range-bar__slider_hidden', 'range-bar__slider_end'],
@@ -111,6 +120,7 @@ export default class RangeElement {
 
         document.addEventListener('mouseup', () => {
             this._clicked = false;
+            this.removeActiveClass();
         });
 
         this._element.addEventListener('touchstart', (e) => {
@@ -128,6 +138,7 @@ export default class RangeElement {
 
         document.addEventListener('touchend', () => {
             this._clicked = false;
+            this.removeActiveClass();
         });
     }
 
@@ -185,8 +196,8 @@ export default class RangeElement {
         const deltaValue = this._range[1] - this._range[0];
         const minValue = this._range[0] + Math.floor((deltaValue * this._currentMin) / 100);
         const maxValue = this._range[0] + Math.floor((deltaValue * this._currentMax) / 100);
-        (this._sliderStart?.firstChild as HTMLElement).innerHTML = minValue + '';
-        (this._sliderEnd?.firstChild as HTMLElement).innerHTML = maxValue + '';
+        (this._sliderStart?.firstChild as HTMLElement).innerHTML = minValue.toString();
+        (this._sliderEnd?.firstChild as HTMLElement).innerHTML = maxValue.toString();
 
         if (this._callback) {
             this._callback(minValue, minValue);
@@ -196,6 +207,8 @@ export default class RangeElement {
     private moveSlider(clientX: number) {
         const slider = this.getClosestSlider(clientX);
         const mousePosition = this.calculateMousePosition(clientX);
+        this.removeActiveClass();
+        this.addActiveClass(slider);
         this.moveSliderTo(slider, mousePosition);
         this.changeProgressBar();
         this.changeLabels();

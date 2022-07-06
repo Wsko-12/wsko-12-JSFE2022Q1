@@ -2,7 +2,6 @@
     height: 30px;
     display: flex;
     align-items: flex-end;
-    background-color: beige;
 }
 
 .range-bar{
@@ -12,35 +11,48 @@
     display: flex;
     position: relative;
     align-items: center;
+    border-radius: 10px;
+    background-color: gray;
 }
 .range-bar__progress{
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: blueviolet;
+    background-color: #d6d6d6;
+    &_active {
+        background-color: #ffffff;
+        box-shadow: 1px 1px 5px gray;
+
+    }
 }
 .range-bar__slider{
     position: absolute;
     width: 16px;
     height: 16px;
     border-radius: 16px;
-    background-color: #b9b9b9;
+    background-color: #dedede;
     transform: translate(-50%, -0%);
     z-index: 1;
     user-select: none;
     display: flex;
-    & span{
-        color: red;
+    justify-content: center;
+
+    & div{
+        color: #303030;
+        padding: 1px 5px;
         margin: auto;
         transform: translate(0%, -100%);
     }
     
-    &_start{
-        background-color:crimson;
+    
+    &_active, 
+    &_active div{
+        z-index: 2;
+        background-color: #ffffff;
+        box-shadow: 1px 1px 5px gray;
     }
 
     &_end{
-        background-color:chartreuse;
         left: 100%;
     }
 
