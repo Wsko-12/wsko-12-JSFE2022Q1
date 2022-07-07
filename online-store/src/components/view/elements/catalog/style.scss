@@ -6,6 +6,7 @@
 
     @include media-tablet{
         width: 65%;
+        padding-left: 30px;
     }
     @include media-mobile{
         width: 100%;

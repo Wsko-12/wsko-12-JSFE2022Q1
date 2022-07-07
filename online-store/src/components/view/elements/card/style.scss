@@ -32,16 +32,26 @@
 .card__title{
     margin: 0;
     font-size: 1.2rem; 
+    @include media-mobile{
+        font-size: 1.3rem; 
+    }
 }
 .card__year{
     margin: 0;
     margin-bottom: 10px;
     font-size: 0.75rem;
     color: #767676;
+    @include media-mobile{
+        font-size: 1.2rem; 
+    }
 }
 .card__employees{
     margin: 0;
     font-size: 0.75rem;
+    margin-bottom: 20px;
+    @include media-mobile{
+        font-size: 1rem; 
+    }
 }
 .card__discount{
     position: absolute;
@@ -63,6 +73,7 @@
     font-size: 1.3rem;
     font-weight: bold;
     max-width: 100%;
+    margin: 0;
     & s{
         color: #767676;
         font-size: 0.8em;
@@ -70,5 +81,12 @@
     }
     & b{
         color: #ea3546;;
+    }
+
+    @include media-laptop-small{
+        font-size: 1rem;
+    }
+    @include media-mobile{
+        font-size: 1.5rem; 
     }
 }

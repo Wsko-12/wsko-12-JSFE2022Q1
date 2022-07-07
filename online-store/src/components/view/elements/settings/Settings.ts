@@ -117,7 +117,7 @@ class Settings {
             ],
         });
 
-        element.append(this._resetButton, findSection, filterSection);
+        element.append(findSection, filterSection, this._resetButton);
         return element;
     }
 
