@@ -64,7 +64,13 @@ export default class Controller {
                 current: employees,
                 maxMin: employees,
             },
+            discountOnly: false,
         };
+    }
+
+    private filterByDiscount(filters: Filters, data: IDataItem[]): IDataItem[] {
+        if (!filters.discountOnly) return data;
+        return data.filter((item) => item.discount > 0);
     }
 
     private filterByNameIncludes(filters: Filters, data: IDataItem[]): IDataItem[] {
@@ -108,6 +114,7 @@ export default class Controller {
         filtered = this.filterByMinMax(filters, filtered, 'employees');
         filtered = this.filterByLogoColor(filters, filtered);
         filtered = this.filterByNameIncludes(filters, filtered);
+        filtered = this.filterByDiscount(filters, filtered);
 
         return filtered;
     }

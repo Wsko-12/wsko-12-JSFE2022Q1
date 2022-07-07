@@ -14,11 +14,13 @@ class Settings {
     private _priceRange: RangeElement | undefined;
     private _yearRange: RangeElement | undefined;
     private _employeeRange: RangeElement | undefined;
+    private _discountCheckBox: HTMLInputElement | undefined;
 
     private _colors: Colors | undefined;
 
     constructor() {
         this._currentFilters = {
+            discountOnly: true,
             name: '',
             price: {
                 current: [0, 0],
@@ -116,6 +118,24 @@ class Settings {
             this.onChange();
         });
 
+        this._discountCheckBox = builder('input', {
+            id: 'discountOnlyCheckbox',
+            attrs: {
+                type: 'checkbox',
+            },
+        }) as HTMLInputElement;
+        const discountLabel = builder('label', {
+            attrs: {
+                for: 'discountOnlyCheckbox',
+            },
+            content: 'Only with discount: ',
+        });
+
+        const discount = builder('div', {
+            classes: 'discount',
+            content: [discountLabel, this._discountCheckBox],
+        });
+
         const filterSection = builder('section', {
             classes: ['side-item', 'filter-section'],
             content: [
@@ -123,7 +143,13 @@ class Settings {
                 this._yearRange.getElement(),
                 this._employeeRange.getElement(),
                 this._colors.getElement(),
+                discount,
             ],
+        });
+
+        this._discountCheckBox.addEventListener('change', (e) => {
+            this._currentFilters.discountOnly = (e.target as HTMLInputElement).checked;
+            this.onChange();
         });
 
         slideContainer.append(findSection, filterSection, this._resetButton);
@@ -142,6 +168,8 @@ class Settings {
         this._employeeRange?.setCurrentMinMax(...filters.employees.current);
 
         this._colors?.setColors(filters.colors.all);
+
+        (this._discountCheckBox as HTMLInputElement).checked = filters.discountOnly;
     }
 
     public setChangeCallback(callback: (filters: Filters) => void) {

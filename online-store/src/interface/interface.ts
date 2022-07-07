@@ -38,4 +38,5 @@ export interface Filters {
         current: MinMax;
         maxMin: MinMax;
     };
+    discountOnly: boolean;
 }
