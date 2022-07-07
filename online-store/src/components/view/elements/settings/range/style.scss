@@ -1,13 +1,14 @@
 .range-container{
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     user-select: none;
 }
 
 .range__label{
     color: #303030;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    margin-top: 0;
 }
 .range-bar{
     margin: auto;

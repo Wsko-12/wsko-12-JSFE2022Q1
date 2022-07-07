@@ -62,7 +62,7 @@ export default class RangeElement {
 
     private build(label: string): HTMLElement {
         const builder = new Builder().createElement;
-        this._label = builder('div', {
+        this._label = builder('h4', {
             classes: 'range__label',
             content: label,
         });
