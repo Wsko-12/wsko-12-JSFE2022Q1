@@ -1,8 +1,16 @@
-export type LogoColor = 'colorful' | 'gray' | 'black' | 'orange' | 'red' | 'green' | 'blue' | 'yellow';
+export type LogoColor = 'gray' | 'black' | 'red' | 'green' | 'blue' | 'yellow';
+export enum ColorPalette {
+    blue = '#437F97',
+    yellow = '#FFB30F',
+    green = '#3BB273',
+    red = '#EA3546',
+    black = '#303030',
+    gray = '#C9CAD9',
+}
 export type CompanyCountry = 'USA' | 'Europe' | 'Russia';
 export interface IDataItem {
     name: string;
-    color: LogoColor[] | LogoColor;
+    color: LogoColor[];
     country: CompanyCountry;
     discount: number;
     price: number;
@@ -20,5 +28,9 @@ export interface Filters {
     year: {
         current: MinMax;
         maxMin: MinMax;
+    };
+    colors: {
+        current: LogoColor[];
+        all: LogoColor[];
     };
 }

@@ -49,7 +49,7 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Amazon',
-        color: ['black', 'orange'],
+        color: ['black', 'yellow'],
         country: 'USA',
         discount: 0,
         price: 109.56,

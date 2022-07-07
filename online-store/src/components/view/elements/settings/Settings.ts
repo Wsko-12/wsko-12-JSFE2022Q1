@@ -1,5 +1,6 @@
-import { Filters } from '../../../../interface/interface';
+import { Filters, LogoColor } from '../../../../interface/interface';
 import Builder from '../builder/Builder';
+import Colors from './colors/Colors';
 import RangeElement from './range/RangeElement';
 import './style.scss';
 
@@ -11,6 +12,7 @@ class Settings {
     private _resetButton: HTMLButtonElement | undefined;
     private _priceRange: RangeElement | undefined;
     private _yearRange: RangeElement | undefined;
+    private _colors: Colors | undefined;
 
     constructor() {
         this._currentFilters = {
@@ -21,6 +23,10 @@ class Settings {
             year: {
                 current: [0, 0],
                 maxMin: [0, 0],
+            },
+            colors: {
+                all: [],
+                current: [],
             },
         };
     }
@@ -71,9 +77,15 @@ class Settings {
             this.onChange();
         });
 
+        this._colors = new Colors('Logo colors');
+        this._colors.setChangeCallback((colors: LogoColor[]) => {
+            this._currentFilters.colors.current = colors;
+            this.onChange();
+        });
+
         const filterSection = builder('section', {
             classes: ['side-item', 'filter-section'],
-            content: [this._priceRange.getElement(), this._yearRange.getElement()],
+            content: [this._priceRange.getElement(), this._yearRange.getElement(), this._colors.getElement()],
         });
 
         element.append(this._resetButton, findSection, filterSection);
@@ -87,6 +99,8 @@ class Settings {
 
         this._yearRange?.setMinMax(...filters.year.maxMin);
         this._yearRange?.setCurrentMinMax(...filters.year.current);
+
+        this._colors?.setColors(filters.colors.all);
     }
 
     public setChangeCallback(callback: (filters: Filters) => void) {

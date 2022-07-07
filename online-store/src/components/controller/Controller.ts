@@ -1,5 +1,5 @@
 import companiesData from '../../data/data';
-import { Filters, IDataItem, MinMax } from '../../interface/interface';
+import { Filters, IDataItem, LogoColor, MinMax } from '../../interface/interface';
 
 export default class Controller {
     private readonly data: IDataItem[];
@@ -31,9 +31,15 @@ export default class Controller {
 
         const price: MinMax = [Infinity, -Infinity];
         const year: MinMax = [Infinity, -Infinity];
+        const colors: LogoColor[] = [];
         this.data.forEach((item) => {
             check(item.price, price);
             check(item.year, year);
+            item.color.forEach((color) => {
+                if (colors.indexOf(color) === -1) {
+                    colors.push(color);
+                }
+            });
         });
 
         return {
@@ -45,10 +51,30 @@ export default class Controller {
                 current: year,
                 maxMin: year,
             },
+            colors: {
+                all: colors,
+                current: [],
+            },
         };
     }
+    private filterByLogoColor(filters: Filters, data: IDataItem[]): IDataItem[] {
+        if (filters.colors.current.length === 0) {
+            return data;
+        }
+        return data.filter((item) => {
+            const colors: LogoColor[] = item.color;
+            const selected: LogoColor[] = filters.colors.current;
+            let allColors = true;
+            for (let i = 0; i < selected.length; i++) {
+                if (colors.indexOf(selected[i]) === -1) {
+                    allColors = false;
+                }
+            }
+            return allColors;
+        });
+    }
 
-    private filterByMinMax(filters: Filters, data: IDataItem[], property: 'year' | 'price') {
+    private filterByMinMax(filters: Filters, data: IDataItem[], property: 'year' | 'price'): IDataItem[] {
         const min = filters[property].current[0];
         const max = filters[property].current[1];
         return data.filter((item) => {
@@ -60,6 +86,7 @@ export default class Controller {
         let filtered: IDataItem[] = [...this.data];
         filtered = this.filterByMinMax(filters, filtered, 'price');
         filtered = this.filterByMinMax(filters, filtered, 'year');
+        filtered = this.filterByLogoColor(filters, filtered);
 
         return filtered;
     }
