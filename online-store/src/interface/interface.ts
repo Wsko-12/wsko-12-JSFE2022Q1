@@ -14,7 +14,7 @@ export interface IDataItem {
     country: CompanyCountry;
     discount: number;
     price: number;
-    count: number;
+    employees: number;
     year: number;
     logoUrl: string;
 }
