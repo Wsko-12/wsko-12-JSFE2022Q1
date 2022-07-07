@@ -1,9 +1,11 @@
 .card{
+    position: relative;
     width: 200px;
     height: 320px;
     background-color: white;
     margin: 0;
     padding: 10px;
+    color: #303030;
     cursor: pointer;
     @include media-laptop-small{
         width: 180px;
@@ -27,6 +29,46 @@
     height: 60%;
 }
 
-.card__caption{
+.card__title{
+    margin: 0;
+    font-size: 1.2rem; 
+}
+.card__year{
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 0.75rem;
+    color: #767676;
+}
+.card__employees{
+    margin: 0;
+    font-size: 0.75rem;
+}
+.card__discount{
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #ea3546;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+}
 
+.card__price{
+    font-size: 1.3rem;
+    font-weight: bold;
+    max-width: 100%;
+    & s{
+        color: #767676;
+        font-size: 0.8em;
+        font-weight: normal;
+    }
+    & b{
+        color: #ea3546;;
+    }
 }
