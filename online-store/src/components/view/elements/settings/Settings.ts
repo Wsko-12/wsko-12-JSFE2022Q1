@@ -19,6 +19,7 @@ class Settings {
 
     constructor() {
         this._currentFilters = {
+            name: '',
             price: {
                 current: [0, 0],
                 maxMin: [0, 0],
@@ -46,7 +47,7 @@ class Settings {
         });
         const element = builder('aside', {
             classes: 'side',
-            content:[slideContainer],
+            content: [slideContainer],
         });
 
         this._resetButton = builder('input', {
@@ -62,10 +63,15 @@ class Settings {
 
         const searchInput = builder('input', {
             classes: ['search'],
+            id: 'searchInput',
             attrs: {
                 type: 'text',
-                placeholder: 'Search company...',
+                placeholder: 'Search...',
             },
+        }) as HTMLInputElement;
+        searchInput.addEventListener('input', (e) => {
+            this._currentFilters.name = (e.target as HTMLInputElement).value;
+            this.onChange();
         });
 
         const findSection = builder('section', {

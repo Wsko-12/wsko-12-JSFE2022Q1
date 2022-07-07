@@ -39,6 +39,7 @@ class AppView {
         });
 
         document.body.append(header, main);
+        (document.querySelector('#searchInput') as HTMLElement).focus();
     }
 
     public setSettingsChangeCallback(callback: (filters: Filters) => void) {

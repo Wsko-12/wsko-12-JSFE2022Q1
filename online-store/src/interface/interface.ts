@@ -21,6 +21,7 @@ export interface IDataItem {
 export type MinMax = [min: number, max: number];
 
 export interface Filters {
+    name: string;
     price: {
         current: MinMax;
         maxMin: MinMax;

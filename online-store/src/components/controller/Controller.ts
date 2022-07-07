@@ -47,6 +47,7 @@ export default class Controller {
         });
 
         return {
+            name: '',
             price: {
                 current: price,
                 maxMin: price,
@@ -65,6 +66,16 @@ export default class Controller {
             },
         };
     }
+
+    private filterByNameIncludes(filters: Filters, data: IDataItem[]): IDataItem[] {
+        if (filters.name === '') return data;
+        const search = filters.name.trim().toLowerCase();
+        return data.filter((item) => {
+            const name = item.name.trim().toLowerCase();
+            return name.includes(search);
+        });
+    }
+
     private filterByLogoColor(filters: Filters, data: IDataItem[]): IDataItem[] {
         if (filters.colors.current.length === 0) {
             return data;
@@ -95,8 +106,8 @@ export default class Controller {
         filtered = this.filterByMinMax(filters, filtered, 'price');
         filtered = this.filterByMinMax(filters, filtered, 'year');
         filtered = this.filterByMinMax(filters, filtered, 'employees');
-
         filtered = this.filterByLogoColor(filters, filtered);
+        filtered = this.filterByNameIncludes(filters, filtered);
 
         return filtered;
     }
