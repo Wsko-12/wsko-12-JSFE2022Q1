@@ -16,6 +16,7 @@ export default class RangeElement {
     private _progressBar: HTMLElement | undefined;
     private _bar: HTMLElement | undefined;
     private _label: HTMLElement | undefined;
+    private _labelsTemplate: (value: number) => string;
 
     private _currentMin: number;
     private _currentMax: number;
@@ -26,7 +27,7 @@ export default class RangeElement {
 
     private _onChangeCallback: Callback | undefined;
 
-    constructor(label: string, id: string, range: MinMax) {
+    constructor(label: string, id: string, range: MinMax, labelsTemplate?: (value: number) => string) {
         this._range = range;
         this._currentMin = 0;
         this._currentMax = 100;
@@ -34,6 +35,8 @@ export default class RangeElement {
         this._currentMaxValue = range[1];
         this._id = id;
         this._element = this.build(label);
+        this._labelsTemplate = labelsTemplate || ((value: number) => value.toString());
+
         this.applyListeners();
     }
 
@@ -43,6 +46,10 @@ export default class RangeElement {
 
     public setChangeCallback(callback: Callback) {
         this._onChangeCallback = callback;
+    }
+
+    public setLabelsTemplate(foo: (value: number) => string): void {
+        this._labelsTemplate = foo;
     }
 
     public setMinMax(min: number, max: number): void {
@@ -254,8 +261,8 @@ export default class RangeElement {
         const deltaValue = this._range[1] - this._range[0];
         const minValue = this._range[0] + Math.round((deltaValue * this._currentMin) / 100);
         const maxValue = this._range[0] + Math.round((deltaValue * this._currentMax) / 100);
-        (this._sliderStart?.firstChild as HTMLElement).innerHTML = minValue.toString();
-        (this._sliderEnd?.firstChild as HTMLElement).innerHTML = maxValue.toString();
+        (this._sliderStart?.firstChild as HTMLElement).innerHTML = this._labelsTemplate(minValue);
+        (this._sliderEnd?.firstChild as HTMLElement).innerHTML = this._labelsTemplate(maxValue);
         this._currentMinValue = minValue;
         this._currentMaxValue = maxValue;
     }

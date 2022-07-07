@@ -63,7 +63,12 @@ class Settings {
             content: [searchInput],
         });
 
-        this._priceRange = new RangeElement('Price', 'priceRange', [0, 100]);
+        this._priceRange = new RangeElement(
+            'Price',
+            'priceRange',
+            [0, 100],
+            (value) => `$${Math.floor((value / 1000000000) * 100) / 100}b`
+        );
         this._priceRange.setChangeCallback((min, max) => {
             this._currentFilters.price.current[0] = min;
             this._currentFilters.price.current[1] = max;
