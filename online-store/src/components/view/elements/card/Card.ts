@@ -36,11 +36,20 @@ class Card {
             classes: 'card__title',
             content: this.company.name,
         });
+
         const year = builder('p', {
             classes: 'card__year',
             content: this.company.year.toString(),
         });
-        // const country = builder
+
+        const flag = builder('div', {
+            classes: ['card__flag', 'flag', `flag_${this.company.country.toLowerCase()}`],
+        });
+
+        const subtitle = builder('div', {
+            classes: 'card__subtitle',
+            content: [year, flag],
+        });
 
         const employees = builder('p', {
             classes: 'card__employees',
@@ -49,7 +58,7 @@ class Card {
 
         const caption = builder('figcaption', {
             classes: ['card__caption'],
-            content: [title, year, employees, this.createPriceElement()],
+            content: [title, subtitle, employees, this.createPriceElement()],
         });
 
         if (this.company.discount > 0) {

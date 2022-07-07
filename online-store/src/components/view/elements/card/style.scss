@@ -36,6 +36,19 @@
         font-size: 1.3rem; 
     }
 }
+.card__subtitle{
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+}
+.card__flag{
+    width: 15px;
+    height: 10px;
+    @include media-mobile{
+        width: 20px;
+        height: 13px;
+    }
+}
 .card__year{
     margin: 0;
     margin-bottom: 10px;
