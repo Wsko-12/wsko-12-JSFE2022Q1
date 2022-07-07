@@ -1,5 +1,6 @@
 import { Filters, LogoColor } from '../../../../interface/interface';
 import Builder from '../builder/Builder';
+import Card from '../card/Card';
 import Colors from './colors/Colors';
 import RangeElement from './range/RangeElement';
 import './style.scss';
@@ -12,6 +13,8 @@ class Settings {
     private _resetButton: HTMLButtonElement | undefined;
     private _priceRange: RangeElement | undefined;
     private _yearRange: RangeElement | undefined;
+    private _employeeRange: RangeElement | undefined;
+
     private _colors: Colors | undefined;
 
     constructor() {
@@ -27,6 +30,10 @@ class Settings {
             colors: {
                 all: [],
                 current: [],
+            },
+            employees: {
+                current: [0, 0],
+                maxMin: [0, 0],
             },
         };
     }
@@ -82,6 +89,18 @@ class Settings {
             this.onChange();
         });
 
+        this._employeeRange = new RangeElement(
+            'Employees count',
+            'employeeRange',
+            [0, 100],
+            Card.getFormattedEmployeeCount
+        );
+        this._employeeRange.setChangeCallback((min, max) => {
+            this._currentFilters.employees.current[0] = min;
+            this._currentFilters.employees.current[1] = max;
+            this.onChange();
+        });
+
         this._colors = new Colors('Logo colors');
         this._colors.setChangeCallback((colors: LogoColor[]) => {
             this._currentFilters.colors.current = colors;
@@ -90,7 +109,12 @@ class Settings {
 
         const filterSection = builder('section', {
             classes: ['side-item', 'filter-section'],
-            content: [this._priceRange.getElement(), this._yearRange.getElement(), this._colors.getElement()],
+            content: [
+                this._priceRange.getElement(),
+                this._yearRange.getElement(),
+                this._employeeRange.getElement(),
+                this._colors.getElement(),
+            ],
         });
 
         element.append(this._resetButton, findSection, filterSection);
@@ -104,6 +128,9 @@ class Settings {
 
         this._yearRange?.setMinMax(...filters.year.maxMin);
         this._yearRange?.setCurrentMinMax(...filters.year.current);
+
+        this._employeeRange?.setMinMax(...filters.employees.maxMin);
+        this._employeeRange?.setCurrentMinMax(...filters.employees.current);
 
         this._colors?.setColors(filters.colors.all);
     }

@@ -33,4 +33,8 @@ export interface Filters {
         current: LogoColor[];
         all: LogoColor[];
     };
+    employees: {
+        current: MinMax;
+        maxMin: MinMax;
+    };
 }
