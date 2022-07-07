@@ -144,9 +144,11 @@ export default class RangeElement {
         });
 
         document.addEventListener('mouseup', () => {
-            this._clicked = false;
-            this.removeActiveClass();
-            this.onChange();
+            if (this._clicked) {
+                this._clicked = false;
+                this.removeActiveClass();
+                this.onChange();
+            }
         });
 
         this._element.addEventListener('touchstart', (e) => {
@@ -163,9 +165,11 @@ export default class RangeElement {
         });
 
         document.addEventListener('touchend', () => {
-            this._clicked = false;
-            this.removeActiveClass();
-            this.onChange();
+            if (this._clicked) {
+                this._clicked = false;
+                this.removeActiveClass();
+                this.onChange();
+            }
         });
     }
 
