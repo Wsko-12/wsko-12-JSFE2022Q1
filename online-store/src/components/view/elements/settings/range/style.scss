@@ -48,20 +48,31 @@
     & div{
         color: #303030;
         padding: 1px 5px;
+        font-size: 0.8rem;
         margin: auto;
-        transform: translate(0%, -100%);
     }
     
     
     &_active, 
     &_active div{
         z-index: 2;
+        font-size: 1rem;
+
         background-color: #ffffff;
         box-shadow: 1px 1px 5px gray;
     }
 
+    &_start{
+        & div{
+            transform: translate(0%, -150%);
+        }
+    }
     &_end{
         left: 100%;
+
+        & div{
+            transform: translate(0%, -80%);
+        }
     }
 
     &_hidden{
