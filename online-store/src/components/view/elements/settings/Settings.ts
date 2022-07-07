@@ -41,9 +41,12 @@ class Settings {
     public build(): HTMLElement {
         const build = new Builder();
         const builder = build.createElement;
-
+        const slideContainer = builder('div', {
+            classes: 'side__slider',
+        });
         const element = builder('aside', {
             classes: 'side',
+            content:[slideContainer],
         });
 
         this._resetButton = builder('input', {
@@ -117,7 +120,7 @@ class Settings {
             ],
         });
 
-        element.append(findSection, filterSection, this._resetButton);
+        slideContainer.append(findSection, filterSection, this._resetButton);
         return element;
     }
 
