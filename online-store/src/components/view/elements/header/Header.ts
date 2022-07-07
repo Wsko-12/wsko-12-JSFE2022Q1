@@ -6,7 +6,7 @@ class Header {
 
         const logo = builder('h1', {
             classes: ['logo', 'header__logo'],
-            content: 'Stock<span class="logo-span">store</span>',
+            content: 'Com<span class="logo-span">Store</span>',
         });
 
         const basketCounter = builder('div', {
