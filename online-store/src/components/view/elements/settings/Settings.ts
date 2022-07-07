@@ -91,7 +91,7 @@ class Settings {
             'Price',
             'priceRange',
             [0, 100],
-            (value) => `$${Math.floor((value / 1000000000) * 100) / 100}b`
+            (value) => `$${Math.floor((value / 1000000000) * 100) / 100}B`
         );
         this._priceRange.setChangeCallback((min, max) => {
             this._currentFilters.price.current[0] = min;

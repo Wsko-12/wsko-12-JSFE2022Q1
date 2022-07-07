@@ -90,12 +90,12 @@ class Card {
             const priceWithDiscoutnFormatted = (Math.floor((priceWithDiscount / 10 ** 9) * 100) / 100).toString();
             element = builder('p', {
                 classes: 'card__price',
-                content: `<s>$${priceFormatted}b</s> <b>$${priceWithDiscoutnFormatted}b</b>`,
+                content: `<s>$${priceFormatted}b</s> <b>$${priceWithDiscoutnFormatted}B</b>`,
             });
         } else {
             element = builder('p', {
                 classes: 'card__price',
-                content: `$${priceFormatted}b`,
+                content: `$${priceFormatted}B`,
             });
         }
 
