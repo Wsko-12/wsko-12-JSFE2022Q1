@@ -1,5 +1,5 @@
 import companiesData from '../../data/data';
-import { Filters, IDataItem, LogoColor, MinMax } from '../../interface/interface';
+import { CompanyCountry, Filters, IDataItem, LogoColor, MinMax } from '../../interface/interface';
 
 export default class Controller {
     private readonly data: IDataItem[];
@@ -32,6 +32,7 @@ export default class Controller {
         const price: MinMax = [Infinity, -Infinity];
         const year: MinMax = [Infinity, -Infinity];
         const employees: MinMax = [Infinity, -Infinity];
+        const countries: CompanyCountry[] = [];
 
         const colors: LogoColor[] = [];
         this.data.forEach((item) => {
@@ -44,6 +45,10 @@ export default class Controller {
                     colors.push(color);
                 }
             });
+
+            if (countries.indexOf(item.country) === -1) {
+                countries.push(item.country);
+            }
         });
 
         return {
@@ -65,6 +70,10 @@ export default class Controller {
                 maxMin: employees,
             },
             discountOnly: false,
+            countries: {
+                all: countries,
+                selected: [],
+            },
         };
     }
 
@@ -79,6 +88,16 @@ export default class Controller {
         return data.filter((item) => {
             const name = item.name.trim().toLowerCase();
             return name.includes(search);
+        });
+    }
+
+    private filterByCountry(filters: Filters, data: IDataItem[]): IDataItem[] {
+        const selected = filters.countries.selected;
+        if (selected.length === 0) {
+            return data;
+        }
+        return data.filter((item) => {
+            return selected.indexOf(item.country) != -1;
         });
     }
 
@@ -115,6 +134,7 @@ export default class Controller {
         filtered = this.filterByLogoColor(filters, filtered);
         filtered = this.filterByNameIncludes(filters, filtered);
         filtered = this.filterByDiscount(filters, filtered);
+        filtered = this.filterByCountry(filters, filtered);
 
         return filtered;
     }

@@ -2,6 +2,7 @@ import { Filters, LogoColor } from '../../../../interface/interface';
 import Builder from '../builder/Builder';
 import Card from '../card/Card';
 import Colors from './colors/Colors';
+import County from './country/Country';
 import RangeElement from './range/RangeElement';
 import './style.scss';
 
@@ -15,6 +16,7 @@ class Settings {
     private _yearRange: RangeElement | undefined;
     private _employeeRange: RangeElement | undefined;
     private _discountCheckBox: HTMLInputElement | undefined;
+    private _countries: County | undefined;
 
     private _colors: Colors | undefined;
 
@@ -37,6 +39,10 @@ class Settings {
             employees: {
                 current: [0, 0],
                 maxMin: [0, 0],
+            },
+            countries: {
+                selected: [],
+                all: [],
             },
         };
     }
@@ -136,6 +142,12 @@ class Settings {
             content: [discountLabel, this._discountCheckBox],
         });
 
+        this._countries = new County('Country');
+        this._countries.setChangeCallback((countries) => {
+            this._currentFilters.countries.selected = countries;
+            this.onChange();
+        });
+
         const filterSection = builder('section', {
             classes: ['side-item', 'filter-section'],
             content: [
@@ -144,6 +156,7 @@ class Settings {
                 this._employeeRange.getElement(),
                 this._colors.getElement(),
                 discount,
+                this._countries.getElement(),
             ],
         });
 
@@ -170,6 +183,9 @@ class Settings {
         this._colors?.setColors(filters.colors.all);
 
         (this._discountCheckBox as HTMLInputElement).checked = filters.discountOnly;
+
+        this._countries?.fill(filters.countries.all);
+        this._countries?.applySelected(filters.countries.selected);
     }
 
     public setChangeCallback(callback: (filters: Filters) => void) {

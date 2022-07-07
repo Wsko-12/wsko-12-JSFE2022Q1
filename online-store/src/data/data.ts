@@ -140,7 +140,7 @@ const companiesData: IDataItem[] = [
     {
         name: 'Nvidia',
         color: ['black', 'green'],
-        country: 'Europe',
+        country: 'USA',
         discount: 3,
         price: 378250000000,
         employees: 13775,

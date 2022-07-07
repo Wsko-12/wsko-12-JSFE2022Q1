@@ -38,5 +38,9 @@ export interface Filters {
         current: MinMax;
         maxMin: MinMax;
     };
+    countries: {
+        all: CompanyCountry[];
+        selected: CompanyCountry[];
+    };
     discountOnly: boolean;
 }
