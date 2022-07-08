@@ -20,6 +20,7 @@
     align-items: center;
     border-radius: 10px;
     background-color: gray;
+    cursor: pointer;
 }
 
 .range-bar__progress{
@@ -52,7 +53,7 @@
         margin: auto;
     }
     
-    
+    &:hover,
     &_active, 
     &_active div{
         z-index: 2;
