@@ -25,6 +25,11 @@
     position: sticky;
     top: 20px;
 }
+
+.search-section{
+    display: flex;
+    align-items: center;
+}
 .search{
     width: 100%;
     border: 1px solid #c5c5c5;
@@ -36,6 +41,26 @@
 }
 .search::placeholder{
     color: #c5c5c5;
+}
+
+.search__clear{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 15px;
+    background-image: url(../../../../assets/icons/cross.svg);
+    background-size: cover;
+    opacity: 0.5;
+    border: none;
+    cursor: pointer;
+
+    &:hover{
+        opacity: 0.9;
+    }
+
+    @include media-mobile{
+        right: 25px;
+    }
 }
 
 .discount{

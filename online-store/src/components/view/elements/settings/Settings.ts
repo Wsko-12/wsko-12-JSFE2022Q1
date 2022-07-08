@@ -82,9 +82,18 @@ class Settings {
             this.onChange();
         });
 
+        const clearSearch = builder('button', {
+            classes: 'search__clear',
+        });
+        clearSearch.addEventListener('click', () => {
+            this._currentFilters.name = '';
+            searchInput.value = '';
+            this.onChange();
+        });
+
         const findSection = builder('section', {
             classes: ['side-item', 'search-section'],
-            content: [searchInput],
+            content: [searchInput, clearSearch],
         });
 
         this._priceRange = new RangeElement(
