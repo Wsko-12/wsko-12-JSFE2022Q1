@@ -22,14 +22,21 @@
 }
 
 .catalog__container{
+    position: relative;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 
-    &_on-sort .card{
-        pointer-events: none;
-        transform: scale(0.8);
+    &_on-sort{
+        opacity: 0;
+        z-index: -100;
+    }
+
+    &_clone{
+        position: absolute;
+        top: 50px;
+        z-index: 1000;
     }
 
     @include media-tablet{
@@ -39,4 +46,6 @@
         padding: 20px;
         justify-content: center;
     }
+
+
 }

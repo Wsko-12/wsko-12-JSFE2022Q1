@@ -9,6 +9,8 @@ class Catalog {
     private _onPage: Card[] = [];
     private _element: HTMLElement | undefined;
     private _container: HTMLElement | undefined;
+    private _containerClone: HTMLElement | undefined;
+
     private _sortSelected: Sort = '-';
 
     private _cache: { [key: string]: Card } = {};
@@ -68,10 +70,13 @@ class Catalog {
         this._container = builder('div', {
             classes: 'catalog__container',
         });
+        this._containerClone = builder('div', {
+            classes: ['catalog__container', 'catalog__container_clone'],
+        });
 
         const element = builder('section', {
             classes: 'catalog',
-            content: [header, this._container],
+            content: [header, this._container, this._containerClone],
         });
 
         this._element = element;
@@ -117,27 +122,52 @@ class Catalog {
         this._onPage.sort(sortFunc);
     }
     private sortView() {
-        let index = 0;
-        const length = this._onPage.length;
-        this._container?.classList.add('catalog__container_on-sort');
+        (this._container as HTMLElement).classList.add('catalog__container_on-sort');
+        (this._containerClone as HTMLElement).innerHTML = (this._container as HTMLElement).innerHTML;
+        const containerRect = (this._container as HTMLElement).getBoundingClientRect();
+        const positionsBeforeSort: [x: number, y: number][] = [];
+        const positionsAfterSort: [x: number, y: number][] = [];
 
-        const sort = (): void => {
-            if (index === length) {
-                this._container?.classList.remove('catalog__container_on-sort');
-                return;
-            }
+        (this._container as HTMLElement).style.width = containerRect.width + 'px';
 
-            const element: HTMLElement = this._onPage[index].getElement();
-            element.classList.add('card_on-sort');
-            setTimeout(() => {
-                element.classList.remove('card_on-sort');
-                element.remove();
-                this._container?.append(element);
-                index++;
-                sort();
-            }, 50);
-        };
-        sort();
+        this._container?.childNodes.forEach((child) => {
+            const rect = (child as HTMLElement).getBoundingClientRect();
+            positionsBeforeSort.push([rect.x - containerRect.x, rect.y - containerRect.y]);
+        });
+
+        this._onPage.forEach((card: Card, i: number) => {
+            const cardElement = card.getElement();
+            cardElement.style.order = i + '';
+        });
+
+        setTimeout(() => {
+            (this._containerClone as HTMLElement).innerHTML = '';
+            this._container?.childNodes.forEach((child, i) => {
+                const rect = (child as HTMLElement).getBoundingClientRect();
+                positionsAfterSort.push([rect.x - containerRect.x, rect.y - containerRect.y]);
+                setTimeout(() => {
+                    (this._container as HTMLElement).classList.remove('catalog__container_on-sort');
+
+                    (child as HTMLElement).style.position = 'absolute';
+                    (child as HTMLElement).style.top = positionsBeforeSort[i][1] + 'px';
+                    (child as HTMLElement).style.left = positionsBeforeSort[i][0] + 'px';
+                    (child as HTMLElement).style.transitionDuration = '0.5s';
+                    setTimeout(() => {
+                        (child as HTMLElement).style.top = positionsAfterSort[i][1] + 'px';
+                        (child as HTMLElement).style.left = positionsAfterSort[i][0] + 'px';
+
+                        setTimeout(() => {
+                            (this._container as HTMLElement).style.width = '';
+
+                            (child as HTMLElement).style.position = '';
+                            (child as HTMLElement).style.top = '';
+                            (child as HTMLElement).style.left = '';
+                            (child as HTMLElement).style.transitionDuration = '';
+                        }, 500);
+                    }, 10);
+                }, 10);
+            });
+        }, 200);
     }
 }
 export default Catalog;

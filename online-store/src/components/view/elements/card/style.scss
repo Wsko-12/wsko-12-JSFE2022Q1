@@ -20,16 +20,6 @@
         z-index: 100;
     }
 
-    &_on-sort{
-        transition-duration: 0.05s;
-        width: 0;
-        box-shadow: none;
-        position: relative;
-        left: 100px;
-        visibility: hidden;
-        overflow: hidden;
-    }
-
     @include media-laptop-small{
         width: 180px;
         height: 288px;
