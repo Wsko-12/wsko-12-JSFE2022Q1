@@ -17,6 +17,7 @@ class Settings {
     private _employeeRange: RangeElement | undefined;
     private _discountCheckBox: HTMLInputElement | undefined;
     private _countries: County | undefined;
+    private _searchInput: HTMLInputElement | undefined;
 
     private _colors: Colors | undefined;
 
@@ -69,7 +70,7 @@ class Settings {
             this.onReset();
         });
 
-        const searchInput = builder('input', {
+        this._searchInput = builder('input', {
             classes: ['search'],
             id: 'searchInput',
             attrs: {
@@ -77,7 +78,7 @@ class Settings {
                 placeholder: 'Search...',
             },
         }) as HTMLInputElement;
-        searchInput.addEventListener('input', (e) => {
+        this._searchInput.addEventListener('input', (e) => {
             this._currentFilters.name = (e.target as HTMLInputElement).value;
             this.onChange();
         });
@@ -87,13 +88,13 @@ class Settings {
         });
         clearSearch.addEventListener('click', () => {
             this._currentFilters.name = '';
-            searchInput.value = '';
+            (this._searchInput as HTMLInputElement).value = '';
             this.onChange();
         });
 
         const findSection = builder('section', {
             classes: ['side-item', 'search-section'],
-            content: [searchInput, clearSearch],
+            content: [this._searchInput, clearSearch],
         });
 
         this._priceRange = new RangeElement(
@@ -180,6 +181,9 @@ class Settings {
 
     public setStartFilters(filters: Filters) {
         this._currentFilters = filters;
+
+        (this._searchInput as HTMLInputElement).value = filters.name;
+
         this._priceRange?.setMinMax(...filters.price.maxMin);
         this._priceRange?.setCurrentMinMax(...filters.price.current);
 
@@ -190,6 +194,7 @@ class Settings {
         this._employeeRange?.setCurrentMinMax(...filters.employees.current);
 
         this._colors?.setColors(filters.colors.all);
+        this._colors?.applySelected(filters.colors.current);
 
         (this._discountCheckBox as HTMLInputElement).checked = filters.discountOnly;
 

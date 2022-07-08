@@ -6,6 +6,7 @@ export default class Colors {
     private _onChangeCallback: Callback | undefined;
     private _colors: LogoColor[] = [];
     private _element: HTMLElement;
+    private _colorsElements: { [key: string]: HTMLElement } = {};
     private _container: HTMLElement;
     private _selected: LogoColor[] = [];
     constructor(label: string) {
@@ -36,6 +37,19 @@ export default class Colors {
         this.update();
     }
 
+    public applySelected(colors: LogoColor[]): void {
+        this._selected = colors;
+
+        for (const color in this._colorsElements) {
+            const element = this._colorsElements[color];
+            if (colors.indexOf(color as LogoColor) === -1) {
+                element.classList.remove('colors__item_selected');
+            } else {
+                element.classList.add('colors__item_selected');
+            }
+        }
+    }
+
     public setChangeCallback(callback: Callback) {
         this._onChangeCallback = callback;
     }
@@ -44,6 +58,7 @@ export default class Colors {
         const builder = new Builder().createElement;
 
         const items: HTMLElement[] = this._colors.map((color) => {
+            if (this._colorsElements[color]) return this._colorsElements[color];
             const item = builder('div', {
                 classes: ['colors__item'],
                 dataset: {
@@ -51,6 +66,7 @@ export default class Colors {
                 },
             });
             item.style.backgroundColor = ColorPalette[color];
+            this._colorsElements[color] = item;
             return item;
         });
         return items;

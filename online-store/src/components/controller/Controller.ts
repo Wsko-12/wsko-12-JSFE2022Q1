@@ -1,18 +1,25 @@
 import companiesData from '../../data/data';
 import { CompanyCountry, Filters, IDataItem, LogoColor, MinMax } from '../../interface/interface';
+import LocalStorage from '../localStorage/LocalStorage';
 
 export default class Controller {
     private readonly data: IDataItem[];
     private readonly _basicFiltersJson: string;
+    private readonly _currentFilters: Filters;
 
     constructor() {
         this.data = companiesData;
         const basicFilters = this.createFilters();
         this._basicFiltersJson = JSON.stringify(basicFilters);
+        this._currentFilters = this.createCurrentFilters(basicFilters);
     }
 
     public getBasicFilters(): Filters {
         return JSON.parse(this._basicFiltersJson);
+    }
+
+    public getCurrentFilters(): Filters {
+        return this._currentFilters;
     }
 
     public getFilteredData(filters: Filters): IDataItem[] {
@@ -75,6 +82,34 @@ export default class Controller {
                 selected: [],
             },
         };
+    }
+
+    private createCurrentFilters(basicFilters: Filters): Filters {
+        const savedFilters = new LocalStorage().getFilters();
+        return {
+            name: savedFilters?.name || '',
+            price: {
+                current: savedFilters?.price.current || basicFilters.price.current,
+                maxMin: basicFilters.price.maxMin,
+            },
+            year: {
+                current: savedFilters?.year.current || basicFilters.year.current,
+                maxMin: basicFilters.year.maxMin,
+            },
+            colors: {
+                all: basicFilters.colors.all,
+                current: savedFilters?.colors.current || basicFilters.colors.current,
+            },
+            employees: {
+                current: savedFilters?.employees.current || basicFilters.employees.current,
+                maxMin: basicFilters.employees.maxMin,
+            },
+            discountOnly: savedFilters?.discountOnly || basicFilters.discountOnly,
+            countries: {
+                all: basicFilters.countries.all,
+                selected: savedFilters?.countries.selected || basicFilters.countries.selected,
+            },
+        } as Filters;
     }
 
     private filterByDiscount(filters: Filters, data: IDataItem[]): IDataItem[] {
