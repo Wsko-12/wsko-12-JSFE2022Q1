@@ -3,7 +3,7 @@ import Builder from '../builder/Builder';
 import Card from '../card/Card';
 import './style.scss';
 
-type Sort = '-' | 'alphabetA' | 'alphabetZ' | 'priceL' | 'priceH';
+type Sort = '-' | 'alphabetA' | 'alphabetZ' | 'yearL' | 'yearH' | 'priceL' | 'priceH' | 'employeeL' | 'employeeH';
 
 class Catalog {
     private _onPage: Card[] = [];
@@ -29,8 +29,12 @@ class Catalog {
             const options: [Sort, string][] = [
                 ['alphabetA', 'Name: A-Z'],
                 ['alphabetZ', 'Name: Z-A'],
+                ['yearL', 'Year: Young-Old'],
+                ['yearH', 'Year: Old-Young'],
                 ['priceL', 'Price: Low-Hight'],
                 ['priceH', 'Price: Hight-Low'],
+                ['employeeL', 'Employee: Less-More'],
+                ['employeeH', 'Employee: More-Less'],
             ];
             return options.map((option) => {
                 return builder('option', {
@@ -115,6 +119,26 @@ class Catalog {
                     return aPrice - bPrice;
                 } else {
                     return bPrice - aPrice;
+                }
+            };
+        } else if (this._sortSelected === 'employeeL' || this._sortSelected === 'employeeH') {
+            sortFunc = (a: Card, b: Card) => {
+                const aEmployees = a.company.employees;
+                const bEmployees = b.company.employees;
+                if (this._sortSelected === 'employeeL') {
+                    return aEmployees - bEmployees;
+                } else {
+                    return bEmployees - aEmployees;
+                }
+            };
+        } else if (this._sortSelected === 'yearL' || this._sortSelected === 'yearH') {
+            sortFunc = (a: Card, b: Card) => {
+                const aYear = a.company.year;
+                const bYear = b.company.year;
+                if (this._sortSelected === 'yearL') {
+                    return bYear - aYear;
+                } else {
+                    return aYear - bYear;
                 }
             };
         }
