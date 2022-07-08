@@ -19,6 +19,14 @@ export default class LocalStorage {
         this._storage.setItem('filters', json);
     }
 
+    public saveSorting(sorting: string) {
+        this._storage.setItem('sorting', sorting);
+    }
+
+    public getSorting(): string | null {
+        return this._storage.getItem('sorting');
+    }
+
     public clear(): void {
         this._storage.clear();
     }

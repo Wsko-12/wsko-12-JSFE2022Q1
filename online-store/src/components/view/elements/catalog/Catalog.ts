@@ -1,4 +1,5 @@
 import { IDataItem } from '../../../../interface/interface';
+import LocalStorage from '../../../localStorage/LocalStorage';
 import Builder from '../builder/Builder';
 import Card from '../card/Card';
 import './style.scss';
@@ -10,11 +11,14 @@ class Catalog {
     private _element: HTMLElement | undefined;
     private _container: HTMLElement | undefined;
     private _containerClone: HTMLElement | undefined;
+    private _localStorage: LocalStorage = new LocalStorage();
 
     private _sortSelected: Sort = '-';
 
     private _cache: { [key: string]: Card } = {};
     public build(): HTMLElement {
+        this._sortSelected = (this._localStorage.getSorting() as Sort) || '-';
+
         const builder = new Builder().createElement;
 
         const header = builder('header', {
@@ -25,7 +29,7 @@ class Catalog {
             classes: ['catalog__subtitle'],
             content: 'Sort: ',
         });
-        function generateOptions(): HTMLElement[] {
+        const generateOptions = (): HTMLElement[] => {
             const options: [Sort, string][] = [
                 ['alphabetA', 'Name: A-Z'],
                 ['alphabetZ', 'Name: Z-A'],
@@ -37,14 +41,17 @@ class Catalog {
                 ['employeeH', 'Employee: More-Less'],
             ];
             return options.map((option) => {
-                return builder('option', {
+                const element = builder('option', {
                     attrs: {
                         value: option[0],
                     },
                     content: option[1],
-                });
+                }) as HTMLOptionElement;
+                element.selected = this._sortSelected === option[0];
+                return element;
             });
-        }
+        };
+
         const noSortOption = builder('option', {
             attrs: {
                 value: '-',
@@ -56,7 +63,7 @@ class Catalog {
             attrs: {
                 name: 'sorting',
             },
-            content: [noSortOption, ...generateOptions()],
+            content: this._sortSelected === '-' ? [noSortOption, ...generateOptions()] : generateOptions(),
         });
         header.append(sortTitle, options);
         options.addEventListener('change', (e: Event) => {
@@ -67,6 +74,7 @@ class Catalog {
             }
             if (this._sortSelected === value || value === '-') return;
             this._sortSelected = select.options[select.selectedIndex].value as Sort;
+            this._localStorage.saveSorting(value);
             this.sortOnPageArr();
             this.sortView();
         });
