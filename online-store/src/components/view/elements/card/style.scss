@@ -3,6 +3,7 @@
     width: 180px;
     height: 288px;
     background-color: white;
+
     margin: 0;
     padding: 10px;
     color: #303030;
@@ -18,6 +19,17 @@
         box-shadow: 10px 10px 10px rgba($color: #000000, $alpha: 0.3);
         z-index: 100;
     }
+
+    &_on-sort{
+        transition-duration: 0.05s;
+        width: 0;
+        box-shadow: none;
+        position: relative;
+        left: 100px;
+        visibility: hidden;
+        overflow: hidden;
+    }
+
     @include media-laptop-small{
         width: 180px;
         height: 288px;
@@ -35,6 +47,7 @@
         justify-content: center;
     }
 }
+
 .card__image{
     width: 100%;
     height: 60%;
