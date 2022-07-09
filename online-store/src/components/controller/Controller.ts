@@ -15,10 +15,6 @@ export default class Controller {
         this._currentFilters = this.loadFilters(basicFilters);
     }
 
-    public getBasicFilters(): Filters {
-        return JSON.parse(this._basicFiltersJson);
-    }
-
     public getCurrentFilters(): Filters {
         return this._currentFilters;
     }
@@ -28,7 +24,7 @@ export default class Controller {
     }
 
     public clear(): void {
-        this._currentFilters = this.getBasicFilters();
+        this._currentFilters = JSON.parse(this._basicFiltersJson);
     }
 
     private calculateFilters(): Filters {
@@ -91,28 +87,29 @@ export default class Controller {
 
     private loadFilters(basicFilters: Filters): Filters {
         const savedFilters = new LocalStorage().getFilters();
+        if (!savedFilters) return basicFilters;
         return {
-            name: savedFilters?.name || '',
+            name: savedFilters.name,
             price: {
-                current: savedFilters?.price.current || basicFilters.price.current,
+                current: savedFilters.price.current,
                 maxMin: basicFilters.price.maxMin,
             },
             year: {
-                current: savedFilters?.year.current || basicFilters.year.current,
+                current: savedFilters?.year.current,
                 maxMin: basicFilters.year.maxMin,
             },
             colors: {
                 all: basicFilters.colors.all,
-                selected: savedFilters?.colors.selected || basicFilters.colors.selected,
+                selected: savedFilters?.colors.selected,
             },
             employees: {
-                current: savedFilters?.employees.current || basicFilters.employees.current,
+                current: savedFilters?.employees.current,
                 maxMin: basicFilters.employees.maxMin,
             },
-            discountOnly: savedFilters?.discountOnly || basicFilters.discountOnly,
+            discountOnly: savedFilters?.discountOnly,
             countries: {
                 all: basicFilters.countries.all,
-                selected: savedFilters?.countries.selected || basicFilters.countries.selected,
+                selected: savedFilters?.countries.selected,
             },
         } as Filters;
     }
