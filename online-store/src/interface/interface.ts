@@ -7,6 +7,17 @@ export enum ColorPalette {
     black = '#303030',
     gray = '#C9CAD9',
 }
+export type Sort =
+    | '-'
+    | 'alphabetA'
+    | 'alphabetZ'
+    | 'yearL'
+    | 'yearH'
+    | 'priceL'
+    | 'priceH'
+    | 'employeeL'
+    | 'employeeH';
+
 export type CompanyCountry = 'USA' | 'Europe' | 'Russia';
 export interface IDataItem {
     name: string;

@@ -1,11 +1,10 @@
-import { IDataItem } from '../../../../interface/interface';
+import { IDataItem, Sort } from '../../../../interface/interface';
 import Basket from '../../../basket/Basket';
 import LocalStorage from '../../../localStorage/LocalStorage';
 import Builder from '../builder/Builder';
 import Card from '../card/Card';
+import SortingElement from './sortingElement/SortingElement';
 import './style.scss';
-
-type Sort = '-' | 'alphabetA' | 'alphabetZ' | 'yearL' | 'yearH' | 'priceL' | 'priceH' | 'employeeL' | 'employeeH';
 
 class Catalog {
     private _onPage: Card[] = [];
@@ -14,7 +13,8 @@ class Catalog {
     private _containerClone: HTMLElement | undefined;
     private _localStorage: LocalStorage = new LocalStorage();
     private _basket: Basket = new Basket();
-    private _sortingOptions: HTMLSelectElement | undefined;
+    private _sortingElement: SortingElement | undefined;
+
     private _sortSelected: Sort = '-';
 
     private _cache: { [key: string]: Card } = {};
@@ -31,55 +31,17 @@ class Catalog {
             classes: ['catalog__subtitle'],
             content: 'Sort: ',
         });
-        const generateOptions = (): HTMLElement[] => {
-            const options: [Sort, string][] = [
-                ['alphabetA', 'Name: A-Z'],
-                ['alphabetZ', 'Name: Z-A'],
-                ['yearL', 'Year: Young-Old'],
-                ['yearH', 'Year: Old-Young'],
-                ['priceL', 'Price: Low-Hight'],
-                ['priceH', 'Price: Hight-Low'],
-                ['employeeL', 'Employee: Less-More'],
-                ['employeeH', 'Employee: More-Less'],
-            ];
-            return options.map((option) => {
-                const element = builder('option', {
-                    attrs: {
-                        value: option[0],
-                    },
-                    content: option[1],
-                }) as HTMLOptionElement;
-                element.selected = this._sortSelected === option[0];
-                return element;
-            });
-        };
 
-        const noSortOption = builder('option', {
-            attrs: {
-                value: '-',
-            },
-            content: '-',
-        });
-        this._sortingOptions = builder('select', {
-            classes: ['catalog__select'],
-            attrs: {
-                name: 'sorting',
-            },
-            content: this._sortSelected === '-' ? [noSortOption, ...generateOptions()] : generateOptions(),
-        }) as HTMLSelectElement;
-        header.append(sortTitle, this._sortingOptions);
-        this._sortingOptions.addEventListener('change', (e: Event) => {
-            const select = e.target as HTMLSelectElement;
-            const value = select.options[select.selectedIndex].value;
-            if (value != '-') {
-                noSortOption.remove();
-            }
+        this._sortingElement = new SortingElement();
+        this._sortingElement.setChangeCallback((value: Sort) => {
             if (this._sortSelected === value || value === '-') return;
-            this._sortSelected = select.options[select.selectedIndex].value as Sort;
+            this._sortSelected = value;
             this._localStorage.saveSorting(value);
             this.sortOnPageArr();
             this.sortView();
         });
+
+        header.append(sortTitle, this._sortingElement.getElement());
 
         this._container = builder('div', {
             classes: 'catalog__container',
@@ -112,15 +74,7 @@ class Catalog {
 
     public clear() {
         this._sortSelected = '-';
-        const builder = new Builder().createElement;
-        const noSortOption = builder('option', {
-            attrs: {
-                value: '-',
-            },
-            content: '-',
-        }) as HTMLOptionElement;
-        noSortOption.selected = true;
-        this._sortingOptions?.prepend(noSortOption);
+        this._sortingElement?.clear();
         for (const card in this._cache) {
             this._cache[card].getElement().style.order = '';
         }
