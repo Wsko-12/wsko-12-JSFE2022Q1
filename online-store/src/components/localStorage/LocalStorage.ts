@@ -9,14 +9,10 @@ export default class LocalStorage {
     }
 
     public getFilters(): Filters | null {
-        const json: string | null = this._storage.getItem('filters');
-        if (!json) return null;
-        const parsed = JSON.parse(json) as Filters;
-        return parsed;
+        return this.getAndParse('filters');
     }
     public saveFilters(filters: Filters): void {
-        const json = JSON.stringify(filters);
-        this._storage.setItem('filters', json);
+        this.save('filters', filters);
     }
 
     public saveSorting(sorting: string) {
@@ -29,5 +25,17 @@ export default class LocalStorage {
 
     public clear(): void {
         this._storage.clear();
+    }
+
+    private getAndParse<T>(key: string): T | null {
+        const json: string | null = this._storage.getItem(key);
+        if (!json) return null;
+        const parsed = JSON.parse(json) as T;
+        return parsed;
+    }
+
+    private save<T>(key: string, data: T): void {
+        const json = JSON.stringify(data);
+        this._storage.setItem(key, json);
     }
 }
