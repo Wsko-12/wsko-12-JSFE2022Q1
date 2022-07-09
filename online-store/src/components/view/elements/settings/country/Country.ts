@@ -8,7 +8,8 @@ export default class County {
     private _flags: { [key: string]: HTMLElement } = {};
     private _selected: CompanyCountry[] = [];
 
-    private _onChangeCallback: Callback | undefined;
+    private _onChangeCallback: Callback | null = null;
+
     constructor(label: string) {
         const builder = new Builder().createElement;
 
@@ -33,6 +34,7 @@ export default class County {
             }
         });
     }
+
     public getElement(): HTMLElement {
         return this._element;
     }
@@ -44,7 +46,7 @@ export default class County {
         });
     }
 
-    public applySelected(selected: CompanyCountry[] | CompanyCountry) {
+    public applySelected(selected: CompanyCountry[] | CompanyCountry): void {
         if (Array.isArray(selected)) {
             this._selected = selected;
             this.markAllSelected();
@@ -61,17 +63,17 @@ export default class County {
         }
     }
 
-    public setChangeCallback(callback: Callback) {
+    public setChangeCallback(callback: Callback): void {
         this._onChangeCallback = callback;
     }
 
-    private onChange() {
+    private onChange(): void {
         if (this._onChangeCallback) {
             this._onChangeCallback(this._selected);
         }
     }
 
-    private markAllSelected() {
+    private markAllSelected(): void {
         for (const flag in this._flags) {
             const flagElement = this._flags[flag];
             flagElement.classList.remove('country__flag_selected');

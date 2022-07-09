@@ -3,12 +3,14 @@ import Builder from '../../builder/Builder';
 import './style.scss';
 type Callback = (colors: LogoColor[]) => void;
 export default class Colors {
-    private _onChangeCallback: Callback | undefined;
     private _colors: LogoColor[] = [];
     private _element: HTMLElement;
     private _colorsElements: { [key: string]: HTMLElement } = {};
     private _container: HTMLElement;
     private _selected: LogoColor[] = [];
+
+    private _onChangeCallback: Callback | undefined;
+
     constructor(label: string) {
         const builder = new Builder().createElement;
 
@@ -32,6 +34,7 @@ export default class Colors {
     public getElement(): HTMLElement {
         return this._element;
     }
+
     public setColors(colors: LogoColor[]): void {
         this._colors = colors;
         this.update();
@@ -50,7 +53,7 @@ export default class Colors {
         }
     }
 
-    public setChangeCallback(callback: Callback) {
+    public setChangeCallback(callback: Callback): void {
         this._onChangeCallback = callback;
     }
 
@@ -77,7 +80,7 @@ export default class Colors {
         this._container.append(...this.generateColorsItem());
     }
 
-    private applyListeners() {
+    private applyListeners(): void {
         this._container.addEventListener('click', (e) => {
             if (e.target !== this._container) {
                 const element = e.target as HTMLElement;
@@ -94,7 +97,7 @@ export default class Colors {
         });
     }
 
-    private onChange() {
+    private onChange(): void {
         if (this._onChangeCallback) {
             this._onChangeCallback(this._selected);
         }

@@ -7,10 +7,11 @@ import Basket from '../basket/Basket';
 class App {
     public view: AppView = new AppView();
     public controller: Controller = new Controller();
-    private _basket: Basket = new Basket();
 
+    private _basket: Basket = new Basket();
     private _localStorage: LocalStorage = new LocalStorage();
-    public start() {
+
+    public start(): void {
         this.view.build();
         const startFilters = this.controller.getCurrentFilters();
         this.view.setStartFilters(startFilters);

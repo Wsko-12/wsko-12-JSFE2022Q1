@@ -47,38 +47,39 @@ class AppView {
         (document.querySelector('#searchInput') as HTMLElement).focus();
     }
 
-    public clear() {
+    public clear(): void {
         this.catalog.clear();
     }
 
-    public setSettingsChangeCallback(callback: (filters: Filters) => void) {
+    public setSettingsChangeCallback(callback: (filters: Filters) => void): void {
         this._onSettingsChangeCallback = callback;
     }
 
-    public setSettingsResetCallback(callback: () => void) {
+    public setSettingsResetCallback(callback: () => void): void {
         this._onSettingsResetCallback = callback;
     }
 
-    public setSettingsFullResetCallback(callback: () => void) {
+    public setSettingsFullResetCallback(callback: () => void): void {
         this._onSettingsFullResetCallback = callback;
     }
 
-    public drawCards(data: IDataItem[]) {
+    public drawCards(data: IDataItem[]): void {
         this.catalog.fill(data);
     }
+
     public setStartFilters(filter: Filters): void {
         this.settings.setStartFilters(filter);
     }
 
-    private onChange(filters: Filters) {
+    private onChange(filters: Filters): void {
         if (this._onSettingsChangeCallback) this._onSettingsChangeCallback(filters);
     }
 
-    private onReset() {
+    private onReset(): void {
         if (this._onSettingsResetCallback) this._onSettingsResetCallback();
     }
 
-    private onFullReset() {
+    private onFullReset(): void {
         if (this._onSettingsFullResetCallback) this._onSettingsFullResetCallback();
     }
 }

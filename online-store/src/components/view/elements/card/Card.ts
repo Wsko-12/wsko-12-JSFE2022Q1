@@ -24,6 +24,19 @@ class Card {
         this.company = data;
         this._element = this.build();
     }
+
+    public getElement(): HTMLElement {
+        return this._element;
+    }
+
+    public markInBasket(inBasket: boolean): void {
+        if (inBasket) {
+            this._element.classList.add('card_in-basket');
+        } else {
+            this._element.classList.remove('card_in-basket');
+        }
+    }
+
     private build(): HTMLElement {
         const builder = new Builder().createElement;
 
@@ -78,17 +91,6 @@ class Card {
         });
         return element;
     }
-    public getElement(): HTMLElement {
-        return this._element;
-    }
-
-    public markInBasket(inBasket: boolean): void {
-        if (inBasket) {
-            this._element.classList.add('card_in-basket');
-        } else {
-            this._element.classList.remove('card_in-basket');
-        }
-    }
 
     private createPriceElement(): HTMLElement {
         const builder = new Builder().createElement;
@@ -99,10 +101,10 @@ class Card {
         const priceFormatted = (Math.floor((price / 10 ** 9) * 100) / 100).toString();
         if (discount > 0) {
             const priceWithDiscount = price - price * (discount / 100);
-            const priceWithDiscoutnFormatted = (Math.floor((priceWithDiscount / 10 ** 9) * 100) / 100).toString();
+            const priceWithDiscountFormatted = (Math.floor((priceWithDiscount / 10 ** 9) * 100) / 100).toString();
             element = builder('p', {
                 classes: 'card__price',
-                content: `<s>$${priceFormatted}b</s> <b>$${priceWithDiscoutnFormatted}B</b>`,
+                content: `<s>$${priceFormatted}b</s> <b>$${priceWithDiscountFormatted}B</b>`,
             });
         } else {
             element = builder('p', {

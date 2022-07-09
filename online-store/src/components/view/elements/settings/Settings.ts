@@ -8,9 +8,6 @@ import './style.scss';
 
 class Settings {
     private _currentFilters: Filters;
-    private _onChangeCallback: ((filters: Filters) => void) | null = null;
-    private _onResetCallback: (() => void) | null = null;
-    private _onFullResetCallback: (() => void) | null = null;
 
     private _resetButton: HTMLButtonElement | undefined;
     private _fullResetButton: HTMLButtonElement | undefined;
@@ -21,8 +18,11 @@ class Settings {
     private _discountCheckBox: HTMLInputElement | undefined;
     private _countries: County | undefined;
     private _searchInput: HTMLInputElement | undefined;
-
     private _colors: Colors | undefined;
+
+    private _onChangeCallback: ((filters: Filters) => void) | null = null;
+    private _onResetCallback: (() => void) | null = null;
+    private _onFullResetCallback: (() => void) | null = null;
 
     constructor() {
         this._currentFilters = {
@@ -193,7 +193,7 @@ class Settings {
         return element;
     }
 
-    public setStartFilters(filters: Filters) {
+    public setStartFilters(filters: Filters): void {
         this._currentFilters = filters;
 
         (this._searchInput as HTMLInputElement).value = filters.name;
@@ -216,27 +216,27 @@ class Settings {
         this._countries?.applySelected(filters.countries.selected);
     }
 
-    public setChangeCallback(callback: (filters: Filters) => void) {
+    public setChangeCallback(callback: (filters: Filters) => void): void {
         this._onChangeCallback = callback;
     }
 
-    public setResetCallback(callback: () => void) {
+    public setResetCallback(callback: () => void): void {
         this._onResetCallback = callback;
     }
 
-    public setFullResetCallback(callback: () => void) {
+    public setFullResetCallback(callback: () => void): void {
         this._onFullResetCallback = callback;
     }
 
-    private onChange() {
+    private onChange(): void {
         if (this._onChangeCallback) this._onChangeCallback(this._currentFilters);
     }
 
-    private onReset() {
+    private onReset(): void {
         if (this._onResetCallback) this._onResetCallback();
     }
 
-    private onFullReset() {
+    private onFullReset(): void {
         if (this._onFullResetCallback) this._onFullResetCallback();
     }
 }

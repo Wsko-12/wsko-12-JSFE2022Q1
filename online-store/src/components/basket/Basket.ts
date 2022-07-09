@@ -1,15 +1,16 @@
 import LocalStorage from '../localStorage/LocalStorage';
 
 type Listener = (basket: string[]) => void;
+
 export default class Basket {
     private static _instance: Basket;
     private _localStorage: LocalStorage = new LocalStorage();
     private _items: string[] = this._localStorage.getBasket() || [];
-    private _onChangeListeners: Listener[] = [];
-    private _onFullListeners: Listener[] = [];
-    private _onClearListeners: (() => void)[] = [];
 
     private _maxItems = 20;
+
+    private _onChangeListeners: Listener[] = [];
+    private _onFullListeners: Listener[] = [];
 
     constructor() {
         if (!Basket._instance) Basket._instance = this;
@@ -24,11 +25,11 @@ export default class Basket {
         return this._items.indexOf(companyName) != -1;
     }
 
-    public addOnChangeListener(listener: Listener) {
+    public addOnChangeListener(listener: Listener): void {
         this._onChangeListeners.push(listener);
     }
 
-    public addOnFullListener(listener: Listener) {
+    public addOnFullListener(listener: Listener): void {
         this._onChangeListeners.push(listener);
     }
 
@@ -59,14 +60,14 @@ export default class Basket {
         }
     }
 
-    private onChange() {
+    private onChange(): void {
         this._localStorage.saveBasket(this._items);
         this._onChangeListeners.forEach((listener) => {
             listener(this._items);
         });
     }
 
-    private onFull() {
+    private onFull(): void {
         console.log('Bassket full');
         this._onFullListeners.forEach((listener) => {
             listener(this._items);

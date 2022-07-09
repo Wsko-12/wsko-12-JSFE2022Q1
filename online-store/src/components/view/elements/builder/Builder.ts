@@ -7,10 +7,12 @@ interface createElementProps {
 }
 class Builder {
     private static _instance: Builder;
+
     constructor() {
         if (!Builder._instance) Builder._instance = this;
         return Builder._instance;
     }
+
     public createElement(tag: string, properties: createElementProps = {}): HTMLElement {
         const element = document.createElement(tag) as HTMLElement;
         if (properties.classes) {

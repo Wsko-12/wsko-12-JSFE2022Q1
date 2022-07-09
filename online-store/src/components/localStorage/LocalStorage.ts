@@ -19,11 +19,12 @@ export default class LocalStorage {
     public getFilters(): Filters | null {
         return this.getAndParse('filters');
     }
+
     public saveFilters(filters: Filters): void {
         this.save('filters', filters);
     }
 
-    public saveSorting(sorting: string) {
+    public saveSorting(sorting: string): void {
         this._storage.setItem('sorting', sorting);
     }
 

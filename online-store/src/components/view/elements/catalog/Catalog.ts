@@ -18,6 +18,7 @@ class Catalog {
     private _sortSelected: Sort = '-';
 
     private _cache: { [key: string]: Card } = {};
+
     public build(): HTMLElement {
         this._sortSelected = (this._localStorage.getSorting() as Sort) || '-';
 
@@ -59,7 +60,8 @@ class Catalog {
         this.applyEvents();
         return element;
     }
-    public fill(companiesData: IDataItem[]) {
+
+    public fill(companiesData: IDataItem[]): void {
         (this._container as HTMLElement).innerHTML = '';
         this._onPage = companiesData.map((company) => {
             if (!this._cache[company.name]) {
@@ -72,13 +74,14 @@ class Catalog {
         this._container?.append(...this._onPage.map((card) => card.getElement()));
     }
 
-    public clear() {
+    public clear(): void {
         this._sortSelected = '-';
         this._sortingElement?.clear();
         for (const card in this._cache) {
             this._cache[card].getElement().style.order = '';
         }
     }
+
     private sortOnPageArr(): void {
         if (this._sortSelected === '-') return;
         let sortFunc: (a: Card, b: Card) => number = () => 0;
@@ -126,7 +129,8 @@ class Catalog {
 
         this._onPage.sort(sortFunc);
     }
-    private sortView() {
+
+    private sortView(): void {
         (this._container as HTMLElement).classList.add('catalog__container_on-sort');
         (this._containerClone as HTMLElement).innerHTML = (this._container as HTMLElement).innerHTML;
         const containerRect = (this._container as HTMLElement).getBoundingClientRect();
@@ -175,7 +179,7 @@ class Catalog {
         }, 200);
     }
 
-    private applyEvents() {
+    private applyEvents(): void {
         this._container?.addEventListener('click', (e: MouseEvent) => {
             if (e.target != this._container) {
                 const element = (e.target as HTMLElement).closest('.card') as HTMLElement;

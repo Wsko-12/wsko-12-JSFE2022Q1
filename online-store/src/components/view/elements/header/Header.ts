@@ -5,18 +5,6 @@ class Header {
     private _basket: Basket = new Basket();
     private _basketCounter: HTMLElement | undefined;
 
-    private onBasketChange = (basket: string[]) => {
-        const count = basket.length;
-        if (this._basketCounter) {
-            this._basketCounter.innerHTML = count.toString();
-            if (count > 0) {
-                this._basketCounter?.classList.remove('basket-icon__counter_hidden');
-            } else {
-                this._basketCounter?.classList.add('basket-icon__counter_hidden');
-            }
-        }
-    };
-
     public build(): HTMLElement {
         const builder = new Builder().createElement;
         this._basket.addOnChangeListener(this.onBasketChange);
@@ -62,5 +50,17 @@ class Header {
 
         return element;
     }
+
+    private onBasketChange = (basket: string[]): void => {
+        const count = basket.length;
+        if (this._basketCounter) {
+            this._basketCounter.innerHTML = count.toString();
+            if (count > 0) {
+                this._basketCounter?.classList.remove('basket-icon__counter_hidden');
+            } else {
+                this._basketCounter?.classList.add('basket-icon__counter_hidden');
+            }
+        }
+    };
 }
 export default Header;

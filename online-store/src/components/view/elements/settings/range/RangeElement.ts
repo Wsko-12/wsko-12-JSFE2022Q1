@@ -16,7 +16,6 @@ export default class RangeElement {
     private _progressBar: HTMLElement | undefined;
     private _bar: HTMLElement | undefined;
     private _label: HTMLElement | undefined;
-    private _labelsTemplate: (value: number) => string;
 
     private _currentMin: number;
     private _currentMax: number;
@@ -25,7 +24,8 @@ export default class RangeElement {
     private _currentMinValue: number;
     private _currentMaxValue: number;
 
-    private _onChangeCallback: Callback | undefined;
+    private _labelsTemplate: (value: number) => string;
+    private _onChangeCallback: Callback | null = null;
 
     constructor(label: string, id: string, range: MinMax, labelsTemplate?: (value: number) => string) {
         this._range = range;
@@ -44,7 +44,7 @@ export default class RangeElement {
         return this._element;
     }
 
-    public setChangeCallback(callback: Callback) {
+    public setChangeCallback(callback: Callback): void {
         this._onChangeCallback = callback;
     }
 
@@ -130,7 +130,7 @@ export default class RangeElement {
         return container;
     }
 
-    private update() {
+    private update(): void {
         this.changeLabels();
         this.changeProgressBar();
         this.moveBothSliders();
@@ -180,7 +180,7 @@ export default class RangeElement {
         });
     }
 
-    private moveBothSliders() {
+    private moveBothSliders(): void {
         (this._sliderStartHidden as HTMLElement).style.left = this._currentMin + '%';
         (this._sliderEndHidden as HTMLElement).style.left = this._currentMax + '%';
 
@@ -203,7 +203,7 @@ export default class RangeElement {
         this._sliderEnd?.classList.remove('range-bar__slider_active');
     }
 
-    private changeProgressBar() {
+    private changeProgressBar(): void {
         if (this._progressBar) {
             const step = 100 / (this._range[1] - this._range[0]);
             const minStepped = Math.round(this._currentMin / step) * step;
@@ -230,7 +230,7 @@ export default class RangeElement {
         return startDist < endDist ? (this._sliderStart as HTMLElement) : (this._sliderEnd as HTMLElement);
     }
 
-    private moveSliderTo(slider: HTMLElement, percent: number) {
+    private moveSliderTo(slider: HTMLElement, percent: number): void {
         const isMin = slider === this._sliderStart;
         const stepMin = this._range[0];
         const stepMax = this._range[1];
@@ -257,7 +257,7 @@ export default class RangeElement {
         }
     }
 
-    private changeLabels() {
+    private changeLabels(): void {
         const deltaValue = this._range[1] - this._range[0];
         const minValue = this._range[0] + Math.round((deltaValue * this._currentMin) / 100);
         const maxValue = this._range[0] + Math.round((deltaValue * this._currentMax) / 100);
@@ -267,7 +267,7 @@ export default class RangeElement {
         this._currentMaxValue = maxValue;
     }
 
-    private moveSlider(clientX: number) {
+    private moveSlider(clientX: number): void {
         const slider = this.getClosestSlider(clientX);
         const mousePosition = this.calculateMousePosition(clientX);
         this.removeActiveClass();
@@ -277,7 +277,7 @@ export default class RangeElement {
         this.changeLabels();
     }
 
-    private onChange() {
+    private onChange(): void {
         if (this._onChangeCallback) {
             this._onChangeCallback(this._currentMinValue, this._currentMaxValue);
         }

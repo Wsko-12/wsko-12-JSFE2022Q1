@@ -26,7 +26,7 @@ export default class Controller {
         return this.filter(filters);
     }
 
-    public clear() {
+    public clear(): void {
         this._currentFilters = this.getBasicFilters();
     }
 
