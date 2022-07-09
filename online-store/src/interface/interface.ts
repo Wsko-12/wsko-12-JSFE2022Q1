@@ -42,7 +42,7 @@ export interface Filters {
         maxMin: MinMax;
     };
     colors: {
-        current: LogoColor[];
+        selected: LogoColor[];
         all: LogoColor[];
     };
     employees: {

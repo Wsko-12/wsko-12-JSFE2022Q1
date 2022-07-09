@@ -14,20 +14,13 @@ class App {
     public start(): void {
         this.view.build();
         const startFilters = this.controller.getCurrentFilters();
-        this.view.setStartFilters(startFilters);
+        this.view.setFilters(startFilters);
 
         this.view.drawCards(this.controller.getFilteredData(startFilters));
 
         this.view.setSettingsChangeCallback((filters: Filters) => {
             this._localStorage.saveFilters(filters);
             this.view.drawCards(this.controller.getFilteredData(filters));
-        });
-
-        this.view.setSettingsResetCallback(() => {
-            const basicFilters = this.controller.getBasicFilters();
-            this._localStorage.saveFilters(basicFilters);
-            this.view.setStartFilters(basicFilters);
-            this.view.drawCards(this.controller.getFilteredData(basicFilters));
         });
 
         this.view.setSettingsFullResetCallback(() => {
@@ -37,7 +30,7 @@ class App {
             this.view.clear();
             const basicFilters = this.controller.getBasicFilters();
             this._localStorage.saveFilters(basicFilters);
-            this.view.setStartFilters(basicFilters);
+            this.view.setFilters(basicFilters);
             this.view.drawCards(this.controller.getFilteredData(basicFilters));
         });
     }

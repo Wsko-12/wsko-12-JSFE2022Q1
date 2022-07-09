@@ -67,6 +67,11 @@ export default class County {
         this._onChangeCallback = callback;
     }
 
+    public reset(): void {
+        this._selected = [];
+        this.markAllSelected();
+    }
+
     private onChange(): void {
         if (this._onChangeCallback) {
             this._onChangeCallback(this._selected);

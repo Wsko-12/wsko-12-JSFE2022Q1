@@ -42,19 +42,27 @@ export default class Colors {
 
     public applySelected(colors: LogoColor[]): void {
         this._selected = colors;
+        this.markAllSelected();
+    }
 
+    public reset(): void {
+        this._selected = [];
+        this.markAllSelected();
+    }
+
+    public setChangeCallback(callback: Callback): void {
+        this._onChangeCallback = callback;
+    }
+
+    private markAllSelected(): void {
         for (const color in this._colorsElements) {
             const element = this._colorsElements[color];
-            if (colors.indexOf(color as LogoColor) === -1) {
+            if (this._selected.indexOf(color as LogoColor) === -1) {
                 element.classList.remove('colors__item_selected');
             } else {
                 element.classList.add('colors__item_selected');
             }
         }
-    }
-
-    public setChangeCallback(callback: Callback): void {
-        this._onChangeCallback = callback;
     }
 
     private generateColorsItem(): HTMLElement[] {

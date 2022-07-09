@@ -21,7 +21,6 @@ class Settings {
     private _colors: Colors | undefined;
 
     private _onChangeCallback: ((filters: Filters) => void) | null = null;
-    private _onResetCallback: (() => void) | null = null;
     private _onFullResetCallback: (() => void) | null = null;
 
     constructor() {
@@ -38,7 +37,7 @@ class Settings {
             },
             colors: {
                 all: [],
-                current: [],
+                selected: [],
             },
             employees: {
                 current: [0, 0],
@@ -70,7 +69,7 @@ class Settings {
         }) as HTMLButtonElement;
 
         this._resetButton.addEventListener('click', () => {
-            this.onReset();
+            this.reset();
         });
 
         this._fullResetButton = builder('input', {
@@ -144,7 +143,7 @@ class Settings {
 
         this._colors = new Colors('Logo colors');
         this._colors.setChangeCallback((colors: LogoColor[]) => {
-            this._currentFilters.colors.current = colors;
+            this._currentFilters.colors.selected = colors;
             this.onChange();
         });
 
@@ -193,9 +192,34 @@ class Settings {
         return element;
     }
 
-    public setStartFilters(filters: Filters): void {
+    public setFilters(filters: Filters): void {
         this._currentFilters = filters;
+        this.setElements();
+    }
 
+    public setChangeCallback(callback: (filters: Filters) => void): void {
+        this._onChangeCallback = callback;
+    }
+
+    public setFullResetCallback(callback: () => void): void {
+        this._onFullResetCallback = callback;
+    }
+
+    private onChange(): void {
+        if (this._onChangeCallback) this._onChangeCallback(this._currentFilters);
+    }
+
+    private onFullReset(): void {
+        if (this._onFullResetCallback) this._onFullResetCallback();
+    }
+
+    private reset() {
+        this.resetElements();
+        this.resetCurrentFilters();
+    }
+
+    private setElements() {
+        const filters = this._currentFilters;
         (this._searchInput as HTMLInputElement).value = filters.name;
 
         this._priceRange?.setMinMax(...filters.price.maxMin);
@@ -208,7 +232,7 @@ class Settings {
         this._employeeRange?.setCurrentMinMax(...filters.employees.current);
 
         this._colors?.setColors(filters.colors.all);
-        this._colors?.applySelected(filters.colors.current);
+        this._colors?.applySelected(filters.colors.selected);
 
         (this._discountCheckBox as HTMLInputElement).checked = filters.discountOnly;
 
@@ -216,28 +240,26 @@ class Settings {
         this._countries?.applySelected(filters.countries.selected);
     }
 
-    public setChangeCallback(callback: (filters: Filters) => void): void {
-        this._onChangeCallback = callback;
+    private resetElements() {
+        (this._searchInput as HTMLInputElement).value = '';
+        this._priceRange?.reset();
+        this._yearRange?.reset();
+        this._employeeRange?.reset();
+        (this._discountCheckBox as HTMLInputElement).checked = false;
+        this._colors?.reset();
+        this._countries?.reset();
     }
 
-    public setResetCallback(callback: () => void): void {
-        this._onResetCallback = callback;
-    }
+    private resetCurrentFilters() {
+        this._currentFilters.name = '';
+        this._currentFilters.discountOnly = false;
+        this._currentFilters.colors.selected = [];
+        this._currentFilters.countries.selected = [];
+        this._currentFilters.year.current = [...this._currentFilters.year.maxMin];
+        this._currentFilters.price.current = [...this._currentFilters.price.maxMin];
+        this._currentFilters.employees.current = [...this._currentFilters.employees.maxMin];
 
-    public setFullResetCallback(callback: () => void): void {
-        this._onFullResetCallback = callback;
-    }
-
-    private onChange(): void {
-        if (this._onChangeCallback) this._onChangeCallback(this._currentFilters);
-    }
-
-    private onReset(): void {
-        if (this._onResetCallback) this._onResetCallback();
-    }
-
-    private onFullReset(): void {
-        if (this._onFullResetCallback) this._onFullResetCallback();
+        this.onChange();
     }
 }
 export default Settings;

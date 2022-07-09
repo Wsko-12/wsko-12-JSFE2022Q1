@@ -10,16 +10,11 @@ class AppView {
     private settings: Settings = new Settings();
     private catalog: Catalog = new Catalog();
     private _onSettingsChangeCallback: ((filters: Filters) => void) | null = null;
-    private _onSettingsResetCallback: (() => void) | null = null;
     private _onSettingsFullResetCallback: (() => void) | null = null;
 
     public build(): void {
         this.settings.setChangeCallback((filters: Filters) => {
             this.onChange(filters);
-        });
-
-        this.settings.setResetCallback(() => {
-            this.onReset();
         });
 
         this.settings.setFullResetCallback(() => {
@@ -55,10 +50,6 @@ class AppView {
         this._onSettingsChangeCallback = callback;
     }
 
-    public setSettingsResetCallback(callback: () => void): void {
-        this._onSettingsResetCallback = callback;
-    }
-
     public setSettingsFullResetCallback(callback: () => void): void {
         this._onSettingsFullResetCallback = callback;
     }
@@ -67,16 +58,12 @@ class AppView {
         this.catalog.fill(data);
     }
 
-    public setStartFilters(filter: Filters): void {
-        this.settings.setStartFilters(filter);
+    public setFilters(filter: Filters): void {
+        this.settings.setFilters(filter);
     }
 
     private onChange(filters: Filters): void {
         if (this._onSettingsChangeCallback) this._onSettingsChangeCallback(filters);
-    }
-
-    private onReset(): void {
-        if (this._onSettingsResetCallback) this._onSettingsResetCallback();
     }
 
     private onFullReset(): void {

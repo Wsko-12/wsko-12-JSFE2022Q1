@@ -3,7 +3,7 @@ import Builder from '../../builder/Builder';
 import './style.scss';
 type Callback = (minValue: number, maxValue: number) => void;
 export default class RangeElement {
-    private _range: number[];
+    private _range: [min: number, max: number];
     private _id: string;
     private _element: HTMLElement;
 
@@ -50,6 +50,10 @@ export default class RangeElement {
 
     public setLabelsTemplate(foo: (value: number) => string): void {
         this._labelsTemplate = foo;
+    }
+
+    public reset(): void {
+        this.setCurrentMinMax(...this._range);
     }
 
     public setMinMax(min: number, max: number): void {

@@ -2,6 +2,7 @@ import companiesData from '../../data/data';
 import { CompanyCountry, Filters, IDataItem, LogoColor, MinMax } from '../../interface/interface';
 import LocalStorage from '../localStorage/LocalStorage';
 
+// TODO: make class Filter
 export default class Controller {
     private readonly data: IDataItem[];
     private readonly _basicFiltersJson: string;
@@ -9,9 +10,9 @@ export default class Controller {
 
     constructor() {
         this.data = companiesData;
-        const basicFilters = this.createFilters();
+        const basicFilters = this.calculateFilters();
         this._basicFiltersJson = JSON.stringify(basicFilters);
-        this._currentFilters = this.createCurrentFilters(basicFilters);
+        this._currentFilters = this.loadFilters(basicFilters);
     }
 
     public getBasicFilters(): Filters {
@@ -30,7 +31,7 @@ export default class Controller {
         this._currentFilters = this.getBasicFilters();
     }
 
-    private createFilters(): Filters {
+    private calculateFilters(): Filters {
         function check(value: number, minMax: MinMax) {
             if (value > minMax[1]) {
                 minMax[1] = Math.ceil(value);
@@ -74,7 +75,7 @@ export default class Controller {
             },
             colors: {
                 all: colors,
-                current: [],
+                selected: [],
             },
             employees: {
                 current: employees,
@@ -88,7 +89,7 @@ export default class Controller {
         };
     }
 
-    private createCurrentFilters(basicFilters: Filters): Filters {
+    private loadFilters(basicFilters: Filters): Filters {
         const savedFilters = new LocalStorage().getFilters();
         return {
             name: savedFilters?.name || '',
@@ -102,7 +103,7 @@ export default class Controller {
             },
             colors: {
                 all: basicFilters.colors.all,
-                current: savedFilters?.colors.current || basicFilters.colors.current,
+                selected: savedFilters?.colors.selected || basicFilters.colors.selected,
             },
             employees: {
                 current: savedFilters?.employees.current || basicFilters.employees.current,
@@ -141,12 +142,12 @@ export default class Controller {
     }
 
     private filterByLogoColor(filters: Filters, data: IDataItem[]): IDataItem[] {
-        if (filters.colors.current.length === 0) {
+        if (filters.colors.selected.length === 0) {
             return data;
         }
         return data.filter((item) => {
             const colors: LogoColor[] = item.color;
-            const selected: LogoColor[] = filters.colors.current;
+            const selected: LogoColor[] = filters.colors.selected;
             let allColors = true;
             for (let i = 0; i < selected.length; i++) {
                 if (colors.indexOf(selected[i]) === -1) {
