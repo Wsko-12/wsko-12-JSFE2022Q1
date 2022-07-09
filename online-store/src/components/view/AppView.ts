@@ -11,6 +11,7 @@ class AppView {
     private catalog: Catalog = new Catalog();
     private _onSettingsChangeCallback: ((filters: Filters) => void) | null = null;
     private _onSettingsResetCallback: (() => void) | null = null;
+    private _onSettingsFullResetCallback: (() => void) | null = null;
 
     public build(): void {
         this.settings.setChangeCallback((filters: Filters) => {
@@ -19,6 +20,10 @@ class AppView {
 
         this.settings.setResetCallback(() => {
             this.onReset();
+        });
+
+        this.settings.setFullResetCallback(() => {
+            this.onFullReset();
         });
 
         const builder = new Builder().createElement;
@@ -42,12 +47,20 @@ class AppView {
         (document.querySelector('#searchInput') as HTMLElement).focus();
     }
 
+    public clear() {
+        this.catalog.clear();
+    }
+
     public setSettingsChangeCallback(callback: (filters: Filters) => void) {
         this._onSettingsChangeCallback = callback;
     }
 
     public setSettingsResetCallback(callback: () => void) {
         this._onSettingsResetCallback = callback;
+    }
+
+    public setSettingsFullResetCallback(callback: () => void) {
+        this._onSettingsFullResetCallback = callback;
     }
 
     public drawCards(data: IDataItem[]) {
@@ -63,6 +76,10 @@ class AppView {
 
     private onReset() {
         if (this._onSettingsResetCallback) this._onSettingsResetCallback();
+    }
+
+    private onFullReset() {
+        if (this._onSettingsFullResetCallback) this._onSettingsFullResetCallback();
     }
 }
 export default AppView;

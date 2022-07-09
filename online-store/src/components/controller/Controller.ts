@@ -5,7 +5,7 @@ import LocalStorage from '../localStorage/LocalStorage';
 export default class Controller {
     private readonly data: IDataItem[];
     private readonly _basicFiltersJson: string;
-    private readonly _currentFilters: Filters;
+    private _currentFilters: Filters;
 
     constructor() {
         this.data = companiesData;
@@ -24,6 +24,10 @@ export default class Controller {
 
     public getFilteredData(filters: Filters): IDataItem[] {
         return this.filter(filters);
+    }
+
+    public clear() {
+        this._currentFilters = this.getBasicFilters();
     }
 
     private createFilters(): Filters {

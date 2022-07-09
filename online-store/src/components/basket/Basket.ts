@@ -28,10 +28,6 @@ export default class Basket {
         this._onChangeListeners.push(listener);
     }
 
-    public addOnClearListener(listener: () => void) {
-        this._onClearListeners.push(listener);
-    }
-
     public addOnFullListener(listener: Listener) {
         this._onChangeListeners.push(listener);
     }
@@ -43,7 +39,6 @@ export default class Basket {
     public clear(): void {
         this._items = [];
         this.onChange();
-        this.onClear();
     }
 
     public toggle(companyName: string): boolean {
@@ -68,12 +63,6 @@ export default class Basket {
         this._localStorage.saveBasket(this._items);
         this._onChangeListeners.forEach((listener) => {
             listener(this._items);
-        });
-    }
-
-    private onClear() {
-        this._onClearListeners.forEach((listener) => {
-            listener();
         });
     }
 

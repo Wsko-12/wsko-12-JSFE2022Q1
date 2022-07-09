@@ -14,7 +14,7 @@ class Catalog {
     private _containerClone: HTMLElement | undefined;
     private _localStorage: LocalStorage = new LocalStorage();
     private _basket: Basket = new Basket();
-
+    private _sortingOptions: HTMLSelectElement | undefined;
     private _sortSelected: Sort = '-';
 
     private _cache: { [key: string]: Card } = {};
@@ -60,15 +60,15 @@ class Catalog {
             },
             content: '-',
         });
-        const options = builder('select', {
+        this._sortingOptions = builder('select', {
             classes: ['catalog__select'],
             attrs: {
                 name: 'sorting',
             },
             content: this._sortSelected === '-' ? [noSortOption, ...generateOptions()] : generateOptions(),
-        });
-        header.append(sortTitle, options);
-        options.addEventListener('change', (e: Event) => {
+        }) as HTMLSelectElement;
+        header.append(sortTitle, this._sortingOptions);
+        this._sortingOptions.addEventListener('change', (e: Event) => {
             const select = e.target as HTMLSelectElement;
             const value = select.options[select.selectedIndex].value;
             if (value != '-') {
@@ -110,6 +110,21 @@ class Catalog {
         this._container?.append(...this._onPage.map((card) => card.getElement()));
     }
 
+    public clear() {
+        this._sortSelected = '-';
+        const builder = new Builder().createElement;
+        const noSortOption = builder('option', {
+            attrs: {
+                value: '-',
+            },
+            content: '-',
+        }) as HTMLOptionElement;
+        noSortOption.selected = true;
+        this._sortingOptions?.prepend(noSortOption);
+        for (const card in this._cache) {
+            this._cache[card].getElement().style.order = '';
+        }
+    }
     private sortOnPageArr(): void {
         if (this._sortSelected === '-') return;
         let sortFunc: (a: Card, b: Card) => number = () => 0;
@@ -214,12 +229,6 @@ class Catalog {
                 const card = this._cache[company] as Card;
                 const inBasket = this._basket.toggle(company);
                 card.markInBasket(inBasket);
-            }
-        });
-
-        this._basket.addOnClearListener(() => {
-            for (const card in this._cache) {
-                this._cache[card].markInBasket(false);
             }
         });
     }

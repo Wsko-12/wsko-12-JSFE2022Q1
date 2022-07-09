@@ -10,8 +10,11 @@ class Settings {
     private _currentFilters: Filters;
     private _onChangeCallback: ((filters: Filters) => void) | null = null;
     private _onResetCallback: (() => void) | null = null;
+    private _onFullResetCallback: (() => void) | null = null;
 
     private _resetButton: HTMLButtonElement | undefined;
+    private _fullResetButton: HTMLButtonElement | undefined;
+
     private _priceRange: RangeElement | undefined;
     private _yearRange: RangeElement | undefined;
     private _employeeRange: RangeElement | undefined;
@@ -68,6 +71,17 @@ class Settings {
 
         this._resetButton.addEventListener('click', () => {
             this.onReset();
+        });
+
+        this._fullResetButton = builder('input', {
+            attrs: {
+                type: 'button',
+                value: 'Full Reset',
+            },
+        }) as HTMLButtonElement;
+
+        this._fullResetButton.addEventListener('click', () => {
+            this.onFullReset();
         });
 
         this._searchInput = builder('input', {
@@ -175,7 +189,7 @@ class Settings {
             this.onChange();
         });
 
-        slideContainer.append(findSection, filterSection, this._resetButton);
+        slideContainer.append(findSection, filterSection, this._resetButton, this._fullResetButton);
         return element;
     }
 
@@ -210,12 +224,20 @@ class Settings {
         this._onResetCallback = callback;
     }
 
+    public setFullResetCallback(callback: () => void) {
+        this._onFullResetCallback = callback;
+    }
+
     private onChange() {
         if (this._onChangeCallback) this._onChangeCallback(this._currentFilters);
     }
 
     private onReset() {
         if (this._onResetCallback) this._onResetCallback();
+    }
+
+    private onFullReset() {
+        if (this._onFullResetCallback) this._onFullResetCallback();
     }
 }
 export default Settings;

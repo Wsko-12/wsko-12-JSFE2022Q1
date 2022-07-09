@@ -3,9 +3,12 @@ import AppView from '../view/AppView';
 import Controller from '../controller/Controller';
 import { Filters } from '../../interface/interface';
 import LocalStorage from '../localStorage/LocalStorage';
+import Basket from '../basket/Basket';
 class App {
     public view: AppView = new AppView();
     public controller: Controller = new Controller();
+    private _basket: Basket = new Basket();
+
     private _localStorage: LocalStorage = new LocalStorage();
     public start() {
         this.view.build();
@@ -20,6 +23,17 @@ class App {
         });
 
         this.view.setSettingsResetCallback(() => {
+            const basicFilters = this.controller.getBasicFilters();
+            this._localStorage.saveFilters(basicFilters);
+            this.view.setStartFilters(basicFilters);
+            this.view.drawCards(this.controller.getFilteredData(basicFilters));
+        });
+
+        this.view.setSettingsFullResetCallback(() => {
+            this._localStorage.clear();
+            this._basket.clear();
+            this.controller.clear();
+            this.view.clear();
             const basicFilters = this.controller.getBasicFilters();
             this._localStorage.saveFilters(basicFilters);
             this.view.setStartFilters(basicFilters);
