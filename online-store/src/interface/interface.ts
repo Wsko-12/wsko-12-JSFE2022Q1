@@ -55,3 +55,5 @@ export interface Filters {
     };
     discountOnly: boolean;
 }
+
+export type SettingsCallback = (filters: Filters, fullReset?: boolean) => void;

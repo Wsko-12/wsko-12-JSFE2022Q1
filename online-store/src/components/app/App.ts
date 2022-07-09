@@ -18,20 +18,15 @@ class App {
 
         this.view.drawCards(this.controller.getFilteredData(startFilters));
 
-        this.view.setSettingsChangeCallback((filters: Filters) => {
+        this.view.setSettingsChangeCallback((filters: Filters, fullReset?: boolean) => {
+            if (fullReset) {
+                this._localStorage.clear();
+                this._basket.clear();
+                this.controller.clear();
+                this.view.clear();
+            }
             this._localStorage.saveFilters(filters);
             this.view.drawCards(this.controller.getFilteredData(filters));
-        });
-
-        this.view.setSettingsFullResetCallback(() => {
-            this._localStorage.clear();
-            this._basket.clear();
-            this.controller.clear();
-            this.view.clear();
-            const basicFilters = this.controller.getBasicFilters();
-            this._localStorage.saveFilters(basicFilters);
-            this.view.setFilters(basicFilters);
-            this.view.drawCards(this.controller.getFilteredData(basicFilters));
         });
     }
 }

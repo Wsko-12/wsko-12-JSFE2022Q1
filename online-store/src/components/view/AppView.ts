@@ -3,22 +3,17 @@ import Builder from './elements/builder/Builder';
 import Header from './elements/header/Header';
 import Settings from './elements/settings/Settings';
 import './style.scss';
-import { Filters, IDataItem } from '../../interface/interface';
+import { Filters, IDataItem, SettingsCallback } from '../../interface/interface';
 
 class AppView {
     private header: Header = new Header();
     private settings: Settings = new Settings();
     private catalog: Catalog = new Catalog();
-    private _onSettingsChangeCallback: ((filters: Filters) => void) | null = null;
-    private _onSettingsFullResetCallback: (() => void) | null = null;
+    private _onSettingsChangeCallback: SettingsCallback | null = null;
 
     public build(): void {
-        this.settings.setChangeCallback((filters: Filters) => {
-            this.onChange(filters);
-        });
-
-        this.settings.setFullResetCallback(() => {
-            this.onFullReset();
+        this.settings.setChangeCallback((filters: Filters, fullReset?: boolean) => {
+            this.onChange(filters, fullReset);
         });
 
         const builder = new Builder().createElement;
@@ -46,12 +41,8 @@ class AppView {
         this.catalog.clear();
     }
 
-    public setSettingsChangeCallback(callback: (filters: Filters) => void): void {
+    public setSettingsChangeCallback(callback: SettingsCallback): void {
         this._onSettingsChangeCallback = callback;
-    }
-
-    public setSettingsFullResetCallback(callback: () => void): void {
-        this._onSettingsFullResetCallback = callback;
     }
 
     public drawCards(data: IDataItem[]): void {
@@ -62,12 +53,8 @@ class AppView {
         this.settings.setFilters(filter);
     }
 
-    private onChange(filters: Filters): void {
-        if (this._onSettingsChangeCallback) this._onSettingsChangeCallback(filters);
-    }
-
-    private onFullReset(): void {
-        if (this._onSettingsFullResetCallback) this._onSettingsFullResetCallback();
+    private onChange(filters: Filters, fullReset?: boolean): void {
+        if (this._onSettingsChangeCallback) this._onSettingsChangeCallback(filters, fullReset);
     }
 }
 export default AppView;
