@@ -33,7 +33,8 @@ class Catalog {
             content: 'Sort: ',
         });
 
-        this._sortingElement = new SortingElement();
+        const sortingSaved = this._localStorage.getSorting() as Sort;
+        this._sortingElement = new SortingElement(sortingSaved);
         this._sortingElement.setChangeCallback((value: Sort) => {
             if (this._sortSelected === value || value === '-') return;
             this._sortSelected = value;
