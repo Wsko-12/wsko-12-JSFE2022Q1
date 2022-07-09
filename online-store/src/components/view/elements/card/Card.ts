@@ -71,6 +71,9 @@ class Card {
 
         const element = builder('figure', {
             classes: ['card'],
+            dataset: {
+                company: this.company.name,
+            },
             content: [image, caption],
         });
         return element;
@@ -78,6 +81,15 @@ class Card {
     public getElement(): HTMLElement {
         return this._element;
     }
+
+    public markInBasket(inBasket: boolean): void {
+        if (inBasket) {
+            this._element.classList.add('card_in-basket');
+        } else {
+            this._element.classList.remove('card_in-basket');
+        }
+    }
+
     private createPriceElement(): HTMLElement {
         const builder = new Builder().createElement;
         let element: HTMLElement;

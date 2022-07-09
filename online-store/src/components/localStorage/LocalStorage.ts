@@ -8,6 +8,14 @@ export default class LocalStorage {
         return LocalStorage._instance;
     }
 
+    public getBasket(): string[] | null {
+        return this.getAndParse('basket');
+    }
+
+    public saveBasket(basket: string[]): void {
+        this.save('basket', basket);
+    }
+
     public getFilters(): Filters | null {
         return this.getAndParse('filters');
     }

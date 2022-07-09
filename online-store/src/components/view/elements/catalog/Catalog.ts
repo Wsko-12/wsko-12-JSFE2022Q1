@@ -1,4 +1,5 @@
 import { IDataItem } from '../../../../interface/interface';
+import Basket from '../../../basket/Basket';
 import LocalStorage from '../../../localStorage/LocalStorage';
 import Builder from '../builder/Builder';
 import Card from '../card/Card';
@@ -12,6 +13,7 @@ class Catalog {
     private _container: HTMLElement | undefined;
     private _containerClone: HTMLElement | undefined;
     private _localStorage: LocalStorage = new LocalStorage();
+    private _basket: Basket = new Basket();
 
     private _sortSelected: Sort = '-';
 
@@ -92,6 +94,7 @@ class Catalog {
         });
 
         this._element = element;
+        this.applyEvents();
         return element;
     }
     public fill(companiesData: IDataItem[]) {
@@ -100,6 +103,7 @@ class Catalog {
             if (!this._cache[company.name]) {
                 this._cache[company.name] = new Card(company);
             }
+            this._cache[company.name].markInBasket(this._basket.has(company.name));
             return this._cache[company.name];
         });
         this.sortOnPageArr();
@@ -200,6 +204,24 @@ class Catalog {
                 }, 10);
             });
         }, 200);
+    }
+
+    private applyEvents() {
+        this._container?.addEventListener('click', (e: MouseEvent) => {
+            if (e.target != this._container) {
+                const element = (e.target as HTMLElement).closest('.card') as HTMLElement;
+                const company = element.dataset.company as string;
+                const card = this._cache[company] as Card;
+                const inBasket = this._basket.toggle(company);
+                card.markInBasket(inBasket);
+            }
+        });
+
+        this._basket.addOnClearListener(() => {
+            for (const card in this._cache) {
+                this._cache[card].markInBasket(false);
+            }
+        });
     }
 }
 export default Catalog;

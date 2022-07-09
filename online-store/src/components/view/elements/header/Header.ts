@@ -1,17 +1,37 @@
+import Basket from '../../../basket/Basket';
 import Builder from '../builder/Builder';
 import './style.scss';
 class Header {
-    build(): HTMLElement {
-        const builder = new Builder().createElement;
+    private _basket: Basket = new Basket();
+    private _basketCounter: HTMLElement | undefined;
 
+    private onBasketChange = (basket: string[]) => {
+        const count = basket.length;
+        if (this._basketCounter) {
+            this._basketCounter.innerHTML = count.toString();
+            if (count > 0) {
+                this._basketCounter?.classList.remove('basket-icon__counter_hidden');
+            } else {
+                this._basketCounter?.classList.add('basket-icon__counter_hidden');
+            }
+        }
+    };
+
+    public build(): HTMLElement {
+        const builder = new Builder().createElement;
+        this._basket.addOnChangeListener(this.onBasketChange);
         const logo = builder('h1', {
             classes: ['logo', 'header__logo'],
             content: 'Com<span class="logo-span">Store</span>',
         });
 
-        const basketCounter = builder('div', {
-            classes: ['basket-icon__counter', 'basket-icon__counter_hidden'],
-            content: `20`,
+        const basketItemsCount = this._basket.getItemsCount();
+        this._basketCounter = builder('div', {
+            classes:
+                basketItemsCount === 0
+                    ? ['basket-icon__counter', 'basket-icon__counter_hidden']
+                    : ['basket-icon__counter'],
+            content: basketItemsCount.toString(),
         });
 
         const basketIcon = builder('object', {
@@ -27,7 +47,7 @@ class Header {
 
         const basket = builder('div', {
             classes: 'basket',
-            content: [basketIcon, basketCounter],
+            content: [basketIcon, this._basketCounter],
         });
 
         const container = builder('div', {

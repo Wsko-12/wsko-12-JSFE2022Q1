@@ -20,6 +20,10 @@
         z-index: 100;
     }
 
+    &_in-basket{
+        background-color: red;
+    }
+
     @include media-laptop-small{
         width: 180px;
         height: 288px;
