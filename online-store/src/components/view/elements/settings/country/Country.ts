@@ -1,16 +1,15 @@
 import { CompanyCountry } from '../../../../../interface/interface';
 import Builder from '../../builder/Builder';
+import SettingsElement from '../settingElement/SettingsElement';
 import './style.scss';
-type Callback = (colors: CompanyCountry[]) => void;
-export default class County {
+export default class County extends SettingsElement {
     private _element: HTMLElement;
     private _flagsContainer: HTMLElement;
     private _flags: { [key: string]: HTMLElement } = {};
     private _selected: CompanyCountry[] = [];
 
-    private _onChangeCallback: Callback | null = null;
-
     constructor(label: string) {
+        super();
         const builder = new Builder().createElement;
 
         const title = builder('h4', {
@@ -63,16 +62,12 @@ export default class County {
         }
     }
 
-    public setChangeCallback(callback: Callback): void {
-        this._onChangeCallback = callback;
-    }
-
     public reset(): void {
         this._selected = [];
         this.markAllSelected();
     }
 
-    private onChange(): void {
+    protected onChange(): void {
         if (this._onChangeCallback) {
             this._onChangeCallback(this._selected);
         }

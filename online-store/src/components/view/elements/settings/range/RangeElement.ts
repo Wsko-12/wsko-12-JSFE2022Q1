@@ -1,8 +1,9 @@
 import { MinMax } from '../../../../../interface/interface';
 import Builder from '../../builder/Builder';
+import SettingsElement from '../settingElement/SettingsElement';
 import './style.scss';
-type Callback = (minValue: number, maxValue: number) => void;
-export default class RangeElement {
+
+export default class RangeElement extends SettingsElement {
     private _range: [min: number, max: number];
     private _id: string;
     private _element: HTMLElement;
@@ -25,9 +26,9 @@ export default class RangeElement {
     private _currentMaxValue: number;
 
     private _labelsTemplate: (value: number) => string;
-    private _onChangeCallback: Callback | null = null;
 
     constructor(label: string, id: string, range: MinMax, labelsTemplate?: (value: number) => string) {
+        super();
         this._range = range;
         this._currentMin = 0;
         this._currentMax = 100;
@@ -42,10 +43,6 @@ export default class RangeElement {
 
     public getElement(): HTMLElement {
         return this._element;
-    }
-
-    public setChangeCallback(callback: Callback): void {
-        this._onChangeCallback = callback;
     }
 
     public setLabelsTemplate(foo: (value: number) => string): void {
@@ -69,6 +66,12 @@ export default class RangeElement {
 
         this._currentMin = newMin < 0 ? 0 : newMin > 100 ? 100 : newMin;
         this.update();
+    }
+
+    protected onChange(): void {
+        if (this._onChangeCallback) {
+            this._onChangeCallback(this._currentMinValue, this._currentMaxValue);
+        }
     }
 
     private build(label: string): HTMLElement {
@@ -279,11 +282,5 @@ export default class RangeElement {
         this.moveSliderTo(slider, mousePosition);
         this.changeProgressBar();
         this.changeLabels();
-    }
-
-    private onChange(): void {
-        if (this._onChangeCallback) {
-            this._onChangeCallback(this._currentMinValue, this._currentMaxValue);
-        }
     }
 }

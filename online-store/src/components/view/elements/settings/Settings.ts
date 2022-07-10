@@ -1,4 +1,4 @@
-import { Filters, LogoColor, SettingsCallback } from '../../../../interface/interface';
+import { CompanyCountry, Filters, LogoColor, SettingsCallback } from '../../../../interface/interface';
 import Builder from '../builder/Builder';
 import Card from '../card/Card';
 import Colors from './colors/Colors';
@@ -179,30 +179,36 @@ class Settings {
         });
 
         this._priceRange?.setChangeCallback((min, max) => {
-            this._currentFilters.price.current[0] = min;
-            this._currentFilters.price.current[1] = max;
-            this.onChange();
+            if (typeof min === 'number' && typeof max === 'number') {
+                this._currentFilters.price.current[0] = min;
+                this._currentFilters.price.current[1] = max;
+                this.onChange();
+            }
         });
 
         this._yearRange?.setChangeCallback((min, max) => {
-            this._currentFilters.year.current[0] = min;
-            this._currentFilters.year.current[1] = max;
-            this.onChange();
+            if (typeof min === 'number' && typeof max === 'number') {
+                this._currentFilters.year.current[0] = min;
+                this._currentFilters.year.current[1] = max;
+                this.onChange();
+            }
         });
 
         this._employeeRange?.setChangeCallback((min, max) => {
-            this._currentFilters.employees.current[0] = min;
-            this._currentFilters.employees.current[1] = max;
-            this.onChange();
+            if (typeof min === 'number' && typeof max === 'number') {
+                this._currentFilters.employees.current[0] = min;
+                this._currentFilters.employees.current[1] = max;
+                this.onChange();
+            }
         });
 
-        this._colors?.setChangeCallback((colors: LogoColor[]) => {
-            this._currentFilters.colors.selected = colors;
+        this._colors?.setChangeCallback((colors) => {
+            this._currentFilters.colors.selected = colors as LogoColor[];
             this.onChange();
         });
 
         this._countries?.setChangeCallback((countries) => {
-            this._currentFilters.countries.selected = countries;
+            this._currentFilters.countries.selected = countries as CompanyCountry[];
             this.onChange();
         });
 

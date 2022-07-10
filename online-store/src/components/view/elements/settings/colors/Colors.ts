@@ -1,17 +1,16 @@
 import { ColorPalette, LogoColor } from '../../../../../interface/interface';
 import Builder from '../../builder/Builder';
+import SettingsElement from '../settingElement/SettingsElement';
 import './style.scss';
-type Callback = (colors: LogoColor[]) => void;
-export default class Colors {
+export default class Colors extends SettingsElement {
     private _colors: LogoColor[] = [];
     private _element: HTMLElement;
     private _colorsElements: { [key: string]: HTMLElement } = {};
     private _container: HTMLElement;
     private _selected: LogoColor[] = [];
 
-    private _onChangeCallback: Callback | undefined;
-
     constructor(label: string) {
+        super();
         const builder = new Builder().createElement;
 
         const title = builder('h4', {
@@ -50,8 +49,10 @@ export default class Colors {
         this.markAllSelected();
     }
 
-    public setChangeCallback(callback: Callback): void {
-        this._onChangeCallback = callback;
+    protected onChange(): void {
+        if (this._onChangeCallback) {
+            this._onChangeCallback(this._selected);
+        }
     }
 
     private markAllSelected(): void {
@@ -103,11 +104,5 @@ export default class Colors {
                 this.onChange();
             }
         });
-    }
-
-    private onChange(): void {
-        if (this._onChangeCallback) {
-            this._onChangeCallback(this._selected);
-        }
     }
 }
