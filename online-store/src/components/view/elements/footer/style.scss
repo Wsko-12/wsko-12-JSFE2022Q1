@@ -1,0 +1,53 @@
+footer {
+    width: 100%;
+    background-color: #303030;
+    position: absolute;
+    bottom: 0px;
+    transform: translate(0, 1px);
+    height: $footer-height;
+    @include media-mobile{
+        height: 150px;
+    }
+
+}
+
+.footer__container{
+    margin: auto;
+    max-width: 1280px;
+    height: 100%;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    @include media-mobile{
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+.footer__logo{
+    width: 150px;
+    height: 100%;
+    background-image: url(../../../../assets/logos/rs_school_js.svg);
+    background-repeat: no-repeat;
+}
+
+.footer__logo a{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.footer__description{
+    color: #9b9b9b;
+}
+
+.footer__description a{
+    color: #c4c4c4;
+}
+
+.footer__description p{
+    margin: 0;
+}

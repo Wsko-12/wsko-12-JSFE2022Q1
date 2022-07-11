@@ -7,6 +7,7 @@
     @include media-mobile{
         padding: 0 20px;
         width: 100%;
+        margin-bottom: 20px;
     }
 }
 .side-item{
@@ -24,6 +25,9 @@
 .side__slider{
     position: sticky;
     top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .search-section{
@@ -65,4 +69,14 @@
 
 .discount{
     margin-bottom: 20px;
+}
+
+.side-item__buttons-wrapper{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    @include media-mobile{
+        justify-content: center;
+    }
 }

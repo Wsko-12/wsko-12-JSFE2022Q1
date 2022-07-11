@@ -139,6 +139,7 @@ class Catalog {
         const positionsAfterSort: [x: number, y: number][] = [];
 
         (this._container as HTMLElement).style.width = containerRect.width + 'px';
+        (this._container as HTMLElement).style.height = containerRect.height + 'px';
 
         this._container?.childNodes.forEach((child) => {
             const rect = (child as HTMLElement).getBoundingClientRect();
@@ -168,6 +169,7 @@ class Catalog {
 
                         setTimeout(() => {
                             (this._container as HTMLElement).style.width = '';
+                            (this._container as HTMLElement).style.height = '';
 
                             (child as HTMLElement).style.position = '';
                             (child as HTMLElement).style.top = '';

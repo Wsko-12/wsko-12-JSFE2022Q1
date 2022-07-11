@@ -63,18 +63,25 @@ class Settings {
         });
 
         this._resetButton = builder('input', {
+            classes: ['button', 'side-item__button'],
             attrs: {
                 type: 'button',
-                value: 'Reset',
+                value: 'Reset filters',
             },
         }) as HTMLButtonElement;
 
         this._fullResetButton = builder('input', {
+            classes: ['button', 'side-item__button'],
             attrs: {
                 type: 'button',
-                value: 'Full Reset',
+                value: 'Reset settings',
             },
         }) as HTMLButtonElement;
+
+        const buttonsWrapper = builder('div', {
+            classes: ['side-item__buttons-wrapper'],
+            content: [this._resetButton, this._fullResetButton],
+        });
 
         this._searchInput = builder('input', {
             classes: ['search'],
@@ -145,7 +152,7 @@ class Settings {
         });
 
         this.applyListeners();
-        slideContainer.append(findSection, filterSection, this._resetButton, this._fullResetButton);
+        slideContainer.append(findSection, filterSection, buttonsWrapper);
         return element;
     }
 

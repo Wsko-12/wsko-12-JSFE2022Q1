@@ -1,6 +1,7 @@
 .catalog{
     position: relative;
     max-width: 80%;
+    width: 100%;
     @include media-tablet{
         max-width: 65%;
     }
@@ -46,6 +47,4 @@
         padding: 20px;
         justify-content: center;
     }
-
-
 }

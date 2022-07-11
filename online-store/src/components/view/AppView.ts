@@ -4,9 +4,11 @@ import Header from './elements/header/Header';
 import Settings from './elements/settings/Settings';
 import './style.scss';
 import { Filters, IDataItem, SettingsCallback } from '../../interface/interface';
+import { Footer } from './elements/footer/Footer';
 
 class AppView {
     private header: Header = new Header();
+    private footer: Footer = new Footer();
     private settings: Settings = new Settings();
     private catalog: Catalog = new Catalog();
     private _onSettingsChangeCallback: SettingsCallback | null = null;
@@ -33,7 +35,12 @@ class AppView {
             content: [container],
         });
 
-        document.body.append(header, main);
+        const wrapper = builder('div', {
+            classes: 'wrapper',
+            content: [main, this.footer.getElement()],
+        });
+
+        document.body.append(header, wrapper);
         (document.querySelector('#searchInput') as HTMLElement).focus();
     }
 
