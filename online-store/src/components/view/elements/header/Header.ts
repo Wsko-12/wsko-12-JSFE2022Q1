@@ -4,9 +4,11 @@ import './style.scss';
 class Header {
     private _basket: Basket = new Basket();
     private _basketCounter: HTMLElement | undefined;
+    private _element: HTMLElement;
 
-    public build(): HTMLElement {
+    constructor() {
         const builder = new Builder().createElement;
+
         this._basket.addOnChangeListener(this.onBasketChange);
         const logo = builder('h1', {
             classes: ['logo', 'header__logo'],
@@ -43,12 +45,14 @@ class Header {
             content: [logo, basket],
         });
 
-        const element = builder('header', {
+        this._element = builder('header', {
             classes: 'header',
             content: [container],
         });
+    }
 
-        return element;
+    public getElement(): HTMLElement {
+        return this._element;
     }
 
     private onBasketChange = (basket: string[]): void => {

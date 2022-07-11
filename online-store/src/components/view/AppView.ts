@@ -14,17 +14,16 @@ class AppView {
     private _onSettingsChangeCallback: SettingsCallback | null = null;
 
     public build(): void {
+        const builder = new Builder().createElement;
+
+        const header: HTMLElement = this.header.getElement();
+
+        const settings = this.settings.getElement();
         this.settings.setChangeCallback((filters: Filters, fullReset?: boolean) => {
             this.onChange(filters, fullReset);
         });
 
-        const builder = new Builder().createElement;
-
-        const header: HTMLElement = this.header.build();
-        document.body.append(header);
-
-        const settings = this.settings.build();
-        const catalog = this.catalog.build();
+        const catalog = this.catalog.getElement();
 
         const container = builder('div', {
             classes: ['container'],

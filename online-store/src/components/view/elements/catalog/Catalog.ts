@@ -8,18 +8,19 @@ import './style.scss';
 
 class Catalog {
     private _onPage: Card[] = [];
-    private _element: HTMLElement | undefined;
-    private _container: HTMLElement | undefined;
-    private _containerClone: HTMLElement | undefined;
     private _localStorage: LocalStorage = new LocalStorage();
     private _basket: Basket = new Basket();
-    private _sortingElement: SortingElement | undefined;
+
+    private _element: HTMLElement;
+    private _container: HTMLElement;
+    private _containerClone: HTMLElement;
+    private _sortingElement: SortingElement;
 
     private _sortSelected: Sort = '-';
 
     private _cache: { [key: string]: Card } = {};
 
-    public build(): HTMLElement {
+    constructor() {
         this._sortSelected = (this._localStorage.getSorting() as Sort) || '-';
 
         const builder = new Builder().createElement;
@@ -52,14 +53,15 @@ class Catalog {
             classes: ['catalog__container', 'catalog__container_clone'],
         });
 
-        const element = builder('section', {
+        this._element = builder('section', {
             classes: 'catalog',
             content: [header, this._container, this._containerClone],
         });
-
-        this._element = element;
         this.applyEvents();
-        return element;
+    }
+
+    public getElement(): HTMLElement {
+        return this._element;
     }
 
     public fill(companiesData: IDataItem[]): void {

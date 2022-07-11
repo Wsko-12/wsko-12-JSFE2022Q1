@@ -9,18 +9,19 @@ import './style.scss';
 class Settings {
     private _currentFilters: Filters;
 
-    private _resetButton: HTMLButtonElement | undefined;
-    private _fullResetButton: HTMLButtonElement | undefined;
+    private _element: HTMLElement;
 
-    private _priceRange: RangeElement | undefined;
-    private _yearRange: RangeElement | undefined;
-    private _employeeRange: RangeElement | undefined;
-    private _discountCheckBox: HTMLInputElement | undefined;
-    private _countries: County | undefined;
-    private _searchInput: HTMLInputElement | undefined;
-    private _clearSearchButton: HTMLButtonElement | undefined;
+    private _resetButton: HTMLButtonElement;
+    private _fullResetButton: HTMLButtonElement;
 
-    private _colors: Colors | undefined;
+    private _priceRange: RangeElement;
+    private _yearRange: RangeElement;
+    private _employeeRange: RangeElement;
+    private _discountCheckBox: HTMLInputElement;
+    private _countries: County;
+    private _searchInput: HTMLInputElement;
+    private _clearSearchButton: HTMLButtonElement;
+    private _colors: Colors;
 
     private _onChangeCallback: SettingsCallback | null = null;
 
@@ -49,15 +50,13 @@ class Settings {
                 all: [],
             },
         };
-    }
 
-    public build(): HTMLElement {
         const build = new Builder();
         const builder = build.createElement;
         const slideContainer = builder('div', {
             classes: 'side__slider',
         });
-        const element = builder('aside', {
+        this._element = builder('aside', {
             classes: 'side',
             content: [slideContainer],
         });
@@ -153,7 +152,10 @@ class Settings {
 
         this.applyListeners();
         slideContainer.append(findSection, filterSection, buttonsWrapper);
-        return element;
+    }
+
+    public getElement(): HTMLElement {
+        return this._element;
     }
 
     public setFilters(filters: Filters): void {
@@ -166,26 +168,26 @@ class Settings {
     }
 
     private applyListeners(): void {
-        this._resetButton?.addEventListener('click', () => {
+        this._resetButton.addEventListener('click', () => {
             this.reset();
         });
 
-        this._fullResetButton?.addEventListener('click', () => {
+        this._fullResetButton.addEventListener('click', () => {
             this.reset(true);
         });
 
-        this._searchInput?.addEventListener('input', (e) => {
+        this._searchInput.addEventListener('input', (e) => {
             this._currentFilters.name = (e.target as HTMLInputElement).value;
             this.onChange();
         });
 
-        this._clearSearchButton?.addEventListener('click', () => {
+        this._clearSearchButton.addEventListener('click', () => {
             this._currentFilters.name = '';
             (this._searchInput as HTMLInputElement).value = '';
             this.onChange();
         });
 
-        this._priceRange?.setChangeCallback((min, max) => {
+        this._priceRange.setChangeCallback((min, max) => {
             if (typeof min === 'number' && typeof max === 'number') {
                 this._currentFilters.price.current[0] = min;
                 this._currentFilters.price.current[1] = max;
@@ -193,7 +195,7 @@ class Settings {
             }
         });
 
-        this._yearRange?.setChangeCallback((min, max) => {
+        this._yearRange.setChangeCallback((min, max) => {
             if (typeof min === 'number' && typeof max === 'number') {
                 this._currentFilters.year.current[0] = min;
                 this._currentFilters.year.current[1] = max;
@@ -201,7 +203,7 @@ class Settings {
             }
         });
 
-        this._employeeRange?.setChangeCallback((min, max) => {
+        this._employeeRange.setChangeCallback((min, max) => {
             if (typeof min === 'number' && typeof max === 'number') {
                 this._currentFilters.employees.current[0] = min;
                 this._currentFilters.employees.current[1] = max;
@@ -209,17 +211,17 @@ class Settings {
             }
         });
 
-        this._colors?.setChangeCallback((colors) => {
+        this._colors.setChangeCallback((colors) => {
             this._currentFilters.colors.selected = colors as LogoColor[];
             this.onChange();
         });
 
-        this._countries?.setChangeCallback((countries) => {
+        this._countries.setChangeCallback((countries) => {
             this._currentFilters.countries.selected = countries as CompanyCountry[];
             this.onChange();
         });
 
-        this._discountCheckBox?.addEventListener('change', (e) => {
+        this._discountCheckBox.addEventListener('change', (e) => {
             this._currentFilters.discountOnly = (e.target as HTMLInputElement).checked;
             this.onChange();
         });
