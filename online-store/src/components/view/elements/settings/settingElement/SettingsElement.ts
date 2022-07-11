@@ -1,4 +1,6 @@
-type Callback = (data: string | number | string[], data2?: number) => void;
+import { CompanyCountry, LogoColor } from '../../../../../interface/interface';
+
+type Callback = (data: number | LogoColor[] | CompanyCountry[], data2?: number) => void;
 
 export default abstract class SettingsElement {
     protected abstract onChange<T>(data?: T): void;
