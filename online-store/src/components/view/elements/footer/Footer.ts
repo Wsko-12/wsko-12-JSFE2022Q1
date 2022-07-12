@@ -4,11 +4,9 @@ import './style.scss';
 //TODO
 /*
     1. Footer
-    2. Извините, совпадений не обнаружено
     3. card selected
     4. Извините, все слоты заполнены
     5. tests
-    6. buttons style
 */
 
 export class Footer {

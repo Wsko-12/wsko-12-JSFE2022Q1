@@ -66,6 +66,7 @@ class Catalog {
 
     public fill(companiesData: IDataItem[]): void {
         (this._container as HTMLElement).innerHTML = '';
+
         this._onPage = companiesData.map((company) => {
             if (!this._cache[company.name]) {
                 this._cache[company.name] = new Card(company);
@@ -73,8 +74,18 @@ class Catalog {
             this._cache[company.name].markInBasket(this._basket.has(company.name));
             return this._cache[company.name];
         });
+
+        if (!companiesData.length) {
+            const message = new Builder().createElement('p', {
+                classes: 'catalog__message',
+                content: 'Sorry, no matches found :(',
+            });
+            this._container.append(message);
+
+            return;
+        }
         this.sortOnPageArr();
-        this._container?.append(...this._onPage.map((card) => card.getElement()));
+        this._container.append(...this._onPage.map((card) => card.getElement()));
     }
 
     public clear(): void {
