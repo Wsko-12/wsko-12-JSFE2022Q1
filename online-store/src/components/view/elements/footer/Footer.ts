@@ -1,12 +1,6 @@
 import Builder from '../builder/Builder';
 import './style.scss';
 
-//TODO
-/*
-    1. card selected
-    2. tests
-*/
-
 export class Footer {
     private _element: HTMLElement;
     private _container: HTMLElement;

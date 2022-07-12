@@ -22,22 +22,7 @@ class Card {
 
     constructor(data: IDataItem) {
         this.company = data;
-        this._element = this.build();
-    }
 
-    public getElement(): HTMLElement {
-        return this._element;
-    }
-
-    public markInBasket(inBasket: boolean): void {
-        if (inBasket) {
-            this._element.classList.add('card_in-basket');
-        } else {
-            this._element.classList.remove('card_in-basket');
-        }
-    }
-
-    private build(): HTMLElement {
         const builder = new Builder().createElement;
 
         const image = builder('img', {
@@ -82,14 +67,29 @@ class Card {
             caption.append(discount);
         }
 
-        const element = builder('figure', {
+        const inBasketMarker = builder('div', {
+            classes: ['card__marker'],
+        });
+
+        this._element = builder('figure', {
             classes: ['card'],
             dataset: {
                 company: this.company.name,
             },
-            content: [image, caption],
+            content: [image, caption, inBasketMarker],
         });
-        return element;
+    }
+
+    public getElement(): HTMLElement {
+        return this._element;
+    }
+
+    public markInBasket(inBasket: boolean): void {
+        if (inBasket) {
+            this._element.classList.add('card_in-basket');
+        } else {
+            this._element.classList.remove('card_in-basket');
+        }
     }
 
     private createPriceElement(): HTMLElement {

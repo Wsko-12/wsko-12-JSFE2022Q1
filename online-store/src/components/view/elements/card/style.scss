@@ -20,8 +20,8 @@
         z-index: 100;
     }
 
-    &_in-basket{
-        background-color: red;
+    &_in-basket .card__marker{
+        display: block;
     }
 
     @include media-laptop-small{
@@ -122,4 +122,15 @@
     @include media-mobile{
         font-size: 1.5rem; 
     }
+}
+
+.card__marker{
+    width: 30px;
+    height: 30px;
+    display: none;
+    background-image: url(../../../../assets/icons/star.svg);
+    background-size: cover;
+    position: absolute;
+    top:10px;
+    left: 10px;
 }
