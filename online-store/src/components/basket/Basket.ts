@@ -30,7 +30,7 @@ export default class Basket {
     }
 
     public addOnFullListener(listener: Listener): void {
-        this._onChangeListeners.push(listener);
+        this._onFullListeners.push(listener);
     }
 
     public getItemsCount(): number {
@@ -68,7 +68,6 @@ export default class Basket {
     }
 
     private onFull(): void {
-        console.log('Bassket full');
         this._onFullListeners.forEach((listener) => {
             listener(this._items);
         });

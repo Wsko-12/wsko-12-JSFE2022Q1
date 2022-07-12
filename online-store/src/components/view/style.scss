@@ -23,3 +23,9 @@ main{
     min-height: calc(100% - $header-height - 1px);
     padding-bottom: 100px;
 }
+
+.page-item{
+    background-color: #fcfcfc;
+    box-shadow: 0 0 5px 1px #c1c1c1;
+    padding: 10px;
+}

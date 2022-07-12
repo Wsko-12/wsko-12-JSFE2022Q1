@@ -5,15 +5,24 @@ import Settings from './elements/settings/Settings';
 import './style.scss';
 import { Filters, IDataItem, SettingsCallback } from '../../interface/interface';
 import { Footer } from './elements/footer/Footer';
+import Popup from './elements/popup/Popup';
+import Basket from '../basket/Basket';
 
 class AppView {
     private header: Header = new Header();
     private footer: Footer = new Footer();
     private settings: Settings = new Settings();
     private catalog: Catalog = new Catalog();
+    private popup: Popup = new Popup();
+    private basket: Basket = new Basket();
+
     private _onSettingsChangeCallback: SettingsCallback | null = null;
 
     public build(): void {
+        this.basket.addOnFullListener(() => {
+            this.popup.show('Sorry, all slots are full');
+        });
+
         const builder = new Builder().createElement;
 
         const header: HTMLElement = this.header.getElement();
@@ -39,7 +48,7 @@ class AppView {
             content: [main, this.footer.getElement()],
         });
 
-        document.body.append(header, wrapper);
+        document.body.append(header, wrapper, this.popup.getElement());
         (document.querySelector('#searchInput') as HTMLElement).focus();
     }
 

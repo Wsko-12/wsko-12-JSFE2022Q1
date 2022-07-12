@@ -3,10 +3,8 @@ import './style.scss';
 
 //TODO
 /*
-    1. Footer
-    3. card selected
-    4. Извините, все слоты заполнены
-    5. tests
+    1. card selected
+    2. tests
 */
 
 export class Footer {
