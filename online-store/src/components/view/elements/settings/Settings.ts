@@ -88,6 +88,7 @@ class Settings {
             attrs: {
                 type: 'text',
                 placeholder: 'Search...',
+                autocomplete: 'off',
             },
         });
 
