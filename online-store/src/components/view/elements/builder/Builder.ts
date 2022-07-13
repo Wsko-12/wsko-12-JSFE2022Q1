@@ -13,8 +13,8 @@ class Builder {
         return Builder._instance;
     }
 
-    public createElement(tag: string, properties: createElementProps = {}): HTMLElement {
-        const element = document.createElement(tag) as HTMLElement;
+    public createElement<T extends HTMLElement>(tag: string, properties: createElementProps = {}): T {
+        const element = <T>document.createElement(tag);
         if (properties.classes) {
             if (typeof properties.classes === 'string') {
                 element.classList.add(properties.classes);

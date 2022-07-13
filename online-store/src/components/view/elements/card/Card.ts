@@ -25,53 +25,53 @@ class Card {
 
         const builder = new Builder().createElement;
 
-        const image = builder('img', {
+        const image = <HTMLImageElement>builder('img', {
             classes: 'card__image',
-        }) as HTMLImageElement;
+        });
         image.src = this.company.logoUrl;
 
-        const title = builder('h3', {
+        const title = <HTMLHeadingElement>builder('h3', {
             classes: 'card__title',
             content: this.company.name,
         });
 
-        const year = builder('p', {
+        const year = <HTMLParagraphElement>builder('p', {
             classes: 'card__year',
             content: this.company.year.toString(),
         });
 
-        const flag = builder('div', {
+        const flag = <HTMLDivElement>builder('div', {
             classes: ['card__flag', 'flag', `flag_${this.company.country.toLowerCase()}`],
         });
 
-        const subtitle = builder('div', {
+        const subtitle = <HTMLDivElement>builder('div', {
             classes: 'card__subtitle',
             content: [year, flag],
         });
 
-        const employees = builder('p', {
+        const employees = <HTMLParagraphElement>builder('p', {
             classes: 'card__employees',
             content: '<b>Employees:</b> ' + Card.getFormattedEmployeeCount(this.company.employees),
         });
 
-        const caption = builder('figcaption', {
+        const caption = <HTMLElement>builder('figcaption', {
             classes: ['card__caption'],
             content: [title, subtitle, employees, this.createPriceElement()],
         });
 
         if (this.company.discount > 0) {
-            const discount = builder('figcaption', {
+            const discount = <HTMLDivElement>builder('div', {
                 classes: ['card__discount'],
                 content: -this.company.discount + '%',
             });
             caption.append(discount);
         }
 
-        const inBasketMarker = builder('div', {
+        const inBasketMarker = <HTMLDivElement>builder('div', {
             classes: ['card__marker'],
         });
 
-        this._element = builder('figure', {
+        this._element = <HTMLElement>builder('figure', {
             classes: ['card'],
             dataset: {
                 company: this.company.name,
@@ -102,12 +102,12 @@ class Card {
         if (discount > 0) {
             const priceWithDiscount = price - price * (discount / 100);
             const priceWithDiscountFormatted = (Math.floor((priceWithDiscount / 10 ** 9) * 100) / 100).toString();
-            element = builder('p', {
+            element = <HTMLParagraphElement>builder('p', {
                 classes: 'card__price',
                 content: `<s>$${priceFormatted}b</s> <b>$${priceWithDiscountFormatted}B</b>`,
             });
         } else {
-            element = builder('p', {
+            element = <HTMLParagraphElement>builder('p', {
                 classes: 'card__price',
                 content: `$${priceFormatted}B`,
             });

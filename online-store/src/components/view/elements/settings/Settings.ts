@@ -53,49 +53,49 @@ class Settings {
 
         const build = new Builder();
         const builder = build.createElement;
-        const slideContainer = builder('div', {
+        const slideContainer = <HTMLDivElement>builder('div', {
             classes: 'side__slider',
         });
-        this._element = builder('aside', {
+        this._element = <HTMLElement>builder('aside', {
             classes: 'side',
             content: [slideContainer],
         });
 
-        this._resetButton = builder('input', {
+        this._resetButton = <HTMLButtonElement>builder('input', {
             classes: ['button', 'side-item__button'],
             attrs: {
                 type: 'button',
                 value: 'Reset filters',
             },
-        }) as HTMLButtonElement;
+        });
 
-        this._fullResetButton = builder('input', {
+        this._fullResetButton = <HTMLButtonElement>builder('input', {
             classes: ['button', 'side-item__button'],
             attrs: {
                 type: 'button',
                 value: 'Reset settings',
             },
-        }) as HTMLButtonElement;
+        });
 
-        const buttonsWrapper = builder('div', {
+        const buttonsWrapper = <HTMLDivElement>builder('div', {
             classes: ['side-item__buttons-wrapper'],
             content: [this._resetButton, this._fullResetButton],
         });
 
-        this._searchInput = builder('input', {
+        this._searchInput = <HTMLInputElement>builder('input', {
             classes: ['search'],
             id: 'searchInput',
             attrs: {
                 type: 'text',
                 placeholder: 'Search...',
             },
-        }) as HTMLInputElement;
+        });
 
-        this._clearSearchButton = builder('button', {
+        this._clearSearchButton = <HTMLButtonElement>builder('button', {
             classes: 'search__clear',
-        }) as HTMLButtonElement;
+        });
 
-        const findSection = builder('section', {
+        const findSection = <HTMLElement>builder('section', {
             classes: ['side-item', 'search-section'],
             content: [this._searchInput, this._clearSearchButton],
         });
@@ -118,27 +118,27 @@ class Settings {
 
         this._colors = new Colors('Logo colors');
 
-        this._discountCheckBox = builder('input', {
+        this._discountCheckBox = <HTMLInputElement>builder('input', {
             id: 'discountOnlyCheckbox',
             attrs: {
                 type: 'checkbox',
             },
-        }) as HTMLInputElement;
-        const discountLabel = builder('label', {
+        });
+        const discountLabel = <HTMLLabelElement>builder('label', {
             attrs: {
                 for: 'discountOnlyCheckbox',
             },
             content: 'Only with discount: ',
         });
 
-        const discount = builder('div', {
+        const discount = <HTMLDivElement>builder('div', {
             classes: 'discount',
             content: [discountLabel, this._discountCheckBox],
         });
 
         this._countries = new County('Country');
 
-        const filterSection = builder('section', {
+        const filterSection = <HTMLElement>builder('section', {
             classes: ['side-item', 'filter-section'],
             content: [
                 this._priceRange.getElement(),
@@ -177,13 +177,15 @@ class Settings {
         });
 
         this._searchInput.addEventListener('input', (e) => {
-            this._currentFilters.name = (e.target as HTMLInputElement).value;
-            this.onChange();
+            if (e.target instanceof HTMLInputElement) {
+                this._currentFilters.name = e.target.value;
+                this.onChange();
+            }
         });
 
         this._clearSearchButton.addEventListener('click', () => {
             this._currentFilters.name = '';
-            (this._searchInput as HTMLInputElement).value = '';
+            this._searchInput.value = '';
             this.onChange();
         });
 
@@ -212,18 +214,24 @@ class Settings {
         });
 
         this._colors.setChangeCallback((colors) => {
-            this._currentFilters.colors.selected = colors as LogoColor[];
-            this.onChange();
+            if (Array.isArray(colors)) {
+                this._currentFilters.colors.selected = colors as LogoColor[];
+                this.onChange();
+            }
         });
 
         this._countries.setChangeCallback((countries) => {
-            this._currentFilters.countries.selected = countries as CompanyCountry[];
-            this.onChange();
+            if (Array.isArray(countries)) {
+                this._currentFilters.countries.selected = countries as CompanyCountry[];
+                this.onChange();
+            }
         });
 
         this._discountCheckBox.addEventListener('change', (e) => {
-            this._currentFilters.discountOnly = (e.target as HTMLInputElement).checked;
-            this.onChange();
+            if (e.target instanceof HTMLInputElement) {
+                this._currentFilters.discountOnly = e.target.checked;
+                this.onChange();
+            }
         });
     }
 
@@ -239,34 +247,34 @@ class Settings {
 
     private setElements() {
         const filters = this._currentFilters;
-        (this._searchInput as HTMLInputElement).value = filters.name;
+        this._searchInput.value = filters.name;
 
-        this._priceRange?.setMinMax(...filters.price.maxMin);
-        this._priceRange?.setCurrentMinMax(...filters.price.current);
+        this._priceRange.setMinMax(...filters.price.maxMin);
+        this._priceRange.setCurrentMinMax(...filters.price.current);
 
-        this._yearRange?.setMinMax(...filters.year.maxMin);
-        this._yearRange?.setCurrentMinMax(...filters.year.current);
+        this._yearRange.setMinMax(...filters.year.maxMin);
+        this._yearRange.setCurrentMinMax(...filters.year.current);
 
-        this._employeeRange?.setMinMax(...filters.employees.maxMin);
-        this._employeeRange?.setCurrentMinMax(...filters.employees.current);
+        this._employeeRange.setMinMax(...filters.employees.maxMin);
+        this._employeeRange.setCurrentMinMax(...filters.employees.current);
 
-        this._colors?.setColors(filters.colors.all);
-        this._colors?.applySelected(filters.colors.selected);
+        this._colors.setColors(filters.colors.all);
+        this._colors.applySelected(filters.colors.selected);
 
-        (this._discountCheckBox as HTMLInputElement).checked = filters.discountOnly;
+        this._discountCheckBox.checked = filters.discountOnly;
 
-        this._countries?.fill(filters.countries.all);
-        this._countries?.applySelected(filters.countries.selected);
+        this._countries.fill(filters.countries.all);
+        this._countries.applySelected(filters.countries.selected);
     }
 
     private resetElements() {
-        (this._searchInput as HTMLInputElement).value = '';
-        this._priceRange?.reset();
-        this._yearRange?.reset();
-        this._employeeRange?.reset();
-        (this._discountCheckBox as HTMLInputElement).checked = false;
-        this._colors?.reset();
-        this._countries?.reset();
+        this._searchInput.value = '';
+        this._priceRange.reset();
+        this._yearRange.reset();
+        this._employeeRange.reset();
+        this._discountCheckBox.checked = false;
+        this._colors.reset();
+        this._countries.reset();
     }
 
     private resetCurrentFilters() {

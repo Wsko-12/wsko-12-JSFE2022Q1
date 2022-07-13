@@ -2,19 +2,18 @@ import Builder from '../builder/Builder';
 import './style.scss';
 
 export default class Popup {
-    private _element: HTMLElement;
+    private _element: HTMLDivElement;
     private _message: HTMLElement;
-    private _showed = false;
     private _timeoutId: number | null = null;
 
     constructor() {
         const builder = new Builder().createElement;
 
-        this._message = builder('p', {
+        this._message = <HTMLParagraphElement>builder('p', {
             classes: 'popup__message',
         });
 
-        this._element = builder('div', {
+        this._element = <HTMLDivElement>builder('div', {
             classes: ['popup', 'page-item'],
             content: [this._message],
         });
@@ -23,7 +22,6 @@ export default class Popup {
     private hide(id: number) {
         if (this._timeoutId === id) {
             this._element.classList.remove('popup_showed');
-            this._showed = false;
         }
     }
 
@@ -33,7 +31,6 @@ export default class Popup {
 
         const id: number = Math.random();
         this._timeoutId = id;
-        this._showed = true;
 
         setTimeout(() => {
             this.hide(id);

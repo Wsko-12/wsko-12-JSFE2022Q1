@@ -12,23 +12,23 @@ export default class County extends SettingsElement {
         super();
         const builder = new Builder().createElement;
 
-        const title = builder('h4', {
+        const title = <HTMLHeadingElement>builder('h4', {
             classes: 'country__title',
             content: label,
         });
 
-        this._flagsContainer = builder('div', {
+        this._flagsContainer = <HTMLDivElement>builder('div', {
             classes: 'country__container',
         });
 
-        this._element = builder('div', {
+        this._element = <HTMLDivElement>builder('div', {
             classes: 'country',
             content: [title, this._flagsContainer],
         });
 
         this._flagsContainer.addEventListener('click', (e) => {
-            if (e.target != this._flagsContainer) {
-                const country = (e.target as HTMLElement).dataset.country as CompanyCountry;
+            if (e.target != this._flagsContainer && e.target instanceof HTMLElement) {
+                const country = <CompanyCountry>e.target.dataset.country;
                 this.applySelected(country);
             }
         });
@@ -88,7 +88,7 @@ export default class County extends SettingsElement {
     private createFlagElement(country: CompanyCountry): HTMLElement {
         if (this._flags[country]) return this._flags[country];
         const builder = new Builder().createElement;
-        const flag = builder('div', {
+        const flag = <HTMLDivElement>builder('div', {
             classes: ['country__flag', 'flag', `flag_${country.toLowerCase()}`],
             dataset: {
                 country,

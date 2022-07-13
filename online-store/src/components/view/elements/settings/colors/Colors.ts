@@ -4,26 +4,26 @@ import SettingsElement from '../settingElement/SettingsElement';
 import './style.scss';
 export default class Colors extends SettingsElement {
     private _colors: LogoColor[] = [];
-    private _element: HTMLElement;
+    private _element: HTMLDivElement;
     private _colorsElements: { [key: string]: HTMLElement } = {};
-    private _container: HTMLElement;
+    private _container: HTMLDivElement;
     private _selected: LogoColor[] = [];
 
     constructor(label: string) {
         super();
         const builder = new Builder().createElement;
 
-        const title = builder('h4', {
+        const title = <HTMLHeadingElement>builder('h4', {
             classes: ['colors__title'],
             content: label,
         });
 
-        this._container = builder('div', {
+        this._container = <HTMLDivElement>builder('div', {
             classes: ['colors__container'],
             content: this.generateColorsItem(),
         });
 
-        this._element = builder('div', {
+        this._element = <HTMLDivElement>builder('div', {
             classes: ['colors'],
             content: [title, this._container],
         });
@@ -90,11 +90,11 @@ export default class Colors extends SettingsElement {
     }
 
     private applyListeners(): void {
-        this._container.addEventListener('click', (e) => {
-            if (e.target !== this._container) {
-                const element = e.target as HTMLElement;
+        this._container.addEventListener('click', (e: MouseEvent) => {
+            if (e.target !== this._container && e.target instanceof HTMLElement) {
+                const element = e.target;
                 element.classList.toggle('colors__item_selected');
-                const color = element.dataset.color as LogoColor;
+                const color = <LogoColor>element.dataset.color;
                 const index = this._selected.indexOf(color);
                 if (index === -1) {
                     this._selected.push(color);

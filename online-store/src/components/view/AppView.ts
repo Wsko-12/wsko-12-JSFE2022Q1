@@ -34,22 +34,26 @@ class AppView {
 
         const catalog = this.catalog.getElement();
 
-        const container = builder('div', {
+        const container = <HTMLDivElement>builder('div', {
             classes: ['container'],
             content: [settings, catalog],
         });
 
-        const main = builder('main', {
+        const main = <HTMLElement>builder('main', {
             content: [container],
         });
 
-        const wrapper = builder('div', {
+        const wrapper = <HTMLDivElement>builder('div', {
             classes: 'wrapper',
             content: [main, this.footer.getElement()],
         });
 
         document.body.append(header, wrapper, this.popup.getElement());
-        (document.querySelector('#searchInput') as HTMLElement).focus();
+
+        const searchInput = document.querySelector('#searchInput');
+        if (searchInput && searchInput instanceof HTMLElement) {
+            searchInput.focus();
+        }
     }
 
     public clear(): void {

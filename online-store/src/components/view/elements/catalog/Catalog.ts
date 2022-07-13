@@ -1,4 +1,4 @@
-import { IDataItem, Sort } from '../../../../interface/interface';
+import { IDataItem } from '../../../../interface/interface';
 import Basket from '../../../basket/Basket';
 import LocalStorage from '../../../localStorage/LocalStorage';
 import Builder from '../builder/Builder';
@@ -12,31 +12,31 @@ class Catalog {
     private _basket: Basket = new Basket();
 
     private _element: HTMLElement;
-    private _container: HTMLElement;
-    private _containerClone: HTMLElement;
+    private _container: HTMLDivElement;
+    private _containerClone: HTMLDivElement;
     private _sortingElement: SortingElement;
 
-    private _sortSelected: Sort = '-';
+    private _sortSelected = '-';
 
     private _cache: { [key: string]: Card } = {};
 
     constructor() {
-        this._sortSelected = (this._localStorage.getSorting() as Sort) || '-';
+        this._sortSelected = this._localStorage.getSorting() || '-';
 
         const builder = new Builder().createElement;
 
-        const header = builder('header', {
+        const header = <HTMLElement>builder('header', {
             classes: ['catalog__header', 'side-item'],
         });
 
-        const sortTitle = builder('p', {
+        const sortTitle = <HTMLParagraphElement>builder('p', {
             classes: ['catalog__subtitle'],
             content: 'Sort: ',
         });
 
-        const sortingSaved = this._localStorage.getSorting() as Sort;
-        this._sortingElement = new SortingElement(sortingSaved);
-        this._sortingElement.setChangeCallback((value: Sort) => {
+        const sortingSaved = this._localStorage.getSorting();
+        this._sortingElement = new SortingElement(sortingSaved || undefined);
+        this._sortingElement.setChangeCallback((value: string) => {
             if (this._sortSelected === value || value === '-') return;
             this._sortSelected = value;
             this._localStorage.saveSorting(value);
@@ -46,14 +46,14 @@ class Catalog {
 
         header.append(sortTitle, this._sortingElement.getElement());
 
-        this._container = builder('div', {
+        this._container = <HTMLDivElement>builder('div', {
             classes: 'catalog__container',
         });
-        this._containerClone = builder('div', {
+        this._containerClone = <HTMLDivElement>builder('div', {
             classes: ['catalog__container', 'catalog__container_clone'],
         });
 
-        this._element = builder('section', {
+        this._element = <HTMLElement>builder('section', {
             classes: 'catalog',
             content: [header, this._container, this._containerClone],
         });
@@ -65,7 +65,7 @@ class Catalog {
     }
 
     public fill(companiesData: IDataItem[]): void {
-        (this._container as HTMLElement).innerHTML = '';
+        this._container.innerHTML = '';
 
         this._onPage = companiesData.map((company) => {
             if (!this._cache[company.name]) {
@@ -76,7 +76,7 @@ class Catalog {
         });
 
         if (!companiesData.length) {
-            const message = new Builder().createElement('p', {
+            const message = <HTMLParagraphElement>new Builder().createElement('p', {
                 classes: 'catalog__message',
                 content: 'Sorry, no matches found :(',
             });
@@ -145,17 +145,19 @@ class Catalog {
     }
 
     private sortView(): void {
-        (this._container as HTMLElement).classList.add('catalog__container_on-sort');
-        (this._containerClone as HTMLElement).innerHTML = (this._container as HTMLElement).innerHTML;
-        const containerRect = (this._container as HTMLElement).getBoundingClientRect();
+        this._container.classList.add('catalog__container_on-sort');
+        this._containerClone.innerHTML = this._container.innerHTML;
+        const containerRect = this._container.getBoundingClientRect();
         const positionsBeforeSort: [x: number, y: number][] = [];
         const positionsAfterSort: [x: number, y: number][] = [];
 
-        (this._container as HTMLElement).style.width = containerRect.width + 'px';
-        (this._container as HTMLElement).style.height = containerRect.height + 'px';
+        this._container.style.width = containerRect.width + 'px';
+        this._container.style.height = containerRect.height + 'px';
 
-        this._container?.childNodes.forEach((child) => {
-            const rect = (child as HTMLElement).getBoundingClientRect();
+        const cardsCollection: HTMLCollection = this._container.children;
+
+        Array.prototype.forEach.call(cardsCollection, (child: HTMLElement) => {
+            const rect = child.getBoundingClientRect();
             positionsBeforeSort.push([rect.x - containerRect.x, rect.y - containerRect.y]);
         });
 
@@ -165,29 +167,30 @@ class Catalog {
         });
 
         setTimeout(() => {
-            (this._containerClone as HTMLElement).innerHTML = '';
-            this._container?.childNodes.forEach((child, i) => {
-                const rect = (child as HTMLElement).getBoundingClientRect();
+            this._containerClone.innerHTML = '';
+
+            Array.prototype.forEach.call(cardsCollection, (child: HTMLElement, i: number) => {
+                const rect = child.getBoundingClientRect();
                 positionsAfterSort.push([rect.x - containerRect.x, rect.y - containerRect.y]);
                 setTimeout(() => {
-                    (this._container as HTMLElement).classList.remove('catalog__container_on-sort');
+                    this._container.classList.remove('catalog__container_on-sort');
 
-                    (child as HTMLElement).style.position = 'absolute';
-                    (child as HTMLElement).style.top = positionsBeforeSort[i][1] + 'px';
-                    (child as HTMLElement).style.left = positionsBeforeSort[i][0] + 'px';
-                    (child as HTMLElement).style.transitionDuration = '0.5s';
+                    child.style.position = 'absolute';
+                    child.style.top = positionsBeforeSort[i][1] + 'px';
+                    child.style.left = positionsBeforeSort[i][0] + 'px';
+                    child.style.transitionDuration = '0.5s';
                     setTimeout(() => {
-                        (child as HTMLElement).style.top = positionsAfterSort[i][1] + 'px';
-                        (child as HTMLElement).style.left = positionsAfterSort[i][0] + 'px';
+                        child.style.top = positionsAfterSort[i][1] + 'px';
+                        child.style.left = positionsAfterSort[i][0] + 'px';
 
                         setTimeout(() => {
-                            (this._container as HTMLElement).style.width = '';
-                            (this._container as HTMLElement).style.height = '';
+                            this._container.style.width = '';
+                            this._container.style.height = '';
 
-                            (child as HTMLElement).style.position = '';
-                            (child as HTMLElement).style.top = '';
-                            (child as HTMLElement).style.left = '';
-                            (child as HTMLElement).style.transitionDuration = '';
+                            child.style.position = '';
+                            child.style.top = '';
+                            child.style.left = '';
+                            child.style.transitionDuration = '';
                         }, 500);
                     }, 10);
                 }, 10);
@@ -196,13 +199,17 @@ class Catalog {
     }
 
     private applyEvents(): void {
-        this._container?.addEventListener('click', (e: MouseEvent) => {
-            if (e.target != this._container) {
-                const element = (e.target as HTMLElement).closest('.card') as HTMLElement;
-                const company = element.dataset.company as string;
-                const card = this._cache[company] as Card;
-                const inBasket = this._basket.toggle(company);
-                card.markInBasket(inBasket);
+        this._container.addEventListener('click', (e: MouseEvent) => {
+            if (e.target != this._container && e.target instanceof HTMLElement) {
+                const element = <HTMLElement>e.target.closest('.card');
+                if (element != null) {
+                    const company = element.dataset.company;
+                    if (company) {
+                        const card = this._cache[company];
+                        const inBasket = this._basket.toggle(company);
+                        card.markInBasket(inBasket);
+                    }
+                }
             }
         });
     }

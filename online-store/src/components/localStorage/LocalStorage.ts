@@ -9,7 +9,7 @@ export default class LocalStorage {
     }
 
     public getBasket(): string[] | null {
-        return this.getAndParse('basket');
+        return <string[]>this.getAndParse('basket');
     }
 
     public saveBasket(basket: string[]): void {
@@ -17,7 +17,7 @@ export default class LocalStorage {
     }
 
     public getFilters(): Filters | null {
-        return this.getAndParse('filters');
+        return <Filters>this.getAndParse('filters');
     }
 
     public saveFilters(filters: Filters): void {

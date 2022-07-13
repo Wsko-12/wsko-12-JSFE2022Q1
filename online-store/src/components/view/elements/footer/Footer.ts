@@ -8,37 +8,37 @@ export class Footer {
     constructor() {
         const builder = new Builder().createElement;
 
-        const authorLink = builder('p', {
+        const authorLink = <HTMLParagraphElement>builder('p', {
             content: 'by <a href="https://github.com/Wsko-12" target="_blank">Vlad Vasko</a>, 2022',
         });
 
-        const description = builder('p', {
+        const description = <HTMLParagraphElement>builder('p', {
             content: 'No any lib used',
         });
 
-        const descriptionContainer = builder('div', {
+        const descriptionContainer = <HTMLDivElement>builder('div', {
             classes: ['footer__description'],
             content: [authorLink, description],
         });
 
-        const link = builder('a', {
+        const link = <HTMLAnchorElement>builder('a', {
             attrs: {
                 target: '_blank',
                 href: 'https://rs.school/js/',
             },
         });
 
-        const logo = builder('div', {
+        const logo = <HTMLDivElement>builder('div', {
             classes: 'footer__logo',
             content: [link],
         });
 
-        this._container = builder('div', {
+        this._container = <HTMLDivElement>builder('div', {
             classes: 'footer__container',
             content: [logo, descriptionContainer],
         });
 
-        this._element = builder('footer', {
+        this._element = <HTMLElement>builder('footer', {
             classes: 'footer',
             content: [this._container],
         });
