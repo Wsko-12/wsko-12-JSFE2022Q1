@@ -20,7 +20,7 @@ export default class Sorting {
             attrs: {
                 name: 'sorting',
             },
-            content: selected ? [this._noSortItem, ...this.generateOptions(selected)] : this.generateOptions(selected),
+            content: !selected ? [this._noSortItem, ...this.generateOptions(selected)] : this.generateOptions(selected),
         });
 
         this.applyEvents();
