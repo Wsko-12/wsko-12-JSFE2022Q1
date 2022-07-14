@@ -2,6 +2,7 @@ import { CompanyCountry, IDataItem, IFilters, LogoColor, MinMax } from '../../..
 
 export default class Filter {
     public filterOut(filters: IFilters, data: IDataItem[]): IDataItem[] {
+        if (!filters || typeof filters != 'object') return data;
         let filtered = data;
         filtered = this.filterByMinMax(filters, filtered, 'price');
         filtered = this.filterByMinMax(filters, filtered, 'year');

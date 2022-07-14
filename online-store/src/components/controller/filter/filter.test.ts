@@ -756,4 +756,245 @@ describe('Filter ', () => {
             expect(result).toEqual(expected);
         });
     });
+
+    describe('.filterOut()', () => {
+        let DATA;
+
+        beforeEach(() => {
+            DATA = [
+                {
+                    name: 'A',
+                    color: ['blue'],
+                    country: 'A',
+                    discount: 10,
+                    price: 10,
+                    employees: 10,
+                    year: 2000,
+                },
+                {
+                    name: 'B',
+                    color: ['red'],
+                    country: 'A',
+                    discount: 0,
+                    price: 20,
+                    employees: 20,
+                    year: 2005,
+                },
+                {
+                    name: 'C',
+                    color: ['red', 'blue'],
+                    country: 'B',
+                    discount: 0,
+                    price: 30,
+                    employees: 30,
+                    year: 2010,
+                },
+                {
+                    name: 'D',
+                    color: ['yellow'],
+                    country: 'C',
+                    discount: 0,
+                    price: 40,
+                    employees: 30,
+                    year: 2015,
+                },
+            ];
+        });
+
+        test('Should return the same Array if filter incorrect', () => {
+            let result = filter.filterOut(null, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterOut({}, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterOut(
+                {
+                    name() {
+                        return 1;
+                    },
+                },
+                DATA
+            );
+            expect(result).toBe(DATA);
+
+            result = filter.filterOut(
+                {
+                    name: {
+                        length: 1,
+                    },
+                },
+                DATA
+            );
+            expect(result).toBe(DATA);
+        });
+
+        test('Should correct filtered data', () => {
+            let filters = {
+                colors: {
+                    selected: ['red'],
+                },
+            };
+
+            let expected = [
+                {
+                    name: 'B',
+                    color: ['red'],
+                    country: 'A',
+                    discount: 0,
+                    price: 20,
+                    employees: 20,
+                    year: 2005,
+                },
+                {
+                    name: 'C',
+                    color: ['red', 'blue'],
+                    country: 'B',
+                    discount: 0,
+                    price: 30,
+                    employees: 30,
+                    year: 2010,
+                },
+            ];
+
+            let result = filter.filterOut(filters, DATA);
+            expect(result).toEqual(expected);
+
+            filters = {
+                colors: {
+                    selected: ['red'],
+                },
+                countries: {
+                    selected: ['B'],
+                },
+            };
+
+            expected = [
+                {
+                    name: 'C',
+                    color: ['red', 'blue'],
+                    country: 'B',
+                    discount: 0,
+                    price: 30,
+                    employees: 30,
+                    year: 2010,
+                },
+            ];
+
+            result = filter.filterOut(filters, DATA);
+            expect(result).toEqual(expected);
+
+            filters = {
+                colors: {
+                    selected: ['red'],
+                },
+                discountOnly: true,
+                countries: {
+                    selected: ['B'],
+                },
+            };
+
+            result = filter.filterOut(filters, DATA);
+            expect(result).toEqual([]);
+
+            filters = {
+                price: {
+                    current: [20, 50],
+                },
+            };
+
+            expected = [
+                {
+                    name: 'B',
+                    color: ['red'],
+                    country: 'A',
+                    discount: 0,
+                    price: 20,
+                    employees: 20,
+                    year: 2005,
+                },
+                {
+                    name: 'C',
+                    color: ['red', 'blue'],
+                    country: 'B',
+                    discount: 0,
+                    price: 30,
+                    employees: 30,
+                    year: 2010,
+                },
+                {
+                    name: 'D',
+                    color: ['yellow'],
+                    country: 'C',
+                    discount: 0,
+                    price: 40,
+                    employees: 30,
+                    year: 2015,
+                },
+            ];
+
+            result = filter.filterOut(filters, DATA);
+            expect(result).toEqual(expected);
+
+            filters = {
+                price: {
+                    current: [20, 50],
+                },
+                employees: {
+                    current: [25, 50],
+                },
+            };
+
+            expected = [
+                {
+                    name: 'C',
+                    color: ['red', 'blue'],
+                    country: 'B',
+                    discount: 0,
+                    price: 30,
+                    employees: 30,
+                    year: 2010,
+                },
+                {
+                    name: 'D',
+                    color: ['yellow'],
+                    country: 'C',
+                    discount: 0,
+                    price: 40,
+                    employees: 30,
+                    year: 2015,
+                },
+            ];
+
+            result = filter.filterOut(filters, DATA);
+            expect(result).toEqual(expected);
+
+            filters = {
+                price: {
+                    current: [20, 50],
+                },
+                employees: {
+                    current: [25, 50],
+                },
+                year: {
+                    current: [2015, 2020],
+                },
+            };
+
+            expected = [
+                {
+                    name: 'D',
+                    color: ['yellow'],
+                    country: 'C',
+                    discount: 0,
+                    price: 40,
+                    employees: 30,
+                    year: 2015,
+                },
+            ];
+
+            result = filter.filterOut(filters, DATA);
+            expect(result).toEqual(expected);
+        });
+    });
 });
