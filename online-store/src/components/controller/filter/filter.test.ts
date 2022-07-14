@@ -81,4 +81,117 @@ describe('Filter ', () => {
             });
         });
     });
+
+    describe('.filterByLogoColor():', () => {
+        let DATA;
+
+        beforeEach(() => {
+            DATA = [
+                {
+                    name: 'A',
+                    color: ['red'],
+                },
+                {
+                    name: 'B',
+                    color: ['blue'],
+                },
+                {
+                    name: 'C',
+                    color: ['yellow'],
+                },
+                {
+                    name: 'D',
+                    color: ['red', 'yellow'],
+                },
+                {
+                    name: 'E',
+                    color: ['red', 'yellow', 'blue'],
+                },
+            ];
+        });
+
+        test('Should return the same Array if filter not setted', () => {
+            const filters = {
+                colors: {
+                    selected: [],
+                },
+            };
+            const result = filter.filterByLogoColor(filters, DATA);
+            expect(result).toBe(DATA);
+        });
+
+        test('Should return new Array if filter setted', () => {
+            const filters = {
+                colors: {
+                    selected: ['red'],
+                },
+            };
+            const result = filter.filterByLogoColor(filters, DATA);
+            expect(result).not.toBe(DATA);
+        });
+
+        test('Should return correct Array if filter by one color', () => {
+            const filters = {
+                colors: {
+                    selected: ['red'],
+                },
+            };
+
+            const expected = [
+                {
+                    name: 'A',
+                    color: ['red'],
+                },
+                {
+                    name: 'D',
+                    color: ['red', 'yellow'],
+                },
+                {
+                    name: 'E',
+                    color: ['red', 'yellow', 'blue'],
+                },
+            ];
+
+            const result = filter.filterByLogoColor(filters, DATA);
+            expect(result).toEqual(expected);
+        });
+
+        test('Should return correct Array if filter by several color', () => {
+            let filters = {
+                colors: {
+                    selected: ['red', 'blue'],
+                },
+            };
+
+            let expected = [
+                {
+                    name: 'E',
+                    color: ['red', 'yellow', 'blue'],
+                },
+            ];
+
+            let result = filter.filterByLogoColor(filters, DATA);
+            expect(result).toEqual(expected);
+
+            filters = {
+                colors: {
+                    selected: ['red', 'yellow'],
+                },
+            };
+
+            expected = [
+                {
+                    name: 'D',
+                    color: ['red', 'yellow'],
+                },
+                {
+                    name: 'E',
+                    color: ['red', 'yellow', 'blue'],
+                },
+            ];
+
+            result = filter.filterByLogoColor(filters, DATA);
+            expect(result).toEqual(expected);
+        });
+    });
 });
