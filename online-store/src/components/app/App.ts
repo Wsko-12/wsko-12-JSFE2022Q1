@@ -13,7 +13,7 @@ class App {
 
     public start(): void {
         this.view.build();
-        const startFilters = this.controller.getCurrentFilters();
+        const startFilters = this.controller.getStartFilters();
         this.view.setFilters(startFilters);
 
         this.view.drawCards(this.controller.getFilteredData(startFilters));
