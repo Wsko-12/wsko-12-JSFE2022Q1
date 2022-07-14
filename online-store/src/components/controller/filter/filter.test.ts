@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import Filter from './Filter';
-
 describe('Filter ', () => {
     const filter = new Filter();
     describe('.filterByDiscount():', () => {
@@ -30,6 +29,17 @@ describe('Filter ', () => {
                     discount: 0,
                 },
             ];
+        });
+
+        test('Should return the same Array if filters uncorrected', () => {
+            let result = filter.filterByDiscount(null, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterByDiscount({}, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterByDiscount({ name: [] }, DATA);
+            expect(result).toBe(DATA);
         });
 
         test('Should return the same Array if filter not setted', () => {
@@ -108,6 +118,32 @@ describe('Filter ', () => {
                     color: ['red', 'yellow', 'blue'],
                 },
             ];
+        });
+
+        test('Should return the same Array if filters uncorrected', () => {
+            let result = filter.filterByLogoColor(null, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterByLogoColor({}, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterByLogoColor(
+                {
+                    colors: 1,
+                },
+                DATA
+            );
+            expect(result).toBe(DATA);
+
+            result = filter.filterByLogoColor(
+                {
+                    colors: {
+                        selected: '1',
+                    },
+                },
+                DATA
+            );
+            expect(result).toBe(DATA);
         });
 
         test('Should return the same Array if filter not setted', () => {
@@ -194,7 +230,7 @@ describe('Filter ', () => {
             expect(result).toEqual(expected);
         });
 
-        test('Should return empty Array if items not found by this filters', () => {
+        test('Should return empty Array if items not found by this filter', () => {
             const filters = {
                 colors: {
                     selected: ['red', 'blue', 'white'],
@@ -232,6 +268,32 @@ describe('Filter ', () => {
                     country: 'D',
                 },
             ];
+        });
+
+        test('Should return the same Array if filters uncorrected', () => {
+            let result = filter.filterByLogoColor(null, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterByLogoColor({}, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterByLogoColor(
+                {
+                    colors: 1,
+                },
+                DATA
+            );
+            expect(result).toBe(DATA);
+
+            result = filter.filterByLogoColor(
+                {
+                    colors: {
+                        selected: '1',
+                    },
+                },
+                DATA
+            );
+            expect(result).toBe(DATA);
         });
 
         test('Should return the same Array if filter not setted', () => {
@@ -338,7 +400,7 @@ describe('Filter ', () => {
             expect(result).toEqual(expected);
         });
 
-        test('Should return empty Array if items not found by this filters', () => {
+        test('Should return empty Array if items not found by this filter', () => {
             const filters = {
                 countries: {
                     selected: ['F'],
@@ -346,6 +408,172 @@ describe('Filter ', () => {
             };
 
             const result = filter.filterByCountry(filters, DATA);
+            expect(result).toEqual([]);
+        });
+    });
+
+    describe('.filterByNameIncludes():', () => {
+        let DATA;
+
+        beforeEach(() => {
+            DATA = [
+                {
+                    name: 'Aaa',
+                },
+                {
+                    name: 'Bbb',
+                },
+                {
+                    name: 'AaaBbb',
+                },
+                {
+                    name: 'AAA',
+                },
+                {
+                    name: 'Bcbb',
+                },
+            ];
+        });
+
+        test('Should return the same Array if filter uncorrected', () => {
+            let result = filter.filterByNameIncludes(null, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterByNameIncludes({}, DATA);
+            expect(result).toBe(DATA);
+
+            result = filter.filterByNameIncludes(
+                {
+                    name: [],
+                },
+                DATA
+            );
+            expect(result).toBe(DATA);
+
+            result = filter.filterByNameIncludes(
+                {
+                    name: 1,
+                },
+                DATA
+            );
+            expect(result).toBe(DATA);
+        });
+
+        test('Should return the same Array if filter not setted', () => {
+            const filters = {
+                name: '',
+            };
+            const result = filter.filterByNameIncludes(filters, DATA);
+            expect(result).toBe(DATA);
+        });
+
+        test('Should return new Array if filter setted', () => {
+            const filters = {
+                name: 'Aaa',
+            };
+            const result = filter.filterByNameIncludes(filters, DATA);
+            expect(result).not.toBe(DATA);
+        });
+
+        test("Shouldn't be case sensitive", () => {
+            DATA = [
+                {
+                    name: 'Aaa',
+                },
+                {
+                    name: 'aaa',
+                },
+                {
+                    name: 'aaA',
+                },
+                {
+                    name: 'AAA',
+                },
+            ];
+
+            const filters = {
+                name: 'aaa',
+            };
+            const result = filter.filterByNameIncludes(filters, DATA);
+            expect(result).toEqual(DATA);
+        });
+
+        test('Should search for matches in the specified letter order', () => {
+            DATA = [
+                {
+                    name: 'aaa',
+                },
+                {
+                    name: 'bbaa',
+                },
+                {
+                    name: 'aba',
+                },
+                {
+                    name: 'aabbaa',
+                },
+            ];
+
+            const filters = {
+                name: 'aa',
+            };
+
+            const expected = [
+                {
+                    name: 'aaa',
+                },
+                {
+                    name: 'bbaa',
+                },
+                {
+                    name: 'aabbaa',
+                },
+            ];
+            const result = filter.filterByNameIncludes(filters, DATA);
+            expect(result).toEqual(expected);
+        });
+
+        test('Should trim filter string', () => {
+            DATA = [
+                {
+                    name: 'aaa',
+                },
+                {
+                    name: 'aa',
+                },
+            ];
+
+            const filters = {
+                name: ' aa ',
+            };
+
+            const expected = [
+                {
+                    name: 'aaa',
+                },
+                {
+                    name: 'aa',
+                },
+            ];
+            const result = filter.filterByNameIncludes(filters, DATA);
+            expect(result).toEqual(expected);
+        });
+
+        test('Should return empty Array if items not found by this filter', () => {
+            DATA = [
+                {
+                    name: 'aaa',
+                },
+                {
+                    name: 'aa',
+                },
+            ];
+
+            const filters = {
+                name: 'bb',
+            };
+
+            const result = filter.filterByNameIncludes(filters, DATA);
             expect(result).toEqual([]);
         });
     });

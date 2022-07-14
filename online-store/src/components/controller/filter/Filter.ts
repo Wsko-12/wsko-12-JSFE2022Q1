@@ -73,11 +73,13 @@ export default class Filter {
     }
 
     private filterByDiscount(filters: IFilters, data: IDataItem[]): IDataItem[] {
-        if (!filters.discountOnly) return data;
+        if (!filters || typeof filters.discountOnly != 'boolean' || !filters.discountOnly) return data;
         return data.filter((item) => item.discount > 0);
     }
 
     private filterByNameIncludes(filters: IFilters, data: IDataItem[]): IDataItem[] {
+        if (!filters || filters.name === undefined || typeof filters.name != 'string' || filters.name.length === 0)
+            return data;
         if (filters.name === '') return data;
         const search = filters.name.trim().toLowerCase();
         return data.filter((item) => {
@@ -87,19 +89,29 @@ export default class Filter {
     }
 
     private filterByCountry(filters: IFilters, data: IDataItem[]): IDataItem[] {
-        const selected = filters.countries.selected;
-        if (selected.length === 0) {
+        if (
+            !filters ||
+            !filters.countries ||
+            !filters.countries.selected ||
+            !Array.isArray(filters.countries.selected) ||
+            filters.countries.selected.length === 0
+        )
             return data;
-        }
+        const selected = filters.countries.selected;
         return data.filter((item) => {
             return selected.indexOf(item.country) != -1;
         });
     }
 
     private filterByLogoColor(filters: IFilters, data: IDataItem[]): IDataItem[] {
-        if (filters.colors.selected.length === 0) {
+        if (
+            !filters ||
+            !filters.colors ||
+            !filters.colors.selected ||
+            !Array.isArray(filters.colors.selected) ||
+            filters.colors.selected.length === 0
+        )
             return data;
-        }
         return data.filter((item) => {
             const colors: LogoColor[] = item.color;
             const selected: LogoColor[] = filters.colors.selected;
@@ -118,6 +130,8 @@ export default class Filter {
         data: IDataItem[],
         property: 'year' | 'price' | 'employees'
     ): IDataItem[] {
+        if (!property) return data;
+        if (!filters[property]) return data;
         const min = filters[property].current[0];
         const max = filters[property].current[1];
         return data.filter((item) => {
