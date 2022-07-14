@@ -130,8 +130,17 @@ export default class Filter {
         data: IDataItem[],
         property: 'year' | 'price' | 'employees'
     ): IDataItem[] {
+        if (
+            !filters ||
+            !filters[property] ||
+            !filters[property].current ||
+            !Array.isArray(filters[property].current) ||
+            filters[property].current.length < 2 ||
+            typeof filters[property].current[0] != 'number' ||
+            typeof filters[property].current[1] != 'number'
+        )
+            return data;
         if (!property) return data;
-        if (!filters[property]) return data;
         const min = filters[property].current[0];
         const max = filters[property].current[1];
         return data.filter((item) => {

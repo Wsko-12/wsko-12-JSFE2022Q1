@@ -31,7 +31,7 @@ describe('Filter ', () => {
             ];
         });
 
-        test('Should return the same Array if filters uncorrected', () => {
+        test('Should return the same Array if filters incorrect', () => {
             let result = filter.filterByDiscount(null, DATA);
             expect(result).toBe(DATA);
 
@@ -120,7 +120,7 @@ describe('Filter ', () => {
             ];
         });
 
-        test('Should return the same Array if filters uncorrected', () => {
+        test('Should return the same Array if filters incorrect', () => {
             let result = filter.filterByLogoColor(null, DATA);
             expect(result).toBe(DATA);
 
@@ -270,7 +270,7 @@ describe('Filter ', () => {
             ];
         });
 
-        test('Should return the same Array if filters uncorrected', () => {
+        test('Should return the same Array if filters incorrect', () => {
             let result = filter.filterByLogoColor(null, DATA);
             expect(result).toBe(DATA);
 
@@ -435,7 +435,7 @@ describe('Filter ', () => {
             ];
         });
 
-        test('Should return the same Array if filter uncorrected', () => {
+        test('Should return the same Array if filter incorrect', () => {
             let result = filter.filterByNameIncludes(null, DATA);
             expect(result).toBe(DATA);
 
@@ -575,6 +575,185 @@ describe('Filter ', () => {
 
             const result = filter.filterByNameIncludes(filters, DATA);
             expect(result).toEqual([]);
+        });
+    });
+
+    describe('.filterByMinMax():', () => {
+        let DATA;
+
+        beforeEach(() => {
+            DATA = [
+                {
+                    name: 'A',
+                    price: 10,
+                },
+                {
+                    name: 'B',
+                    price: 20,
+                },
+                {
+                    name: 'C',
+                    price: 30,
+                },
+                {
+                    name: 'D',
+                    price: 50,
+                },
+                {
+                    name: 'E',
+                    price: 60,
+                },
+            ];
+        });
+
+        test('Should return the same Array if filter incorrect', () => {
+            let result = filter.filterByMinMax(null, DATA, 'price');
+            expect(result).toBe(DATA);
+
+            result = filter.filterByMinMax({}, DATA, 'price');
+            expect(result).toBe(DATA);
+
+            result = filter.filterByMinMax({ price: 1 }, DATA, 'price');
+            expect(result).toBe(DATA);
+
+            result = filter.filterByMinMax({ price: { current: 1 } }, DATA, 'price');
+            expect(result).toBe(DATA);
+
+            result = filter.filterByMinMax({ price: { current: [] } }, DATA, 'price');
+            expect(result).toBe(DATA);
+
+            result = filter.filterByMinMax({ price: { current: ['1', '2'] } }, DATA, 'price');
+            expect(result).toBe(DATA);
+
+            result = filter.filterByMinMax({ price: { current: [1, true] } }, DATA, 'price');
+            expect(result).toBe(DATA);
+        });
+
+        test('Should return same Array property undefined', () => {
+            const DATA = [
+                {
+                    name: 'A',
+                    price: 10,
+                },
+            ];
+            const result = filter.filterByMinMax({}, DATA);
+            expect(result).toBe(DATA);
+        });
+
+        test('Should return same Array if incorrect property', () => {
+            const DATA = [
+                {
+                    name: 'A',
+                    price: 10,
+                },
+            ];
+            const result = filter.filterByMinMax({}, DATA, 'incorrect');
+            expect(result).toBe(DATA);
+        });
+
+        test('Should filter by selected property', () => {
+            DATA = [
+                {
+                    name: 'A',
+                    year: 2020,
+                },
+                {
+                    name: 'B',
+                    price: 10,
+                },
+                {
+                    name: 'B',
+                    employees: 200,
+                },
+            ];
+
+            const expected = [
+                {
+                    name: 'B',
+                    employees: 200,
+                },
+            ];
+
+            const filters = {
+                employees: {
+                    current: [0, 201],
+                },
+            };
+
+            const result = filter.filterByMinMax(filters, DATA, 'employees');
+            expect(result).toEqual(expected);
+        });
+
+        test('Should filter correct filter', () => {
+            let expected = [
+                {
+                    name: 'B',
+                    price: 20,
+                },
+                {
+                    name: 'C',
+                    price: 30,
+                },
+            ];
+
+            let filters = {
+                price: {
+                    current: [11, 31],
+                },
+            };
+
+            let result = filter.filterByMinMax(filters, DATA, 'price');
+            expect(result).toEqual(expected);
+
+            expected = [
+                {
+                    name: 'A',
+                    price: 10,
+                },
+                {
+                    name: 'B',
+                    price: 20,
+                },
+                {
+                    name: 'C',
+                    price: 30,
+                },
+            ];
+
+            filters = {
+                price: {
+                    current: [9, 31],
+                },
+            };
+
+            result = filter.filterByMinMax(filters, DATA, 'price');
+            expect(result).toEqual(expected);
+        });
+
+        test('Should filter correct filter if min or max value equal selected property', () => {
+            const expected = [
+                {
+                    name: 'A',
+                    price: 10,
+                },
+                {
+                    name: 'B',
+                    price: 20,
+                },
+                {
+                    name: 'C',
+                    price: 30,
+                },
+            ];
+
+            const filters = {
+                price: {
+                    current: [10, 30],
+                },
+            };
+
+            const result = filter.filterByMinMax(filters, DATA, 'price');
+            expect(result).toEqual(expected);
         });
     });
 });
