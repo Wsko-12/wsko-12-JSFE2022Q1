@@ -997,4 +997,96 @@ describe('Filter ', () => {
             expect(result).toEqual(expected);
         });
     });
+
+    describe('.calculateBasicFilters()', () => {
+        let DATA;
+        beforeEach(() => {
+            DATA = [
+                {
+                    name: 'A',
+                    color: ['blue'],
+                    country: 'A',
+                    discount: 10,
+                    price: 10,
+                    employees: 10,
+                    year: 2000,
+                },
+                {
+                    name: 'B',
+                    color: ['red'],
+                    country: 'A',
+                    discount: 0,
+                    price: 20,
+                    employees: 20,
+                    year: 2005,
+                },
+                {
+                    name: 'C',
+                    color: ['red', 'blue'],
+                    country: 'B',
+                    discount: 0,
+                    price: 30,
+                    employees: 30,
+                    year: 2010,
+                },
+                {
+                    name: 'D',
+                    color: ['yellow'],
+                    country: 'C',
+                    discount: 0,
+                    price: 40,
+                    employees: 30,
+                    year: 2015,
+                },
+            ];
+        });
+
+        test("Shouldn't change data array", () => {
+            const dataClone = JSON.parse(JSON.stringify(DATA));
+            filter.calculateBasicFilters(DATA);
+            expect(DATA).toEqual(dataClone);
+        });
+
+        test('Name should be always empty string', () => {
+            const result = filter.calculateBasicFilters(DATA);
+            expect(result.name).toBe('');
+        });
+
+        test('Discount should be always false', () => {
+            const result = filter.calculateBasicFilters(DATA);
+            expect(result.discountOnly).toBe(false);
+        });
+
+        test('Should correct define min and max values', () => {
+            const result = filter.calculateBasicFilters(DATA);
+            expect(result.price.maxMin).toEqual([10, 40]);
+            expect(result.employees.maxMin).toEqual([10, 30]);
+            expect(result.year.maxMin).toEqual([2000, 2015]);
+        });
+
+        test('Should correct round min and max values', () => {
+            DATA[0].price = 10.9999;
+            DATA[3].price = 40.0001;
+
+            DATA[0].year = 2000.9999;
+            DATA[3].year = 2015.0001;
+
+            DATA[0].employees = 10.9999;
+            DATA[3].employees = 30.0001;
+
+            const result = filter.calculateBasicFilters(DATA);
+            expect(result.price.maxMin).toEqual([10, 41]);
+            expect(result.year.maxMin).toEqual([2000, 2016]);
+            expect(result.employees.maxMin).toEqual([10, 31]);
+        });
+
+        test('Should correct collect values', () => {
+            const result = filter.calculateBasicFilters(DATA);
+            expect(result.countries.all).toEqual(['A', 'B', 'C']);
+            expect(result.colors.all).toContain('red');
+            expect(result.colors.all).toContain('yellow');
+            expect(result.colors.all).toContain('blue');
+            expect(result.colors.all.length).toBe(3);
+        });
+    });
 });
