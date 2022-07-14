@@ -23,7 +23,7 @@ class Card {
     constructor(data: IDataItem) {
         this.company = data;
 
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         const image = <HTMLImageElement>builder('img', {
             classes: 'card__image',
@@ -93,7 +93,7 @@ class Card {
     }
 
     private createPriceElement(): HTMLElement {
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
         let element: HTMLElement;
         const price = this.company.price;
         const discount = this.company.discount;

@@ -6,7 +6,7 @@ export class Footer {
     private _container: HTMLElement;
 
     constructor() {
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         const authorLink = <HTMLParagraphElement>builder('p', {
             content: 'by <a href="https://github.com/Wsko-12" target="_blank">Vlad Vasko</a>, 2022',

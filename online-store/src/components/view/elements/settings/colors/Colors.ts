@@ -11,7 +11,7 @@ export default class Colors extends SettingsElement {
 
     constructor(label: string) {
         super();
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         const title = <HTMLHeadingElement>builder('h4', {
             classes: ['colors__title'],
@@ -67,7 +67,7 @@ export default class Colors extends SettingsElement {
     }
 
     private generateColorsItem(): HTMLElement[] {
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         const items: HTMLElement[] = this._colors.map((color) => {
             if (this._colorsElements[color]) return this._colorsElements[color];

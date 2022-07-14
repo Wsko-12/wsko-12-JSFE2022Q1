@@ -23,7 +23,7 @@ class Catalog {
     constructor() {
         this._sortSelected = this._localStorage.getSorting() || '-';
 
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         const header = <HTMLElement>builder('header', {
             classes: ['catalog__header', 'side-item'],
@@ -76,7 +76,7 @@ class Catalog {
         });
 
         if (!companiesData.length) {
-            const message = <HTMLParagraphElement>new Builder().createElement('p', {
+            const message = <HTMLParagraphElement>Builder.createElement('p', {
                 classes: 'catalog__message',
                 content: 'Sorry, no matches found :(',
             });

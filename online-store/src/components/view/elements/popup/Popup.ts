@@ -7,7 +7,7 @@ export default class Popup {
     private _timeoutId: number | null = null;
 
     constructor() {
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         this._message = <HTMLParagraphElement>builder('p', {
             classes: 'popup__message',

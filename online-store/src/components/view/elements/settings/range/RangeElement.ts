@@ -75,7 +75,7 @@ export default class RangeElement extends SettingsElement {
     }
 
     private build(label: string): HTMLElement {
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
         this._label = <HTMLHeadingElement>builder('h4', {
             classes: 'range__label',
             content: label,

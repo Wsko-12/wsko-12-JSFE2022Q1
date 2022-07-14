@@ -7,7 +7,7 @@ export default class Sorting {
     private _onChangeCallback: ((sorting: string) => void) | null = null;
 
     constructor(selected?: string) {
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
         this._noSortItem = <HTMLOptionElement>builder('option', {
             attrs: {
                 value: '-',
@@ -53,7 +53,7 @@ export default class Sorting {
     }
 
     private generateOptions(selected?: string): HTMLElement[] {
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
         const options: [string, string][] = [
             ['alphabetA', 'Name: A-Z'],
             ['alphabetZ', 'Name: Z-A'],

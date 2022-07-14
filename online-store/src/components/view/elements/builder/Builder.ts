@@ -6,14 +6,7 @@ interface createElementProps {
     content?: string | HTMLElement[];
 }
 class Builder {
-    private static _instance: Builder;
-
-    constructor() {
-        if (!Builder._instance) Builder._instance = this;
-        return Builder._instance;
-    }
-
-    public createElement<T extends HTMLElement>(tag: string, properties: createElementProps = {}): T {
+    public static createElement<T extends HTMLElement>(tag: string, properties: createElementProps = {}): T {
         const element = <T>document.createElement(tag);
         if (properties.classes) {
             if (typeof properties.classes === 'string') {

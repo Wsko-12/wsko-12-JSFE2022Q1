@@ -7,7 +7,7 @@ class Header {
     private _element: HTMLElement;
 
     constructor() {
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         this._basket.addOnChangeListener(this.onBasketChange);
         const logo = <HTMLHeadingElement>builder('h1', {

@@ -10,7 +10,7 @@ export default class County extends SettingsElement {
 
     constructor(label: string) {
         super();
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         const title = <HTMLHeadingElement>builder('h4', {
             classes: 'country__title',
@@ -87,7 +87,7 @@ export default class County extends SettingsElement {
 
     private createFlagElement(country: CompanyCountry): HTMLElement {
         if (this._flags[country]) return this._flags[country];
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
         const flag = <HTMLDivElement>builder('div', {
             classes: ['country__flag', 'flag', `flag_${country.toLowerCase()}`],
             dataset: {

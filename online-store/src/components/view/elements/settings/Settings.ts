@@ -51,8 +51,7 @@ class Settings {
             },
         };
 
-        const build = new Builder();
-        const builder = build.createElement;
+        const builder = Builder.createElement;
         const slideContainer = <HTMLDivElement>builder('div', {
             classes: 'side__slider',
         });

@@ -23,7 +23,7 @@ class AppView {
             this.popup.show('Sorry, all slots are full');
         });
 
-        const builder = new Builder().createElement;
+        const builder = Builder.createElement;
 
         const header: HTMLElement = this.header.getElement();
 
