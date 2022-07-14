@@ -192,10 +192,10 @@ class Catalog {
                             child.style.left = '';
                             child.style.transitionDuration = '';
                         }, 500);
-                    }, 10);
+                    }, 20);
                 }, 10);
             });
-        }, 200);
+        }, 300);
     }
 
     private applyEvents(): void {
