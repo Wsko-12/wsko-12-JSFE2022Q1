@@ -22,7 +22,6 @@ class App {
             if (fullReset) {
                 this._localStorage.clear();
                 this._basket.clear();
-                this.controller.clear();
                 this.view.clear();
             }
             this._localStorage.saveFilters(filters);

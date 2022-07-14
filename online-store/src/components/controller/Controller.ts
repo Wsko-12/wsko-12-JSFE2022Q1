@@ -5,15 +5,12 @@ import Filter from './filter/Filter';
 
 export default class Controller {
     private readonly data: IDataItem[];
-    private readonly _basicFiltersJson: string;
     private _startFilters: IFilters;
     private _filter: Filter = new Filter();
 
     constructor() {
         this.data = companiesData;
-        const basicFilters = this._filter.calculateBasicFilters(this.data);
-        this._basicFiltersJson = JSON.stringify(basicFilters);
-        this._startFilters = this.loadFilters(basicFilters);
+        this._startFilters = this.loadFilters();
     }
 
     public getStartFilters(): IFilters {
@@ -24,11 +21,8 @@ export default class Controller {
         return this._filter.filterOut(filters, [...this.data]);
     }
 
-    public clear(): void {
-        this._startFilters = JSON.parse(this._basicFiltersJson);
-    }
-
-    private loadFilters(basicFilters: IFilters): IFilters {
+    private loadFilters(): IFilters {
+        const basicFilters = this._filter.calculateBasicFilters(this.data);
         const savedFilters = new LocalStorage().getFilters();
         if (!savedFilters) return basicFilters;
         return {
