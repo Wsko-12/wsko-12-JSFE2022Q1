@@ -1,7 +1,7 @@
 import './common.scss';
 import AppView from '../view/AppView';
 import Controller from '../controller/Controller';
-import { Filters } from '../../interface/interface';
+import { IFilters } from '../../interface/interface';
 import LocalStorage from '../localStorage/LocalStorage';
 import Basket from '../basket/Basket';
 class App {
@@ -18,7 +18,7 @@ class App {
 
         this.view.drawCards(this.controller.getFilteredData(startFilters));
 
-        this.view.setSettingsChangeCallback((filters: Filters, fullReset?: boolean) => {
+        this.view.setSettingsChangeCallback((filters: IFilters, fullReset?: boolean) => {
             if (fullReset) {
                 this._localStorage.clear();
                 this._basket.clear();

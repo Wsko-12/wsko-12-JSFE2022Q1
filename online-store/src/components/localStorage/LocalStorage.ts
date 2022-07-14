@@ -1,4 +1,4 @@
-import { Filters } from '../../interface/interface';
+import { IFilters } from '../../interface/interface';
 
 export default class LocalStorage {
     private static _instance: LocalStorage;
@@ -16,11 +16,11 @@ export default class LocalStorage {
         this.save('basket', basket);
     }
 
-    public getFilters(): Filters | null {
-        return <Filters>this.getAndParse('filters');
+    public getFilters(): IFilters | null {
+        return <IFilters>this.getAndParse('filters');
     }
 
-    public saveFilters(filters: Filters): void {
+    public saveFilters(filters: IFilters): void {
         this.save('filters', filters);
     }
 

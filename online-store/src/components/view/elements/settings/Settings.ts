@@ -1,4 +1,4 @@
-import { CompanyCountry, Filters, LogoColor, SettingsCallback } from '../../../../interface/interface';
+import { CompanyCountry, IFilters, LogoColor, SettingsCallback } from '../../../../interface/interface';
 import Builder from '../builder/Builder';
 import Card from '../card/Card';
 import Colors from './colors/Colors';
@@ -7,7 +7,7 @@ import RangeElement from './range/RangeElement';
 import './style.scss';
 
 class Settings {
-    private _currentFilters: Filters;
+    private _currentFilters: IFilters;
 
     private _element: HTMLElement;
 
@@ -159,7 +159,7 @@ class Settings {
         return this._element;
     }
 
-    public setFilters(filters: Filters): void {
+    public setFilters(filters: IFilters): void {
         this._currentFilters = filters;
         this.setElements();
     }

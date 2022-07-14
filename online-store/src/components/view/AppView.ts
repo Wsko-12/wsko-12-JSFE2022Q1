@@ -3,7 +3,7 @@ import Builder from './elements/builder/Builder';
 import Header from './elements/header/Header';
 import Settings from './elements/settings/Settings';
 import './style.scss';
-import { Filters, IDataItem, SettingsCallback } from '../../interface/interface';
+import { IFilters, IDataItem, SettingsCallback } from '../../interface/interface';
 import { Footer } from './elements/footer/Footer';
 import Popup from './elements/popup/Popup';
 import Basket from '../basket/Basket';
@@ -28,7 +28,7 @@ class AppView {
         const header: HTMLElement = this.header.getElement();
 
         const settings = this.settings.getElement();
-        this.settings.setChangeCallback((filters: Filters, fullReset?: boolean) => {
+        this.settings.setChangeCallback((filters: IFilters, fullReset?: boolean) => {
             this.onChange(filters, fullReset);
         });
 
@@ -68,11 +68,11 @@ class AppView {
         this.catalog.fill(data);
     }
 
-    public setFilters(filter: Filters): void {
+    public setFilters(filter: IFilters): void {
         this.settings.setFilters(filter);
     }
 
-    private onChange(filters: Filters, fullReset?: boolean): void {
+    private onChange(filters: IFilters, fullReset?: boolean): void {
         if (this._onSettingsChangeCallback) this._onSettingsChangeCallback(filters, fullReset);
     }
 }

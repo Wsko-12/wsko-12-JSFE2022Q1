@@ -21,7 +21,7 @@ export interface IDataItem {
 }
 export type MinMax = [min: number, max: number];
 
-export interface Filters {
+export interface IFilters {
     name: string;
     price: {
         current: MinMax;
@@ -46,4 +46,4 @@ export interface Filters {
     discountOnly: boolean;
 }
 
-export type SettingsCallback = (filters: Filters, fullReset?: boolean) => void;
+export type SettingsCallback = (filters: IFilters, fullReset?: boolean) => void;

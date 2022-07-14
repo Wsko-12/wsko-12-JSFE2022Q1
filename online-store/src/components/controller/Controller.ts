@@ -1,12 +1,12 @@
 import companiesData from '../../data/data';
-import { CompanyCountry, Filters, IDataItem, LogoColor, MinMax } from '../../interface/interface';
+import { CompanyCountry, IFilters, IDataItem, LogoColor, MinMax } from '../../interface/interface';
 import LocalStorage from '../localStorage/LocalStorage';
 
 // TODO: make class Filter
 export default class Controller {
     private readonly data: IDataItem[];
     private readonly _basicFiltersJson: string;
-    private _currentFilters: Filters;
+    private _currentFilters: IFilters;
 
     constructor() {
         this.data = companiesData;
@@ -15,11 +15,11 @@ export default class Controller {
         this._currentFilters = this.loadFilters(basicFilters);
     }
 
-    public getCurrentFilters(): Filters {
+    public getCurrentFilters(): IFilters {
         return this._currentFilters;
     }
 
-    public getFilteredData(filters: Filters): IDataItem[] {
+    public getFilteredData(filters: IFilters): IDataItem[] {
         return this.filter(filters);
     }
 
@@ -27,7 +27,7 @@ export default class Controller {
         this._currentFilters = JSON.parse(this._basicFiltersJson);
     }
 
-    private calculateFilters(): Filters {
+    private calculateFilters(): IFilters {
         function check(value: number, minMax: MinMax) {
             if (value > minMax[1]) {
                 minMax[1] = Math.ceil(value);
@@ -85,7 +85,7 @@ export default class Controller {
         };
     }
 
-    private loadFilters(basicFilters: Filters): Filters {
+    private loadFilters(basicFilters: IFilters): IFilters {
         const savedFilters = new LocalStorage().getFilters();
         if (!savedFilters) return basicFilters;
         return {
@@ -111,15 +111,15 @@ export default class Controller {
                 all: basicFilters.countries.all,
                 selected: savedFilters?.countries.selected,
             },
-        } as Filters;
+        };
     }
 
-    private filterByDiscount(filters: Filters, data: IDataItem[]): IDataItem[] {
+    private filterByDiscount(filters: IFilters, data: IDataItem[]): IDataItem[] {
         if (!filters.discountOnly) return data;
         return data.filter((item) => item.discount > 0);
     }
 
-    private filterByNameIncludes(filters: Filters, data: IDataItem[]): IDataItem[] {
+    private filterByNameIncludes(filters: IFilters, data: IDataItem[]): IDataItem[] {
         if (filters.name === '') return data;
         const search = filters.name.trim().toLowerCase();
         return data.filter((item) => {
@@ -128,7 +128,7 @@ export default class Controller {
         });
     }
 
-    private filterByCountry(filters: Filters, data: IDataItem[]): IDataItem[] {
+    private filterByCountry(filters: IFilters, data: IDataItem[]): IDataItem[] {
         const selected = filters.countries.selected;
         if (selected.length === 0) {
             return data;
@@ -138,7 +138,7 @@ export default class Controller {
         });
     }
 
-    private filterByLogoColor(filters: Filters, data: IDataItem[]): IDataItem[] {
+    private filterByLogoColor(filters: IFilters, data: IDataItem[]): IDataItem[] {
         if (filters.colors.selected.length === 0) {
             return data;
         }
@@ -155,7 +155,11 @@ export default class Controller {
         });
     }
 
-    private filterByMinMax(filters: Filters, data: IDataItem[], property: 'year' | 'price' | 'employees'): IDataItem[] {
+    private filterByMinMax(
+        filters: IFilters,
+        data: IDataItem[],
+        property: 'year' | 'price' | 'employees'
+    ): IDataItem[] {
         const min = filters[property].current[0];
         const max = filters[property].current[1];
         return data.filter((item) => {
@@ -163,7 +167,7 @@ export default class Controller {
         });
     }
 
-    private filter(filters: Filters): IDataItem[] {
+    private filter(filters: IFilters): IDataItem[] {
         let filtered: IDataItem[] = [...this.data];
         filtered = this.filterByMinMax(filters, filtered, 'price');
         filtered = this.filterByMinMax(filters, filtered, 'year');
