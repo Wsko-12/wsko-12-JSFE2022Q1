@@ -1,7 +1,7 @@
 interface createElementProps {
     classes?: string[] | string | null;
     id?: string | null;
-    attrs?: { [key: string]: string | number };
+    attrs?: { [key: string]: string | number | boolean };
     dataset?: { [key: string]: string | number };
     content?: string | (HTMLElement | string)[] | HTMLElement;
 }
@@ -37,7 +37,7 @@ class Builder {
 
         if (properties.attrs) {
             for (const attr in properties.attrs) {
-                const value: string | number = properties.attrs[attr];
+                const value: string | number | boolean = properties.attrs[attr];
                 element.setAttribute(attr, value.toString());
             }
         }
