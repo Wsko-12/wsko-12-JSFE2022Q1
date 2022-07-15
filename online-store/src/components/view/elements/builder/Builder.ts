@@ -3,20 +3,36 @@ interface createElementProps {
     id?: string | null;
     attrs?: { [key: string]: string | number };
     dataset?: { [key: string]: string | number };
-    content?: string | HTMLElement[];
+    content?: string | (HTMLElement | string)[] | HTMLElement;
 }
 class Builder {
-    public static createElement<T extends HTMLElement>(tag: string, properties: createElementProps = {}): T {
+    public static createElement<T extends HTMLElement>(tag = 'div', properties: createElementProps = {}): T {
         const element = <T>document.createElement(tag);
         if (properties.classes) {
+            let classes: string[];
             if (typeof properties.classes === 'string') {
-                element.classList.add(properties.classes);
+                classes = properties.classes
+                    .replace(/,/g, ' ')
+                    .replace(/\./g, ' ')
+                    .replace(/\s{2,}/g, ' ')
+                    .trim()
+                    .split(' ');
             } else {
-                element.classList.add(...properties.classes);
+                classes = properties.classes.map((item) => {
+                    return item
+                        .replace(/,/g, ' ')
+                        .replace(/\./g, ' ')
+                        .replace(/\s{2,}/g, ' ')
+                        .trim();
+                });
             }
+            element.classList.add(...classes);
         }
         if (properties.id) {
-            element.id = properties.id;
+            element.id = properties.id
+                .replace(/#/g, ' ')
+                .replace(/\s{2,}/g, ' ')
+                .trim();
         }
 
         if (properties.attrs) {
@@ -36,8 +52,16 @@ class Builder {
         if (properties.content) {
             if (typeof properties.content === 'string') {
                 element.innerHTML = properties.content;
-            } else {
-                element.append(...properties.content);
+            } else if (properties.content instanceof HTMLElement) {
+                element.append(properties.content);
+            } else if (Array.isArray(properties.content)) {
+                properties.content.forEach((item: string | HTMLElement) => {
+                    if (typeof item === 'string') {
+                        element.insertAdjacentHTML('beforeend', item);
+                    } else {
+                        element.append(item);
+                    }
+                });
             }
         }
         return element;
