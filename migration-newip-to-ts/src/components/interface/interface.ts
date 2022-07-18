@@ -29,7 +29,42 @@ export interface SourceDescription {
     name: string;
     inFavorite: boolean;
 }
-export type Callback = <DataType>(data?: DataType) => void;
+
+// more 'speaking' type name
+export type Callback<DataType> = (data?: DataType) => void;
+
+// if value = key in enum, you can do Object.values(ECategory) and TS will infer this keys as your enum
+// than you can easily use typeguards
+export enum ECategory {
+    A = "A",
+    B = "B",
+    C = "C",
+    D = "D",
+    E = "E",
+    F = "F",
+    G = "G",
+    H = "H",
+    I = "I",
+    J = "J",
+    K = "K",
+    L = "L",
+    M = "M",
+    N = "N",
+    O = "O",
+    P = "P",
+    Q = "Q",
+    R = "R",
+    S = "S",
+    T = "T",
+    U = "U",
+    V = "V",
+    W = "W",
+    X = "X",
+    Y = "Y",
+    Z = "Z",
+    Others = "Others",
+    Favorites = "Favorites",
+}
 
 export type Category =
     | 'A'

@@ -1,4 +1,4 @@
-import { Callback, ResponseExtended, SourceData, ArticleData } from '../interface/interface';
+import {Callback, ResponseExtended, SourceData, ArticleData} from '../interface/interface';
 
 interface Options {
     apiKey: string;
@@ -28,6 +28,14 @@ enum ResponseStatus {
     'Expectation Failed',
 }
 
+interface IRawData {
+    status: string | number;
+    sources?: SourceData[];
+    articles?: ArticleData[];
+}
+
+const callJson = <T>(res: Response) => res.json() as Promise<T>;
+
 class Loader {
     private baseLink: string;
     private options: Options;
@@ -38,11 +46,11 @@ class Loader {
     }
 
     protected getResp(
-        { endpoint, options = {} }: { endpoint: string; options?: OptionsAdd },
-        callback: Callback = () => {
+        {endpoint, options = {}}: { endpoint: string; options?: OptionsAdd },
+        callback = () => {
             console.error('No callback for GET response');
         }
-    ): void {
+    ) {
         this.load('GET', endpoint, callback, options);
     }
 
@@ -56,8 +64,9 @@ class Loader {
         return res;
     }
 
-    private makeUrl(options: OptionsAdd, endpoint: string): string {
-        const urlOptions: { [key: string]: string } = { ...this.options, ...options };
+    private makeUrl(options: OptionsAdd, endpoint: string) {
+        // use util types 'Record'
+        const urlOptions: Record<string, string> = {...this.options, ...options};
         let url = `${this.baseLink}${endpoint}?`;
 
         Object.keys(urlOptions).forEach((key) => {
@@ -67,11 +76,13 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    private load(method: string, endpoint: string, callback: Callback, options: OptionsAdd = {}): void {
-        fetch(this.makeUrl(options, endpoint), { method })
+    private load(method: string, endpoint: string, callback: Callback<ResponseExtended>, options: OptionsAdd = {}) {
+        fetch(this.makeUrl(options, endpoint), {method})
             .then(this.errorHandler)
-            .then((res) => res.json())
-            .then((data: { status: string | number; sources?: SourceData[]; articles?: ArticleData[] }) => {
+            // extract util functions for better readability
+            .then<IRawData>(callJson)
+            // try to not inline types, bad readability and use generics
+            .then((data) => {
                 const dataExtended: ResponseExtended = {
                     sources: data.sources,
                     articles: data.articles,
@@ -79,7 +90,8 @@ class Loader {
                 };
                 callback(dataExtended);
             })
-            .catch((err) => console.error(err));
+            // extra wrap
+            .catch(console.error);
     }
 }
 

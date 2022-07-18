@@ -1,11 +1,16 @@
-import { Category, SourceData, Chars, SourceDescription } from '../../interface/interface';
+import {Category, SourceData, Chars, SourceDescription, ECategory} from '../../interface/interface';
 import './categories.css';
+import {isCategory} from "../../../utils/typeguards";
+
+interface ICategoriesWithFavorite extends Partial<Record<ECategory, SourceData[]>> {
+    [ECategory.Favorites]: SourceData[];
+}
 
 class Categories {
     private current: Category = 'A';
-    private categories: { [key: string]: SourceData[] } = { Favorites: [] };
+    private categories: ICategoriesWithFavorite = { [ECategory.Favorites]: [] };
     private all: SourceData[] = [];
-    private isAlphabetChar(char: string): boolean {
+    private isAlphabetChar(char: string) {
         if (isNaN(+char)) {
             return char in Chars;
         } else {
@@ -23,18 +28,27 @@ class Categories {
             if (favoriteSources.includes(item.id)) this.categories.Favorites.push(item);
             const firstChar = item.name[0].toUpperCase();
 
-            const category: string = this.isAlphabetChar(firstChar) ? firstChar : 'Other';
-            if (!this.categories[category]) {
-                this.categories[category] = [];
+            if (!isCategory(firstChar)) {
+                throw new Error("[Categories] draw, typeof firstChar is not 'Category'")
             }
-            this.categories[category].push(item);
+
+            // use enum, not strings
+            const category = this.isAlphabetChar(firstChar) ? firstChar : ECategory.Others;
+
+            const currentCategory = this.categories[category];
+
+            if (!currentCategory) {
+                this.categories[category] = [item];
+            } else {
+                currentCategory.push(item);
+            }
         });
 
-        const fragment = document.createDocumentFragment() as DocumentFragment;
+        const fragment = document.createDocumentFragment();
         const categoryItemTemp = document.querySelector('#categoryItemTemp') as HTMLTemplateElement;
 
-        const categories: string[] = Object.keys(this.categories);
-        categories.forEach((char: string) => {
+        const categories = Object.keys(this.categories) as ECategory[];
+        categories.forEach((char) => {
             const categoryClone = categoryItemTemp.content.cloneNode(true) as DocumentFragment;
             const title = categoryClone.querySelector('.category__item-name') as HTMLElement;
             title.textContent = char;
@@ -45,15 +59,15 @@ class Categories {
             fragment.append(categoryClone);
         });
 
-        this.current = this.categories.Favorites.length > 0 ? 'Favorites' : (categories[1] as Category);
+        this.current = this.categories.Favorites.length > 0 ? ECategory.Favorites : categories[1];
 
         const category = document.querySelector('.categories') as HTMLElement;
         category.append(fragment);
 
-        return this.current as Category;
+        return this.current;
     }
 
-    public getSourcesByCategory(category: Category): SourceData[] {
+    public getSourcesByCategory(category: Category) {
         this.current = category;
         return this.categories[category];
     }

@@ -1,6 +1,6 @@
 import AppController from '../controller/controller';
-import { Category, ResponseExtended } from '../interface/interface';
-import { AppView } from '../view/appView';
+import {ResponseExtended} from '../interface/interface';
+import {AppView} from '../view/appView';
 
 class App {
     private readonly controller: AppController;
@@ -11,17 +11,19 @@ class App {
         this.view = new AppView();
     }
 
-    private applyEvents(): void {
+    private applyEvents() {
         const categories = document.querySelector('.categories') as HTMLElement;
-        categories.addEventListener('click', (e: MouseEvent): void =>
-            this.controller.switchCategory(e, <Category>(category: Category) => {
+        categories.addEventListener('click', (e): void =>
+            // no need to write inferred types, extra wrap
+            this.controller.switchCategory(e, (category) => {
                 this.view.drawSources(category);
             })
         );
 
         const sources = document.querySelector('.sources') as HTMLElement;
-        sources.addEventListener('click', (e: MouseEvent): void =>
-            this.controller.getNews(e, <ResponseExtended>(data: ResponseExtended) => {
+        // no need to write inferred types
+        sources.addEventListener('click', (e) =>
+            this.controller.getNews(e, (data) => {
                 this.view.drawNews(data);
             })
         );
@@ -35,15 +37,15 @@ class App {
         });
     }
 
-    private updateSources(data: ResponseExtended): void {
-        const currentCategory: Category = this.view.drawCategories(data, this.controller.getFavoriteSources());
+    private updateSources(data?: ResponseExtended) {
+        const currentCategory = this.view.drawCategories(data, this.controller.getFavoriteSources());
         this.view.drawSources(currentCategory);
     }
 
-    public start(): void {
+    public start() {
         this.applyEvents();
 
-        this.controller.getSources(<ResponseExtended>(data: ResponseExtended) => {
+        this.controller.getSources((data) => {
             this.updateSources(data);
         });
     }

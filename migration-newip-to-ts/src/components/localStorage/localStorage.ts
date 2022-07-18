@@ -7,18 +7,20 @@ class LocalStorage {
         return LocalStorage._singleton;
     }
     public read<T>(property: string): T | null {
-        const item: string | null = window.localStorage.getItem(property);
+        // do not duplicate types
+        const item = window.localStorage.getItem(property);
         return item ? JSON.parse(item) : null;
     }
-    private set<T>(property: string, value: T): void {
+    private set<T>(property: string, value: T) {
         window.localStorage.setItem(property, JSON.stringify(value));
     }
-    public toggleSourceInFavorites(sourceId: string): void {
-        const favorites = <string[] | null>this.read('favoriteSources');
+    public toggleSourceInFavorites(sourceId: string) {
+        // | null will be inferred from this.read type
+        const favorites = this.read<string[]>('favoriteSources');
         if (!favorites) {
             this.set('favoriteSources', [sourceId]);
         } else {
-            const index: number = favorites.indexOf(sourceId);
+            const index = favorites.indexOf(sourceId);
             if (index === -1) {
                 favorites.push(sourceId);
             } else {

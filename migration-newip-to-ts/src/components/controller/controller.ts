@@ -1,32 +1,58 @@
 import AppLoader from './appLoader';
-import { Callback, Category } from '../interface/interface';
+import {Callback, Category, ECategory, ResponseExtended, SourceData} from '../interface/interface';
 import LocalStorage from '../localStorage/localStorage';
+import {isCategory} from "../../utils/typeguards";
 
 class AppController extends AppLoader {
     private currentSource: string | null = null;
     private localStorage: LocalStorage = new LocalStorage();
-    public switchCategory(e: Event, callback: Callback): void {
-        const target: HTMLElement = e.target as HTMLElement;
-        const categoriesContainer: HTMLElement = e.currentTarget as HTMLElement;
+
+    public switchCategory(e: Event, callback: Callback<Category | { sources?: SourceData[] | undefined }>): void {
+        // if you already cast smt to Type, no need to duplicate this type
+        const target = e.target as HTMLElement;
+        // if you already cast smt to Type, no need to duplicate this type
+        const categoriesContainer = e.currentTarget as HTMLElement;
 
         if (target !== categoriesContainer) {
-            const button = target.closest('.category__item') as HTMLElement;
-            const category: Category = button.getAttribute('data-category-char') as Category;
-            callback(category);
+            const button = target.closest('.category__item');
+            // clean up casts
+            if (button instanceof Element) {
+                // if you already cast smt to Type, no need to duplicate this type
+                // const category = button.getAttribute('data-category-char') as Category;
+                // but better use typeguard like 'isCategory'
+                const category = button.getAttribute('data-category-char');
+                if (isCategory(category)) {
+                    // after this check you already know that it is 'Category'
+                    callback(category);
+                } else {
+                    // also, should be ErrorBoundary to handle exceptions in App
+                    throw new Error("[AppController] switchCategory typeof category is not 'Category'")
+                }
+            } else {
+                throw new Error("[AppController] switchCategory button is not instanceof 'Element'")
+            }
         }
     }
 
-    public toggleCurrentSourceInFavorites(): string | null {
-        if (this.currentSource) this.localStorage.toggleSourceInFavorites(this.currentSource);
+    // no need to duplicate return type, it inferred from usage
+    public toggleCurrentSourceInFavorites() {
+        // if body in {}
+        if (this.currentSource) {
+            this.localStorage.toggleSourceInFavorites(this.currentSource)
+        }
         return this.currentSource;
     }
 
-    public getFavoriteSources(): string[] {
-        const favorites: string[] | null = this.localStorage.read('favoriteSources');
-        return favorites ? favorites : [];
+    // no need to duplicate return type, it inferred from usage
+    public getFavoriteSources() {
+        // use generics when it is possible
+        return this.localStorage.read<string[]>('favoriteSources') ?? [];
+        // no need
+        // return favorites ? favorites : [];
     }
 
-    public getSources(callback: Callback): void {
+    // no need to duplicate return type, it inferred from usage
+    public getSources(callback: Callback<ResponseExtended>) {
         super.getResp(
             {
                 endpoint: 'sources',
@@ -35,7 +61,7 @@ class AppController extends AppLoader {
         );
     }
 
-    public getNews(e: Event, callback: Callback): void {
+    public getNews(e: Event, callback: Callback<ResponseExtended>) {
         let target: HTMLElement = e.target as HTMLElement;
         const newsContainer: HTMLElement = e.currentTarget as HTMLElement;
 

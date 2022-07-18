@@ -1,6 +1,6 @@
 import News from './news/news';
 import Sources from './sources/sources';
-import { SourceData, ArticleData, Category, ResponseExtended, SourceDescription } from '../interface/interface';
+import {SourceData, ArticleData, Category, ResponseExtended, SourceDescription} from '../interface/interface';
 import Categories from './categories/categories';
 import SourceTitle from './source-title/source-title';
 
@@ -34,13 +34,17 @@ export class AppView {
     }
 
     public drawSources(data?: { sources?: SourceData[] } | Category): void {
-        let values: SourceData[];
-        if (typeof data === 'string') {
-            values = this.categories.getSourcesByCategory(data);
-        } else {
-            values = data?.sources ? data?.sources : [];
-        }
-        this.sources.draw(values);
+        const values = typeof data === 'string'
+            ? this.categories.getSourcesByCategory(data)
+            : data?.sources;
+
+        // let values: SourceData[] | undefined;
+        // if (typeof data === 'string') {
+        //     values = this.categories.getSourcesByCategory(data);
+        // } else {
+        //     values = data?.sources;
+        // }
+        this.sources.draw(values ?? []);
     }
 
     public updateFavoriteSources(sourceIdToToggle: string): void {
