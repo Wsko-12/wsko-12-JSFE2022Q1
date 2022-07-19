@@ -1,4 +1,5 @@
-import { ColorPalette, LogoColor } from '../../../../../interface/interface';
+import { EColorPalette, LogoColor } from '../../../../../interface/interface';
+import { isLogoColor } from '../../../../../utils/typeguards';
 import Builder from '../../builder/Builder';
 import SettingsElement from '../settingElement/SettingsElement';
 import './style.scss';
@@ -58,10 +59,14 @@ export default class Colors extends SettingsElement {
     private markAllSelected(): void {
         for (const color in this._colorsElements) {
             const element = this._colorsElements[color];
-            if (this._selected.indexOf(color as LogoColor) === -1) {
-                element.classList.remove('colors__item_selected');
+            if (isLogoColor(color)) {
+                if (this._selected.indexOf(color) === -1) {
+                    element.classList.remove('colors__item_selected');
+                } else {
+                    element.classList.add('colors__item_selected');
+                }
             } else {
-                element.classList.add('colors__item_selected');
+                throw new Error("[Colors] markAllSelected typeof selected color isn't a LogoColor");
             }
         }
     }
@@ -77,7 +82,7 @@ export default class Colors extends SettingsElement {
                     color,
                 },
             });
-            item.style.backgroundColor = ColorPalette[color];
+            item.style.backgroundColor = EColorPalette[color];
             this._colorsElements[color] = item;
             return item;
         });

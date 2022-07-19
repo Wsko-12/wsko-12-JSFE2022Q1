@@ -1,5 +1,15 @@
 export type LogoColor = 'gray' | 'black' | 'red' | 'green' | 'blue' | 'yellow';
-export enum ColorPalette {
+
+export enum ELogoColor {
+    gray = 'gray',
+    black = 'black',
+    red = 'red',
+    green = 'green',
+    blue = 'blue',
+    yellow = 'yellow',
+}
+
+export enum EColorPalette {
     blue = '#437F97',
     yellow = '#FFB30F',
     green = '#3BB273',
