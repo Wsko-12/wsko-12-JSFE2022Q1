@@ -44,7 +44,7 @@ export class Footer {
         });
     }
 
-    public getElement(): HTMLElement {
+    public getElement() {
         return this._element;
     }
 }

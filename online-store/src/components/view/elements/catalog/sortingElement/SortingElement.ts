@@ -26,7 +26,7 @@ export default class Sorting {
         this.applyEvents();
     }
 
-    public getElement(): HTMLElement {
+    public getElement() {
         return this._element;
     }
 
@@ -52,7 +52,7 @@ export default class Sorting {
         });
     }
 
-    private generateOptions(selected?: string): HTMLElement[] {
+    private generateOptions(selected?: string) {
         const builder = Builder.createElement;
         const options: [string, string][] = [
             ['alphabetA', 'Name: A-Z'],

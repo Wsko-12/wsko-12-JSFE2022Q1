@@ -57,3 +57,4 @@ export interface IFilters {
 }
 
 export type SettingsCallback = (filters: IFilters, fullReset?: boolean) => void;
+export type TArraySortCallback<T> = (a: T, b: T) => number;

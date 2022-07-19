@@ -80,7 +80,7 @@ class Card {
         });
     }
 
-    public getElement(): HTMLElement {
+    public getElement() {
         return this._element;
     }
 
@@ -92,9 +92,9 @@ class Card {
         }
     }
 
-    private createPriceElement(): HTMLElement {
+    private createPriceElement() {
         const builder = Builder.createElement;
-        let element: HTMLElement;
+        let element: HTMLParagraphElement;
         const price = this.company.price;
         const discount = this.company.discount;
 

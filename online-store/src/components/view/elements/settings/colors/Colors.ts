@@ -66,7 +66,7 @@ export default class Colors extends SettingsElement {
                     element.classList.add('colors__item_selected');
                 }
             } else {
-                throw new Error("[Colors] markAllSelected typeof selected color isn't a LogoColor");
+                console.error("[Colors] markAllSelected typeof selected color isn't a LogoColor");
             }
         }
     }
@@ -95,7 +95,7 @@ export default class Colors extends SettingsElement {
     }
 
     private applyListeners(): void {
-        this._container.addEventListener('click', (e: MouseEvent) => {
+        this._container.addEventListener('click', (e) => {
             if (e.target !== this._container && e.target instanceof HTMLElement) {
                 const element = e.target;
                 element.classList.toggle('colors__item_selected');
