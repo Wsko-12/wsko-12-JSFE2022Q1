@@ -31,7 +31,7 @@ export default class Colors extends SettingsElement {
         this.applyListeners();
     }
 
-    public getElement(): HTMLElement {
+    public getElement() {
         return this._element;
     }
 

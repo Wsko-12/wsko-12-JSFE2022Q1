@@ -2,7 +2,7 @@ import Basket from '../../../basket/Basket';
 import Builder from '../builder/Builder';
 import './style.scss';
 class Header {
-    private _basket: Basket = new Basket();
+    private _basket = new Basket();
     private _basketCounter: HTMLDivElement;
     private _element: HTMLElement;
 

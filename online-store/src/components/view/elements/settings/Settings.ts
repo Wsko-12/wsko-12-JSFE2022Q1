@@ -1,4 +1,5 @@
-import { CompanyCountry, IFilters, LogoColor, SettingsCallback } from '../../../../interface/interface';
+import { IFilters, SettingsCallback } from '../../../../interface/interface';
+import { isCompanyCountryArr, isLogoColorArr } from '../../../../utils/typeguards';
 import Builder from '../builder/Builder';
 import Card from '../card/Card';
 import Colors from './colors/Colors';
@@ -214,15 +215,15 @@ class Settings {
         });
 
         this._colors.setChangeCallback((colors) => {
-            if (Array.isArray(colors)) {
-                this._currentFilters.colors.selected = colors as LogoColor[];
+            if (Array.isArray(colors) && isLogoColorArr(colors)) {
+                this._currentFilters.colors.selected = colors;
                 this.onChange();
             }
         });
 
         this._countries.setChangeCallback((countries) => {
-            if (Array.isArray(countries)) {
-                this._currentFilters.countries.selected = countries as CompanyCountry[];
+            if (Array.isArray(countries) && isCompanyCountryArr(countries)) {
+                this._currentFilters.countries.selected = countries;
                 this.onChange();
             }
         });

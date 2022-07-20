@@ -9,7 +9,7 @@ import './style.scss';
 class Catalog {
     private _onPage: Card[] = [];
     private _localStorage: LocalStorage = new LocalStorage();
-    private _basket: Basket = new Basket();
+    private _basket = new Basket();
 
     private _element: HTMLElement;
     private _container: HTMLDivElement;

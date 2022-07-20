@@ -19,6 +19,12 @@ export enum EColorPalette {
 }
 
 export type CompanyCountry = 'USA' | 'Europe' | 'Russia';
+export enum ECompanyCountry {
+    USA = 'USA',
+    Europe = 'Europe',
+    Russia = 'Russia',
+}
+
 export interface IDataItem {
     name: string;
     color: LogoColor[];
