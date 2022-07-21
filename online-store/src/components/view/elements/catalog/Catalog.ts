@@ -8,12 +8,12 @@ import './style.scss';
 
 class Catalog {
     private _onPage: Card[] = [];
-    private _localStorage: LocalStorage = new LocalStorage();
-    private _basket: Basket = new Basket();
+    private _localStorage = new LocalStorage();
+    private _basket = new Basket();
 
-    private _element: HTMLElement;
-    private _container: HTMLDivElement;
-    private _containerClone: HTMLDivElement;
+    private readonly _element: HTMLElement;
+    private readonly _container: HTMLDivElement;
+    private readonly _containerClone: HTMLDivElement;
     private _sortingElement: SortingElement;
 
     private _sortSelected = '-';

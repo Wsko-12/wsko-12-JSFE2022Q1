@@ -1,4 +1,4 @@
-import { CompanyCountry, IDataItem, IFilters, LogoColor, MinMax } from '../../../interface/interface';
+import { ECompanyCountry, IDataItem, IFilters, ELogoColor, MinMax } from '../../../interface/interface';
 
 export default class Filter {
     public filterOut(filters: IFilters, data: IDataItem[]): IDataItem[] {
@@ -28,9 +28,9 @@ export default class Filter {
         const price: MinMax = [Infinity, -Infinity];
         const year: MinMax = [Infinity, -Infinity];
         const employees: MinMax = [Infinity, -Infinity];
-        const countries: CompanyCountry[] = [];
+        const countries: ECompanyCountry[] = [];
 
-        const colors: LogoColor[] = [];
+        const colors: ELogoColor[] = [];
         data.forEach((item) => {
             check(item.price, price);
             check(item.year, year);
@@ -114,8 +114,8 @@ export default class Filter {
         )
             return data;
         return data.filter((item) => {
-            const colors: LogoColor[] = item.color;
-            const selected: LogoColor[] = filters.colors.selected;
+            const colors: ELogoColor[] = item.color;
+            const selected: ELogoColor[] = filters.colors.selected;
             let allColors = true;
             for (let i = 0; i < selected.length; i++) {
                 if (colors.indexOf(selected[i]) === -1) {

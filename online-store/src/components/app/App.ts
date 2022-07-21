@@ -5,13 +5,13 @@ import { IFilters } from '../../interface/interface';
 import LocalStorage from '../localStorage/LocalStorage';
 import Basket from '../basket/Basket';
 class App {
-    public view: AppView = new AppView();
-    public controller: Controller = new Controller();
+    public view = new AppView();
+    public controller = new Controller();
 
-    private _basket: Basket = new Basket();
-    private _localStorage: LocalStorage = new LocalStorage();
+    private _basket = new Basket();
+    private _localStorage = new LocalStorage();
 
-    public start(): void {
+    public start() {
         this.view.build();
         const startFilters = this.controller.getStartFilters();
         this.view.setFilters(startFilters);

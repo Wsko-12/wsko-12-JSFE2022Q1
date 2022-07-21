@@ -4,8 +4,8 @@ type Listener = (basket: string[]) => void;
 
 export default class Basket {
     private static _instance: Basket;
-    private _localStorage: LocalStorage = new LocalStorage();
-    private _items: string[] = this._localStorage.getBasket() || [];
+    private _localStorage = new LocalStorage();
+    private _items = this._localStorage.getBasket() || [];
 
     private _maxItems = 20;
 
@@ -21,19 +21,19 @@ export default class Basket {
         return this._items;
     }
 
-    public has(companyName: string): boolean {
+    public has(companyName: string) {
         return this._items.indexOf(companyName) != -1;
     }
 
-    public addOnChangeListener(listener: Listener): void {
+    public addOnChangeListener(listener: Listener) {
         this._onChangeListeners.push(listener);
     }
 
-    public addOnFullListener(listener: Listener): void {
+    public addOnFullListener(listener: Listener) {
         this._onFullListeners.push(listener);
     }
 
-    public getItemsCount(): number {
+    public getItemsCount() {
         return this._items.length;
     }
 
@@ -42,7 +42,7 @@ export default class Basket {
         this.onChange();
     }
 
-    public toggle(companyName: string): boolean {
+    public toggle(companyName: string) {
         const index = this._items.indexOf(companyName);
         if (index === -1) {
             if (this.getItemsCount() < this._maxItems) {
@@ -60,14 +60,14 @@ export default class Basket {
         }
     }
 
-    private onChange(): void {
+    private onChange() {
         this._localStorage.saveBasket(this._items);
         this._onChangeListeners.forEach((listener) => {
             listener(this._items);
         });
     }
 
-    private onFull(): void {
+    private onFull() {
         this._onFullListeners.forEach((listener) => {
             listener(this._items);
         });

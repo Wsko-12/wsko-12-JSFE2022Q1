@@ -1,4 +1,4 @@
-import { IDataItem } from '../interface/interface';
+import {ECompanyCountry, ELogoColor, IDataItem} from '../interface/interface';
 
 /* 
 [
@@ -29,8 +29,8 @@ import { IDataItem } from '../interface/interface';
 const companiesData: IDataItem[] = [
     {
         name: 'AMD',
-        color: ['black'],
-        country: 'USA',
+        color: [ELogoColor.black],
+        country: ECompanyCountry.USA,
         discount: 4,
         price: 122110000000,
         employees: 11400,
@@ -39,8 +39,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Airbnb',
-        color: ['red'],
-        country: 'USA',
+        color: [ELogoColor.red],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 59110000000,
         employees: 5597,
@@ -49,8 +49,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Amazon',
-        color: ['black', 'yellow'],
-        country: 'USA',
+        color: [ELogoColor.black, ELogoColor.yellow],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 1160000000000,
         employees: 1340000,
@@ -59,8 +59,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Apple',
-        color: ['gray'],
-        country: 'USA',
+        color: [ELogoColor.gray],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 2310000000000,
         employees: 154000,
@@ -69,8 +69,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Coca-Cola Co',
-        color: ['red'],
-        country: 'USA',
+        color: [ELogoColor.red],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 274880000000,
         employees: 79000,
@@ -79,8 +79,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Ford',
-        color: ['blue'],
-        country: 'USA',
+        color: [ELogoColor.blue],
+        country: ECompanyCountry.USA,
         discount: 4,
         price: 44460000000,
         employees: 199000,
@@ -89,8 +89,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Henkel',
-        color: ['red'],
-        country: 'Europe',
+        color: [ELogoColor.red],
+        country: ECompanyCountry.Europe,
         discount: 4,
         price: 26450000000,
         employees: 52700,
@@ -99,8 +99,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Meta',
-        color: ['blue'],
-        country: 'USA',
+        color: [ELogoColor.blue],
+        country: ECompanyCountry.USA,
         discount: 10,
         price: 459450000000,
         employees: 58604,
@@ -109,8 +109,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Microsoft',
-        color: ['red', 'yellow', 'gray', 'green', 'blue'],
-        country: 'USA',
+        color: [ELogoColor.red, ELogoColor.yellow, ELogoColor.gray, ELogoColor.green, ELogoColor.blue],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 1990000000000,
         employees: 181000,
@@ -119,8 +119,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Netflix',
-        color: ['red'],
-        country: 'USA',
+        color: [ELogoColor.red],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 81770000000,
         employees: 11300,
@@ -129,8 +129,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Nokia',
-        color: ['blue'],
-        country: 'Europe',
+        color: [ELogoColor.blue],
+        country: ECompanyCountry.Europe,
         discount: 10,
         price: 25700000000,
         employees: 58900,
@@ -139,8 +139,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Nvidia',
-        color: ['black', 'green'],
-        country: 'USA',
+        color: [ELogoColor.black, ELogoColor.green],
+        country: ECompanyCountry.USA,
         discount: 3,
         price: 378250000000,
         employees: 13775,
@@ -149,8 +149,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'PayPal',
-        color: ['blue'],
-        country: 'USA',
+        color: [ELogoColor.blue],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 84810000000,
         employees: 26500,
@@ -159,8 +159,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'PepsiCo',
-        color: ['blue'],
-        country: 'USA',
+        color: [ELogoColor.blue],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 236020000000,
         employees: 309000,
@@ -169,8 +169,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Shell',
-        color: ['yellow', 'red'],
-        country: 'Europe',
+        color: [ELogoColor.yellow, ELogoColor.red],
+        country: ECompanyCountry.Europe,
         discount: 0,
         price: 145950000000,
         employees: 82000,
@@ -179,8 +179,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Spotify',
-        color: ['green'],
-        country: 'USA',
+        color: [ELogoColor.green],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 19810000000,
         employees: 8230,
@@ -189,8 +189,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Tesla',
-        color: ['red'],
-        country: 'USA',
+        color: [ELogoColor.red],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 720500000000,
         employees: 110000,
@@ -199,8 +199,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Twitter',
-        color: ['blue'],
-        country: 'USA',
+        color: [ELogoColor.blue],
+        country: ECompanyCountry.USA,
         discount: 10,
         price: 29200000000,
         employees: 7500,
@@ -209,8 +209,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Volkswagen',
-        color: ['blue'],
-        country: 'Europe',
+        color: [ELogoColor.blue],
+        country: ECompanyCountry.Europe,
         discount: 10,
         price: 76670000000,
         employees: 662575,
@@ -219,8 +219,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Walt Disney Pictures',
-        color: ['black'],
-        country: 'USA',
+        color: [ELogoColor.black],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 175010000000,
         employees: 190000,
@@ -229,8 +229,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'Yandex',
-        color: ['red', 'black'],
-        country: 'Russia',
+        color: [ELogoColor.red, ELogoColor.black],
+        country: ECompanyCountry.Russia,
         discount: 70,
         price: 6060000000,
         employees: 10227,
@@ -239,8 +239,8 @@ const companiesData: IDataItem[] = [
     },
     {
         name: 'eBay',
-        color: ['red', 'blue', 'yellow', 'green'],
-        country: 'USA',
+        color: [ELogoColor.red, ELogoColor.blue, ELogoColor.yellow, ELogoColor.green],
+        country: ECompanyCountry.USA,
         discount: 0,
         price: 24480000000,
         employees: 12700,

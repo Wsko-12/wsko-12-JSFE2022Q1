@@ -4,7 +4,7 @@ import './style.scss';
 
 class Card {
     public company: IDataItem;
-    private _element: HTMLElement;
+    private readonly _element: HTMLElement;
     public static getFormattedEmployeeCount(count: number): string {
         return count
             .toString()

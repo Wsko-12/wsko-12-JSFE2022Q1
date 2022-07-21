@@ -1,6 +1,6 @@
-import { CompanyCountry, LogoColor } from '../../../../../interface/interface';
+import { ECompanyCountry, ELogoColor } from '../../../../../interface/interface';
 
-type Callback = (data: number | LogoColor[] | CompanyCountry[], data2?: number) => void;
+type Callback = (data: number | ELogoColor[] | ECompanyCountry[], data2?: number) => void;
 
 export default abstract class SettingsElement {
     protected abstract onChange<T>(data?: T): void;

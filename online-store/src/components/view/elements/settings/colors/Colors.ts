@@ -1,13 +1,13 @@
-import { ColorPalette, LogoColor } from '../../../../../interface/interface';
+import { logoColorMap, ELogoColor } from '../../../../../interface/interface';
 import Builder from '../../builder/Builder';
 import SettingsElement from '../settingElement/SettingsElement';
 import './style.scss';
 export default class Colors extends SettingsElement {
-    private _colors: LogoColor[] = [];
+    private _colors: ELogoColor[] = [];
     private _element: HTMLDivElement;
     private _colorsElements: { [key: string]: HTMLElement } = {};
     private _container: HTMLDivElement;
-    private _selected: LogoColor[] = [];
+    private _selected: ELogoColor[] = [];
 
     constructor(label: string) {
         super();
@@ -34,12 +34,12 @@ export default class Colors extends SettingsElement {
         return this._element;
     }
 
-    public setColors(colors: LogoColor[]): void {
+    public setColors(colors: ELogoColor[]): void {
         this._colors = colors;
         this.update();
     }
 
-    public applySelected(colors: LogoColor[]): void {
+    public applySelected(colors: ELogoColor[]): void {
         this._selected = colors;
         this.markAllSelected();
     }
@@ -58,7 +58,7 @@ export default class Colors extends SettingsElement {
     private markAllSelected(): void {
         for (const color in this._colorsElements) {
             const element = this._colorsElements[color];
-            if (this._selected.indexOf(color as LogoColor) === -1) {
+            if (this._selected.indexOf(color as ELogoColor) === -1) {
                 element.classList.remove('colors__item_selected');
             } else {
                 element.classList.add('colors__item_selected');
@@ -77,7 +77,7 @@ export default class Colors extends SettingsElement {
                     color,
                 },
             });
-            item.style.backgroundColor = ColorPalette[color];
+            item.style.backgroundColor = logoColorMap[color];
             this._colorsElements[color] = item;
             return item;
         });
@@ -94,7 +94,7 @@ export default class Colors extends SettingsElement {
             if (e.target !== this._container && e.target instanceof HTMLElement) {
                 const element = e.target;
                 element.classList.toggle('colors__item_selected');
-                const color = <LogoColor>element.dataset.color;
+                const color = <ELogoColor>element.dataset.color;
                 const index = this._selected.indexOf(color);
                 if (index === -1) {
                     this._selected.push(color);

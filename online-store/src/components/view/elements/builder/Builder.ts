@@ -6,7 +6,8 @@ interface createElementProps {
     content?: string | (HTMLElement | string)[] | HTMLElement;
 }
 class Builder {
-    public static createElement<T extends HTMLElement>(tag = 'div', properties: createElementProps = {}): T {
+    // you can set default generic value, not mistake just possibility
+    public static createElement<T extends HTMLElement = HTMLElement>(tag = 'div', properties: createElementProps = {}): T {
         const element = <T>document.createElement(tag);
         if (properties.classes) {
             let classes: string[];

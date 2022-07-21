@@ -1,5 +1,11 @@
 import { IFilters } from '../../interface/interface';
 
+// if you will use this abstract latter - possible to improve it
+// abstract LocalStorage has 3 methods get, set, clear
+// create keys enum and provide it to LocalStorage method, like your getAndParse
+// if signature of your storage could change, possible to add versioning to avoid user clear it or possible mistakes
+// example in './LocalStorageVersioning.ts'
+
 export default class LocalStorage {
     private static _instance: LocalStorage;
     private _storage = window.localStorage;

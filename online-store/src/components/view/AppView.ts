@@ -18,14 +18,14 @@ class AppView {
 
     private _onSettingsChangeCallback: SettingsCallback | null = null;
 
-    public build(): void {
+    public build() {
         this.basket.addOnFullListener(() => {
             this.popup.show('Sorry, all slots are full');
         });
 
         const builder = Builder.createElement;
 
-        const header: HTMLElement = this.header.getElement();
+        const header = this.header.getElement();
 
         const settings = this.settings.getElement();
         this.settings.setChangeCallback((filters: IFilters, fullReset?: boolean) => {
@@ -39,7 +39,8 @@ class AppView {
             content: [settings, catalog],
         });
 
-        const main = <HTMLElement>builder('main', {
+        // default generic value
+        const main = builder('main', {
             content: [container],
         });
 
@@ -56,24 +57,26 @@ class AppView {
         }
     }
 
-    public clear(): void {
+    public clear() {
         this.catalog.clear();
     }
 
-    public setSettingsChangeCallback(callback: SettingsCallback): void {
+    public setSettingsChangeCallback(callback: SettingsCallback) {
         this._onSettingsChangeCallback = callback;
     }
 
-    public drawCards(data: IDataItem[]): void {
+    public drawCards(data: IDataItem[]) {
         this.catalog.fill(data);
     }
 
-    public setFilters(filter: IFilters): void {
+    public setFilters(filter: IFilters) {
         this.settings.setFilters(filter);
     }
 
-    private onChange(filters: IFilters, fullReset?: boolean): void {
-        if (this._onSettingsChangeCallback) this._onSettingsChangeCallback(filters, fullReset);
+    private onChange(filters: IFilters, fullReset?: boolean) {
+        if (this._onSettingsChangeCallback) {
+            this._onSettingsChangeCallback(filters, fullReset);
+        }
     }
 }
 export default AppView;
