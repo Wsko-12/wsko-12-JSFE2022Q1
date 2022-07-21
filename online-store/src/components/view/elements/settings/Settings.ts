@@ -1,11 +1,11 @@
-import { ECompanyCountry, IFilters, ELogoColor, SettingsCallback, isLogoColorArr } from '../../../../interface/interface';
-import { IFilters, SettingsCallback } from '../../../../interface/interface';
+import {IFilters, SettingsCallback} from '../../../../interface/interface';
 import Builder from '../builder/Builder';
 import Card from '../card/Card';
 import Colors from './colors/Colors';
 import County from './country/Country';
 import RangeElement from './range/RangeElement';
 import './style.scss';
+import {isCompanyCountryArr, isLogoColorArr} from "../../../../utils/typeguards";
 
 class Settings {
     private _currentFilters: IFilters;
@@ -288,4 +288,5 @@ class Settings {
         this._currentFilters.employees.current = [...this._currentFilters.employees.maxMin];
     }
 }
+
 export default Settings;

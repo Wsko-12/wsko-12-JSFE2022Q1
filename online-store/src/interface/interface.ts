@@ -1,5 +1,4 @@
-export type LogoColor = 'gray' | 'black' | 'red' | 'green' | 'blue' | 'yellow';
-
+// no need for type, enum can be used as type
 export enum ELogoColor {
     gray = 'gray',
     black = 'black',
@@ -16,7 +15,7 @@ export enum ELogoColor {
 // type TColorString = `#${THexSymbol}${THexSymbol}${THexSymbol}${THexSymbol}${THexSymbol}${THexSymbol}`;
 // https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html
 // https://stackoverflow.com/questions/65336900/template-literal-types-typescript-repeat
-// to complex for ts now - but you can try to play with it, for 3 symbols hex like #3AF its work good
+// complex for ts now - but you can try to play with it, for 3 symbols hex like #3AF its work good
 type TColorString = `#${string}`;
 
 export const logoColorMap: Record<ELogoColor, TColorString > = {

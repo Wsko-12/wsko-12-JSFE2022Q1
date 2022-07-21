@@ -1,6 +1,6 @@
-import { CompanyCountry, ECompanyCountry, ELogoColor, LogoColor } from '../interface/interface';
+import { ECompanyCountry, ELogoColor } from '../interface/interface';
 
-export const isLogoColor = (value: string | null): value is LogoColor => {
+export const isLogoColor = (value: string | null): value is ELogoColor => {
     if (!value) {
         return false;
     }
@@ -8,9 +8,9 @@ export const isLogoColor = (value: string | null): value is LogoColor => {
     return value in ELogoColor;
 };
 
-export const isLogoColorArr = (arr: string[]): arr is LogoColor[] => arr.every(isLogoColor);
+export const isLogoColorArr = (arr: string[]): arr is ELogoColor[] => arr.every(isLogoColor);
 
-export const isCompanyCountry = (value: string | null): value is CompanyCountry => {
+export const isCompanyCountry = (value: string | null): value is ECompanyCountry => {
     if (!value) {
         return false;
     }
@@ -18,4 +18,4 @@ export const isCompanyCountry = (value: string | null): value is CompanyCountry 
     return value in ECompanyCountry;
 };
 
-export const isCompanyCountryArr = (arr: string[]): arr is CompanyCountry[] => arr.every(isCompanyCountry);
+export const isCompanyCountryArr = (arr: string[]): arr is ECompanyCountry[] => arr.every(isCompanyCountry);

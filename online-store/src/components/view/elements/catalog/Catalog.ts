@@ -96,7 +96,8 @@ class Catalog {
         }
     }
 
-    private getSortFunction(sorting: string): TArraySortCallback<Card> {
+    // can be static or even attached from class
+    static getSortFunction(sorting: string): TArraySortCallback<Card> {
         if (sorting.includes('alphabet')) {
             return (a, b) => {
                 const aName = a.company.name.toLowerCase().trim();
@@ -143,10 +144,11 @@ class Catalog {
 
     private sortOnPageArr(): void {
         if (this._sortSelected === '-') return;
-        const sortFunc = this.getSortFunction(this._sortSelected);
+        const sortFunc = Catalog.getSortFunction(this._sortSelected);
         this._onPage.sort(sortFunc);
     }
 
+    // it's perfect :)
     private sortView(): void {
         this._container.classList.add('catalog__container_on-sort');
         this._containerClone.innerHTML = this._container.innerHTML;
