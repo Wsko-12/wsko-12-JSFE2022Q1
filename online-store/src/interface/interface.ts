@@ -1,11 +1,12 @@
-// better to use enum here, string union type is rare case
+export type LogoColor = 'gray' | 'black' | 'red' | 'green' | 'blue' | 'yellow';
+
 export enum ELogoColor {
-    gray = "gray",
-    black = "black",
-    red = "red",
-    green = "green",
-    blue = "blue",
-    yellow = "yellow",
+    gray = 'gray',
+    black = 'black',
+    red = 'red',
+    green = 'green',
+    blue = 'blue',
+    yellow = 'yellow',
 }
 
 // type Decrement = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -28,7 +29,6 @@ export const logoColorMap: Record<ELogoColor, TColorString > = {
     // [ELogoColor.gray]: '#C9C',
 }
 
-// better to use enum here
 export enum ECompanyCountry {
     USA = "USA",
     Europe = "Europe",
@@ -74,3 +74,4 @@ export interface IFilters {
 }
 
 export type SettingsCallback = (filters: IFilters, fullReset?: boolean) => void;
+export type TArraySortCallback<T> = (a: T, b: T) => number;

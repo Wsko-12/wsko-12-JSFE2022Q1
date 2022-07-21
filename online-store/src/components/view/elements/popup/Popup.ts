@@ -19,8 +19,8 @@ export default class Popup {
         });
     }
 
-    private hide(id: number) {
-        if (this._timeoutId === id) {
+    private hide(timeoutId: number) {
+        if (this._timeoutId === timeoutId) {
             this._element.classList.remove('popup_showed');
         }
     }
@@ -29,7 +29,7 @@ export default class Popup {
         this._element.classList.add('popup_showed');
         this._message.innerHTML = msg;
 
-        const id: number = Math.random();
+        const id = Math.random();
         this._timeoutId = id;
 
         setTimeout(() => {
@@ -37,7 +37,7 @@ export default class Popup {
         }, 2000);
     }
 
-    public getElement(): HTMLElement {
+    public getElement() {
         return this._element;
     }
 }

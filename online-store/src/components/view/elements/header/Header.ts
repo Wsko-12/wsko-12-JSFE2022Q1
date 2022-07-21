@@ -11,7 +11,7 @@ const basketIconTemplate = `
 </svg>`;
 
 class Header {
-    private _basket: Basket = new Basket();
+    private _basket = new Basket();
     private _basketCounter: HTMLDivElement;
     private _element: HTMLElement;
 
@@ -54,7 +54,7 @@ class Header {
         });
     }
 
-    public getElement(): HTMLElement {
+    public getElement() {
         return this._element;
     }
 

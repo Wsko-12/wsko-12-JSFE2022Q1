@@ -1,4 +1,5 @@
 import { logoColorMap, ELogoColor } from '../../../../../interface/interface';
+import { isLogoColor } from '../../../../../utils/typeguards';
 import Builder from '../../builder/Builder';
 import SettingsElement from '../settingElement/SettingsElement';
 import './style.scss';
@@ -30,7 +31,7 @@ export default class Colors extends SettingsElement {
         this.applyListeners();
     }
 
-    public getElement(): HTMLElement {
+    public getElement() {
         return this._element;
     }
 
@@ -58,10 +59,14 @@ export default class Colors extends SettingsElement {
     private markAllSelected(): void {
         for (const color in this._colorsElements) {
             const element = this._colorsElements[color];
-            if (this._selected.indexOf(color as ELogoColor) === -1) {
-                element.classList.remove('colors__item_selected');
+            if (isLogoColor(color)) {
+                if (this._selected.indexOf(color) === -1) {
+                    element.classList.remove('colors__item_selected');
+                } else {
+                    element.classList.add('colors__item_selected');
+                }
             } else {
-                element.classList.add('colors__item_selected');
+                console.error("[Colors] markAllSelected typeof selected color isn't a LogoColor");
             }
         }
     }
@@ -90,7 +95,7 @@ export default class Colors extends SettingsElement {
     }
 
     private applyListeners(): void {
-        this._container.addEventListener('click', (e: MouseEvent) => {
+        this._container.addEventListener('click', (e) => {
             if (e.target !== this._container && e.target instanceof HTMLElement) {
                 const element = e.target;
                 element.classList.toggle('colors__item_selected');

@@ -9,12 +9,12 @@ import Popup from './elements/popup/Popup';
 import Basket from '../basket/Basket';
 
 class AppView {
-    private header: Header = new Header();
-    private footer: Footer = new Footer();
-    private settings: Settings = new Settings();
-    private catalog: Catalog = new Catalog();
-    private popup: Popup = new Popup();
-    private basket: Basket = new Basket();
+    private header = new Header();
+    private footer = new Footer();
+    private settings = new Settings();
+    private catalog = new Catalog();
+    private popup = new Popup();
+    private basket = new Basket();
 
     private _onSettingsChangeCallback: SettingsCallback | null = null;
 

@@ -1,31 +1,5 @@
 import {ECompanyCountry, ELogoColor, IDataItem} from '../interface/interface';
 
-/* 
-[
-    'AMD',
-    'Airbnb',
-    'Amazon',
-    'Apple',
-    'Coca-Cola Co',
-    'Ford',
-    'Henkel',
-    'Meta',
-    'Microsoft'
-    'Netflix',
-    'Nokia',
-    'Nvidia',
-    'PayPal',
-    'PepsiCo',
-    'Shell',
-    'Spotify',
-    'Tesla',
-    'Twitter',
-    'Volkswagen',
-    'Walt Disney',
-    'Yandex',
-    'eBay'
-]
-*/
 const companiesData: IDataItem[] = [
     {
         name: 'AMD',

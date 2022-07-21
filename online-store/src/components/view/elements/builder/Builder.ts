@@ -1,51 +1,55 @@
 interface createElementProps {
-    classes?: string[] | string | null;
-    id?: string | null;
+    classes?: string[] | string;
+    id?: string;
     attrs?: { [key: string]: string | number | boolean };
     dataset?: { [key: string]: string | number };
     content?: string | (HTMLElement | string)[] | HTMLElement;
 }
+
+const prepareClassString = (str: string) => {
+    return str
+        .replace(/,/g, ' ')
+        .replace(/\./g, ' ')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+};
+
+const prepareIdString = (str: string) => {
+    return str
+        .replace(/#/g, ' ')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+};
+
 class Builder {
     // you can set default generic value, not mistake just possibility
     public static createElement<T extends HTMLElement = HTMLElement>(tag = 'div', properties: createElementProps = {}): T {
         const element = <T>document.createElement(tag);
+
         if (properties.classes) {
-            let classes: string[];
+            let classesParsed: string[];
             if (typeof properties.classes === 'string') {
-                classes = properties.classes
-                    .replace(/,/g, ' ')
-                    .replace(/\./g, ' ')
-                    .replace(/\s{2,}/g, ' ')
-                    .trim()
-                    .split(' ');
+                classesParsed = prepareClassString(properties.classes).split(' ');
             } else {
-                classes = properties.classes.map((item) => {
-                    return item
-                        .replace(/,/g, ' ')
-                        .replace(/\./g, ' ')
-                        .replace(/\s{2,}/g, ' ')
-                        .trim();
-                });
+                classesParsed = properties.classes.map((item) => prepareClassString(item));
             }
-            element.classList.add(...classes);
+            element.classList.add(...classesParsed);
         }
+
         if (properties.id) {
-            element.id = properties.id
-                .replace(/#/g, ' ')
-                .replace(/\s{2,}/g, ' ')
-                .trim();
+            element.id = prepareIdString(properties.id);
         }
 
         if (properties.attrs) {
             for (const attr in properties.attrs) {
-                const value: string | number | boolean = properties.attrs[attr];
+                const value = properties.attrs[attr];
                 element.setAttribute(attr, value.toString());
             }
         }
 
         if (properties.dataset) {
             for (const key in properties.dataset) {
-                const value: string | number = properties.dataset[key];
+                const value = properties.dataset[key];
                 element.dataset[key] = value.toString();
             }
         }
@@ -56,7 +60,7 @@ class Builder {
             } else if (properties.content instanceof HTMLElement) {
                 element.append(properties.content);
             } else if (Array.isArray(properties.content)) {
-                properties.content.forEach((item: string | HTMLElement) => {
+                properties.content.forEach((item) => {
                     if (typeof item === 'string') {
                         element.insertAdjacentHTML('beforeend', item);
                     } else {

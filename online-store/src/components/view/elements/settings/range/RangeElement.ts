@@ -3,20 +3,22 @@ import Builder from '../../builder/Builder';
 import SettingsElement from '../settingElement/SettingsElement';
 import './style.scss';
 
+type TRangeLabelTemplateCallback = (value: number) => string;
+
 export default class RangeElement extends SettingsElement {
     private _range: [min: number, max: number];
     private _id: string;
     private _element: HTMLElement;
 
-    private _sliderStart: HTMLElement | undefined;
-    private _sliderStartHidden: HTMLElement | undefined;
+    private _sliderStart: HTMLElement;
+    private _sliderStartHidden: HTMLElement;
 
-    private _sliderEnd: HTMLElement | undefined;
-    private _sliderEndHidden: HTMLElement | undefined;
+    private _sliderEnd: HTMLElement;
+    private _sliderEndHidden: HTMLElement;
 
-    private _progressBar: HTMLElement | undefined;
-    private _bar: HTMLElement | undefined;
-    private _label: HTMLElement | undefined;
+    private _progressBar: HTMLElement;
+    private _bar: HTMLElement;
+    private _label: HTMLElement;
 
     private _currentMin: number;
     private _currentMax: number;
@@ -25,9 +27,9 @@ export default class RangeElement extends SettingsElement {
     private _currentMinValue: number;
     private _currentMaxValue: number;
 
-    private _labelsTemplate: (value: number) => string;
+    private _labelsTemplateCallback: TRangeLabelTemplateCallback;
 
-    constructor(label: string, id: string, range: MinMax, labelsTemplate?: (value: number) => string) {
+    constructor(label: string, id: string, range: MinMax, labelsTemplate?: TRangeLabelTemplateCallback) {
         super();
         this._range = range;
         this._currentMin = 0;
@@ -35,46 +37,8 @@ export default class RangeElement extends SettingsElement {
         this._currentMinValue = range[0];
         this._currentMaxValue = range[1];
         this._id = id;
-        this._element = this.build(label);
-        this._labelsTemplate = labelsTemplate || ((value: number) => value.toString());
+        this._labelsTemplateCallback = labelsTemplate || ((value) => value.toString());
 
-        this.applyListeners();
-    }
-
-    public getElement(): HTMLElement {
-        return this._element;
-    }
-
-    public setLabelsTemplate(templateFunction: (value: number) => string): void {
-        this._labelsTemplate = templateFunction;
-    }
-
-    public reset(): void {
-        this.setCurrentMinMax(...this._range);
-    }
-
-    public setMinMax(min: number, max: number): void {
-        this._range[0] = min;
-        this._range[1] = max;
-        this.update();
-    }
-
-    public setCurrentMinMax(min: number, max: number): void {
-        const newMax = ((max - this._range[0]) / (this._range[1] - this._range[0])) * 100;
-        this._currentMax = newMax < 0 ? 0 : newMax > 100 ? 100 : newMax;
-        const newMin = ((min - this._range[0]) / (this._range[1] - this._range[0])) * 100;
-
-        this._currentMin = newMin < 0 ? 0 : newMin > 100 ? 100 : newMin;
-        this.update();
-    }
-
-    protected onChange(): void {
-        if (this._onChangeCallback) {
-            this._onChangeCallback(this._currentMinValue, this._currentMaxValue);
-        }
-    }
-
-    private build(label: string): HTMLElement {
         const builder = Builder.createElement;
         this._label = <HTMLHeadingElement>builder('h4', {
             classes: 'range__label',
@@ -129,12 +93,45 @@ export default class RangeElement extends SettingsElement {
             ],
         });
 
-        const container = <HTMLDivElement>builder('div', {
+        this._element = <HTMLDivElement>builder('div', {
             classes: ['range-container'],
             content: [this._label, this._bar],
         });
 
-        return container;
+        this.applyListeners();
+    }
+
+    public getElement() {
+        return this._element;
+    }
+
+    public setLabelsTemplateCallback(templateCallback: TRangeLabelTemplateCallback): void {
+        this._labelsTemplateCallback = templateCallback;
+    }
+
+    public reset(): void {
+        this.setCurrentMinMax(...this._range);
+    }
+
+    public setMinMax(min: number, max: number): void {
+        this._range[0] = min;
+        this._range[1] = max;
+        this.update();
+    }
+
+    public setCurrentMinMax(min: number, max: number): void {
+        const newMax = ((max - this._range[0]) / (this._range[1] - this._range[0])) * 100;
+        this._currentMax = newMax < 0 ? 0 : newMax > 100 ? 100 : newMax;
+        const newMin = ((min - this._range[0]) / (this._range[1] - this._range[0])) * 100;
+
+        this._currentMin = newMin < 0 ? 0 : newMin > 100 ? 100 : newMin;
+        this.update();
+    }
+
+    protected onChange(): void {
+        if (this._onChangeCallback) {
+            this._onChangeCallback(this._currentMinValue, this._currentMaxValue);
+        }
     }
 
     private update(): void {
@@ -188,59 +185,51 @@ export default class RangeElement extends SettingsElement {
     }
 
     private moveBothSliders(): void {
-        if (this._sliderStartHidden && this._sliderEndHidden && this._sliderStart && this._sliderEnd) {
-            this._sliderStartHidden.style.left = this._currentMin + '%';
-            this._sliderEndHidden.style.left = this._currentMax + '%';
+        this._sliderStartHidden.style.left = this._currentMin + '%';
+        this._sliderEndHidden.style.left = this._currentMax + '%';
 
-            const step = 100 / (this._range[1] - this._range[0]);
-            const minStepped = Math.round(this._currentMin / step) * step;
-            const maxStepped = Math.round(this._currentMax / step) * step;
+        const step = 100 / (this._range[1] - this._range[0]);
+        const minStepped = Math.round(this._currentMin / step) * step;
+        const maxStepped = Math.round(this._currentMax / step) * step;
 
-            this._sliderStart.style.left = minStepped + '%';
-            this._sliderEnd.style.left = maxStepped + '%';
-        }
+        this._sliderStart.style.left = minStepped + '%';
+        this._sliderEnd.style.left = maxStepped + '%';
     }
 
     private addActiveClass(slider: HTMLElement): void {
-        this._progressBar?.classList.add('range-bar__progress_active');
+        this._progressBar.classList.add('range-bar__progress_active');
         slider.classList.add('range-bar__slider_active');
     }
 
     private removeActiveClass(): void {
-        this._progressBar?.classList.remove('range-bar__progress_active');
-        this._sliderStart?.classList.remove('range-bar__slider_active');
-        this._sliderEnd?.classList.remove('range-bar__slider_active');
+        this._progressBar.classList.remove('range-bar__progress_active');
+        this._sliderStart.classList.remove('range-bar__slider_active');
+        this._sliderEnd.classList.remove('range-bar__slider_active');
     }
 
     private changeProgressBar(): void {
-        if (this._progressBar) {
-            const step = 100 / (this._range[1] - this._range[0]);
-            const minStepped = Math.round(this._currentMin / step) * step;
-            const maxStepped = Math.round(this._currentMax / step) * step;
-            this._progressBar.style.width = maxStepped - minStepped + '%';
-            this._progressBar.style.left = minStepped + '%';
-        }
+        const step = 100 / (this._range[1] - this._range[0]);
+        const minStepped = Math.round(this._currentMin / step) * step;
+        const maxStepped = Math.round(this._currentMax / step) * step;
+        this._progressBar.style.width = maxStepped - minStepped + '%';
+        this._progressBar.style.left = minStepped + '%';
     }
 
-    private calculateMousePosition(clientX: number): number | undefined {
-        if (this._bar) {
-            const elRect = this._bar.getBoundingClientRect();
-            return ((clientX - elRect.left) / elRect.width) * 100;
-        }
+    private calculateMousePosition(clientX: number): number {
+        const elRect = this._bar.getBoundingClientRect();
+        return ((clientX - elRect.left) / elRect.width) * 100;
     }
 
-    private getClosestSlider(clientX: number): HTMLElement | undefined {
-        if (this._sliderStartHidden && this._sliderEndHidden && this._sliderStart && this._sliderEnd) {
-            const startRect = this._sliderStartHidden.getBoundingClientRect();
-            const endRect = this._sliderEndHidden.getBoundingClientRect();
+    private getClosestSlider(clientX: number): HTMLElement {
+        const startRect = this._sliderStartHidden.getBoundingClientRect();
+        const endRect = this._sliderEndHidden.getBoundingClientRect();
 
-            const startCenter = startRect.left + startRect.width / 2;
-            const endCenter = endRect.left + endRect.width / 2;
+        const startCenter = startRect.left + startRect.width / 2;
+        const endCenter = endRect.left + endRect.width / 2;
 
-            const startDist = Math.abs(clientX - startCenter);
-            const endDist = Math.abs(clientX - endCenter);
-            return startDist < endDist ? this._sliderStart : this._sliderEnd;
-        }
+        const startDist = Math.abs(clientX - startCenter);
+        const endDist = Math.abs(clientX - endCenter);
+        return startDist < endDist ? this._sliderStart : this._sliderEnd;
     }
 
     private moveSliderTo(slider: HTMLElement, percent: number): void {
@@ -277,31 +266,23 @@ export default class RangeElement extends SettingsElement {
         const minValue = this._range[0] + Math.round((deltaValue * this._currentMin) / 100);
         const maxValue = this._range[0] + Math.round((deltaValue * this._currentMax) / 100);
 
-        if (this._sliderStart && this._sliderEnd) {
-            const labelStart = this._sliderStart.firstChild;
-            const labelEnd = this._sliderEnd.firstChild;
-            if (labelStart instanceof HTMLElement) {
-                labelStart.innerHTML = this._labelsTemplate(minValue);
-            }
-            if (labelEnd instanceof HTMLElement) {
-                labelEnd.innerHTML = this._labelsTemplate(maxValue);
-            }
-        }
+        const labelStart = <HTMLElement>this._sliderStart.firstChild;
+        const labelEnd = <HTMLElement>this._sliderEnd.firstChild;
+
+        labelStart.innerHTML = this._labelsTemplateCallback(minValue);
+        labelEnd.innerHTML = this._labelsTemplateCallback(maxValue);
+
         this._currentMinValue = minValue;
         this._currentMaxValue = maxValue;
     }
 
     private moveSlider(clientX: number): void {
         const slider = this.getClosestSlider(clientX);
-        if (slider) {
-            const mousePosition = this.calculateMousePosition(clientX);
-            if (mousePosition) {
-                this.removeActiveClass();
-                this.addActiveClass(slider);
-                this.moveSliderTo(slider, mousePosition);
-                this.changeProgressBar();
-                this.changeLabels();
-            }
-        }
+        const mousePosition = this.calculateMousePosition(clientX);
+        this.removeActiveClass();
+        this.addActiveClass(slider);
+        this.moveSliderTo(slider, mousePosition);
+        this.changeProgressBar();
+        this.changeLabels();
     }
 }

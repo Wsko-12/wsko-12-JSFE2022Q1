@@ -1,4 +1,4 @@
-import { IDataItem } from '../../../../interface/interface';
+import { IDataItem, TArraySortCallback } from '../../../../interface/interface';
 import Basket from '../../../basket/Basket';
 import LocalStorage from '../../../localStorage/LocalStorage';
 import Builder from '../builder/Builder';
@@ -60,7 +60,7 @@ class Catalog {
         this.applyEvents();
     }
 
-    public getElement(): HTMLElement {
+    public getElement() {
         return this._element;
     }
 
@@ -96,51 +96,54 @@ class Catalog {
         }
     }
 
-    private sortOnPageArr(): void {
-        if (this._sortSelected === '-') return;
-        let sortFunc: (a: Card, b: Card) => number = () => 0;
-        if (this._sortSelected === 'alphabetA' || this._sortSelected === 'alphabetZ') {
-            sortFunc = (a: Card, b: Card) => {
+    private getSortFunction(sorting: string): TArraySortCallback<Card> {
+        if (sorting.includes('alphabet')) {
+            return (a, b) => {
                 const aName = a.company.name.toLowerCase().trim();
                 const bName = b.company.name.toLowerCase().trim();
-                if (this._sortSelected === 'alphabetA') {
+                if (sorting === 'alphabetA') {
                     return aName < bName ? -1 : aName > bName ? 1 : 0;
                 } else {
                     return aName > bName ? -1 : aName < bName ? 1 : 0;
                 }
             };
-        } else if (this._sortSelected === 'priceL' || this._sortSelected === 'priceH') {
-            sortFunc = (a: Card, b: Card) => {
+        } else if (sorting.includes('price')) {
+            return (a, b) => {
                 const aPrice = a.company.price - a.company.price * (a.company.discount / 100);
                 const bPrice = b.company.price - b.company.price * (b.company.discount / 100);
-                if (this._sortSelected === 'priceL') {
+                if (sorting === 'priceL') {
                     return aPrice - bPrice;
                 } else {
                     return bPrice - aPrice;
                 }
             };
-        } else if (this._sortSelected === 'employeeL' || this._sortSelected === 'employeeH') {
-            sortFunc = (a: Card, b: Card) => {
+        } else if (sorting.includes('employee')) {
+            return (a, b) => {
                 const aEmployees = a.company.employees;
                 const bEmployees = b.company.employees;
-                if (this._sortSelected === 'employeeL') {
+                if (sorting === 'employeeL') {
                     return aEmployees - bEmployees;
                 } else {
                     return bEmployees - aEmployees;
                 }
             };
-        } else if (this._sortSelected === 'yearL' || this._sortSelected === 'yearH') {
-            sortFunc = (a: Card, b: Card) => {
+        } else if (sorting.includes('year')) {
+            return (a, b) => {
                 const aYear = a.company.year;
                 const bYear = b.company.year;
-                if (this._sortSelected === 'yearL') {
+                if (sorting === 'yearL') {
                     return bYear - aYear;
                 } else {
                     return aYear - bYear;
                 }
             };
         }
+        return () => 0;
+    }
 
+    private sortOnPageArr(): void {
+        if (this._sortSelected === '-') return;
+        const sortFunc = this.getSortFunction(this._sortSelected);
         this._onPage.sort(sortFunc);
     }
 
@@ -154,14 +157,14 @@ class Catalog {
         this._container.style.width = containerRect.width + 'px';
         this._container.style.height = containerRect.height + 'px';
 
-        const cardsCollection: HTMLCollection = this._container.children;
+        const cardsCollection = this._container.children;
 
         Array.prototype.forEach.call(cardsCollection, (child: HTMLElement) => {
             const rect = child.getBoundingClientRect();
             positionsBeforeSort.push([rect.x - containerRect.x, rect.y - containerRect.y]);
         });
 
-        this._onPage.forEach((card: Card, i: number) => {
+        this._onPage.forEach((card, i) => {
             const cardElement = card.getElement();
             cardElement.style.order = i + '';
         });
@@ -169,7 +172,7 @@ class Catalog {
         setTimeout(() => {
             this._containerClone.innerHTML = '';
 
-            Array.prototype.forEach.call(cardsCollection, (child: HTMLElement, i: number) => {
+            Array.prototype.forEach.call(cardsCollection, (child: HTMLElement, i) => {
                 const rect = child.getBoundingClientRect();
                 positionsAfterSort.push([rect.x - containerRect.x, rect.y - containerRect.y]);
                 setTimeout(() => {
@@ -199,7 +202,7 @@ class Catalog {
     }
 
     private applyEvents(): void {
-        this._container.addEventListener('click', (e: MouseEvent) => {
+        this._container.addEventListener('click', (e) => {
             if (e.target != this._container && e.target instanceof HTMLElement) {
                 const element = <HTMLElement>e.target.closest('.card');
                 if (element != null) {
