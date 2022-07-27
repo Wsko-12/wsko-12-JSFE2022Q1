@@ -5,4 +5,14 @@ export enum EAppPages {
 
 export enum EConstants {
     HEX_COLOR_STRING_LENGTH = 7,
+    CARS_PER_PAGE = 7,
+}
+
+export enum EUrls {
+    base = 'http://127.0.0.1:3000',
+    garage = '/garage',
+}
+
+export enum EResponseStatuses {
+    success = 200,
 }

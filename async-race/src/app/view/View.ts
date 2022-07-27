@@ -18,7 +18,7 @@ export default class View {
     constructor() {
         const headerButtons = this.createHeaderButtons();
         const header = PageBuilder.createElement('header', {
-            content: [...headerButtons],
+            content: headerButtons,
         });
 
         this._elements = {
