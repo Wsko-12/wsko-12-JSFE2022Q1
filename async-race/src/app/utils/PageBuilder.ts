@@ -3,7 +3,7 @@ type TAttrProperty = { [key: string]: string | number | boolean };
 type TDatasetProperty = { [key: string]: string | number };
 type TContentProperty = string | (HTMLElement | string)[] | HTMLElement;
 
-interface ICreateElementProps {
+export interface ICreateElementProps {
     classes?: TClassProperty;
     id?: string;
     attrs?: TAttrProperty;
