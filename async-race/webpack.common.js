@@ -2,9 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/index.ts',
     module: {
       rules: [
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
         {
           test: /\.s[ac]ss$/i,
           use: [
@@ -24,6 +29,9 @@ module.exports = {
           type: 'asset'
         },
       ],
+    },
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
       filename: 'bundle.[hash].js',
