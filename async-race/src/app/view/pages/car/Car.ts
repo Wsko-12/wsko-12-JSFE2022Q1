@@ -42,6 +42,33 @@ export default class Car {
         this.applyEvents();
     }
 
+    public getGarageElement() {
+        return this._garageElements.element;
+    }
+
+    public setColor(value: TColorHEX) {
+        this._color = value;
+        const carBody = <SVGPathElement>this._commonElements.icon.querySelector('[data-name="body"]');
+        carBody.style.fill = value;
+    }
+
+    public getColor() {
+        return this._color;
+    }
+
+    public setName(value: string) {
+        this._name = value;
+        this._commonElements.title.innerHTML = value;
+    }
+
+    public getName() {
+        return this._name;
+    }
+
+    public getId() {
+        return this._id;
+    }
+
     private startEngine = async () => {
         this._garageElements.engineButtons.start.disabled = true;
         const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
@@ -59,6 +86,24 @@ export default class Car {
         }
     };
 
+    private stop = async () => {
+        this._garageElements.engineButtons.stop.disabled = true;
+        const engineData = await API.getEngineData(this._id, EEngineStatuses.stopped);
+        if (engineData) {
+            this.reset();
+        }
+    };
+
+    private finish = () => {
+        this._animation.stopped = true;
+        console.log(`${this._name} ${Date.now() - this._animation.startTime} : ${this._animation.speed}`);
+    };
+
+    private broke = () => {
+        this.showBrokeIcon(true);
+        this._animation.stopped = true;
+    };
+
     private resetAnimation() {
         this.showBrokeIcon(false);
         const now = Date.now();
@@ -72,14 +117,13 @@ export default class Car {
         return id;
     }
 
-    private finish = () => {
+    private reset = () => {
+        this.showBrokeIcon(false);
+        const { start, stop } = this._garageElements.engineButtons;
         this._animation.stopped = true;
-        console.log(`${this._name} ${Date.now() - this._animation.startTime} : ${this._animation.speed}`);
-    };
-
-    private broke = () => {
-        this.showBrokeIcon(true);
-        this._animation.stopped = true;
+        start.disabled = false;
+        stop.disabled = true;
+        this._garageElements.car.style.transform = 'translate(0px, 0px)';
     };
 
     private drive = () => {
@@ -113,35 +157,18 @@ export default class Car {
         }
     };
 
-    private showBrokeIcon(flag: boolean) {
-        const icon = <HTMLElement>this._garageElements.car.querySelector('.car-item__icon-broke');
-        if (icon) {
-            icon.style.display = flag ? 'flex' : 'none';
-        }
-    }
-
-    private reset = () => {
-        this.showBrokeIcon(false);
-        const { start, stop } = this._garageElements.engineButtons;
-        this._animation.stopped = true;
-        start.disabled = false;
-        stop.disabled = true;
-        this._garageElements.car.style.transform = 'translate(0px, 0px)';
-    };
-
-    private stop = async () => {
-        this._garageElements.engineButtons.stop.disabled = true;
-        const engineData = await API.getEngineData(this._id, EEngineStatuses.stopped);
-        if (engineData) {
-            this.reset();
-        }
-    };
-
     private applyEvents() {
         // ToDo start/stop engine
         const controls = this._garageElements.engineButtons;
         controls.start.addEventListener('click', this.startEngine);
         controls.stop.addEventListener('click', this.stop);
+    }
+
+    private showBrokeIcon(flag: boolean) {
+        const icon = <HTMLElement>this._garageElements.car.querySelector('.car-item__icon-broke');
+        if (icon) {
+            icon.style.display = flag ? 'flex' : 'none';
+        }
     }
 
     private createIcon() {
@@ -179,10 +206,6 @@ export default class Car {
         });
 
         return object;
-    }
-
-    public getGarageElement() {
-        return this._garageElements.element;
     }
 
     private createGarageElements() {
@@ -275,28 +298,5 @@ export default class Car {
         track.append(carContainer);
 
         return [track, carContainer];
-    }
-
-    public setColor(value: TColorHEX) {
-        this._color = value;
-        const carBody = <SVGPathElement>this._commonElements.icon.querySelector('[data-name="body"]');
-        carBody.style.fill = value;
-    }
-
-    public getColor() {
-        return this._color;
-    }
-
-    public setName(value: string) {
-        this._name = value;
-        this._commonElements.title.innerHTML = value;
-    }
-
-    public getName() {
-        return this._name;
-    }
-
-    public getId() {
-        return this._id;
     }
 }
