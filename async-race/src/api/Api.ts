@@ -1,8 +1,8 @@
 import { EConstants, EResponseStatuses, EUrls } from '../typescript/enums';
-import { CarData, CarsResponse } from '../typescript/interface';
+import { ICarData, ICarsResponse } from '../typescript/interface';
 
 export default class API {
-    public static async getCars(page: number): Promise<CarsResponse | null> {
+    public static async getCars(page: number): Promise<ICarsResponse | null> {
         const options = `?_page=${page}&_limit=${EConstants.CARS_PER_PAGE}`;
         const url = this.getGarageUrl() + options;
 
@@ -10,7 +10,7 @@ export default class API {
             const response = await fetch(url);
             if (response.status === EResponseStatuses.success) {
                 const count = response.headers.get('X-Total-Count');
-                const cars = <CarData[]>await response.json();
+                const cars = <ICarData[]>await response.json();
                 if (count && cars) {
                     return {
                         count: +count,

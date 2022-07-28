@@ -1,7 +1,8 @@
 import API from '../../../../../api/Api';
 import { EConstants } from '../../../../../typescript/enums';
-import { CarData } from '../../../../../typescript/interface';
+import { ICarData } from '../../../../../typescript/interface';
 import PageBuilder from '../../../../utils/PageBuilder';
+import Car from '../../car/Car';
 
 export default class Table {
     private _elements: {
@@ -75,15 +76,17 @@ export default class Table {
         }
     }
 
-    private createCarItem(data: CarData) {
+    private createCarItem(data: ICarData) {
         const container = <HTMLDivElement>PageBuilder.createElement('div', {
             content: data.name,
         });
         return container;
     }
 
-    private fillCarsList(data: CarData[]) {
-        const elements = data.map((car) => this.createCarItem(car));
+    private fillCarsList(data: ICarData[]) {
+        const cars = data.map((carData) => new Car(carData));
+        console.log(data);
+        const elements = cars.map((car) => car.getGarageElement());
         this._elements.list.append(...elements);
     }
 

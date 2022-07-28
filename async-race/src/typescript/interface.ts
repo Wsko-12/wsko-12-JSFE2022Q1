@@ -1,10 +1,12 @@
-export interface CarsResponse {
+import { TColorHEX } from './types';
+
+export interface ICarsResponse {
     count: number;
-    cars: CarData[];
+    cars: ICarData[];
 }
 
-export interface CarData {
+export interface ICarData {
     name: string;
-    color: string;
-    id: string;
+    color: TColorHEX;
+    id: number;
 }
