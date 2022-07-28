@@ -1,5 +1,6 @@
-import { ERedactorActions } from '../../../../typescript/enums';
-import { ICarData } from '../../../../typescript/interface';
+import API from '../../../../api/Api';
+import { EConstants, EEngineStatuses, ERedactorActions } from '../../../../typescript/enums';
+import { ICarData, IEngineData } from '../../../../typescript/interface';
 import { TColorHEX } from '../../../../typescript/types';
 import PageBuilder from '../../../utils/PageBuilder';
 import './style.scss';
@@ -10,6 +11,19 @@ export default class Car {
     private _color: TColorHEX = '#000000';
 
     private _id: number;
+
+    private _animation = {
+        id: 0,
+        stopped: true,
+        position: 0,
+        timestamp: 0,
+        pxPerSec: 0,
+        // optional
+        startTime: 0,
+        speed: 0,
+    };
+
+    private _engineData: IEngineData | null = null;
 
     private _commonElements = {
         icon: this.createIcon(),
@@ -24,11 +38,110 @@ export default class Car {
         this.setColor(data.color);
         // ToDo:  rewrite datasets to enums
         this._garageElements.element.dataset.carId = this._id.toString();
+        this._garageElements.engineButtons.stop.disabled = true;
         this.applyEvents();
     }
 
+    private startEngine = async () => {
+        this._garageElements.engineButtons.start.disabled = true;
+        const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
+        if (engineData) {
+            this._engineData = engineData;
+            this._garageElements.engineButtons.stop.disabled = false;
+            const animationId = this.resetAnimation();
+            this.drive();
+            const engineStatus = await API.getEngineData(this._id, EEngineStatuses.drive);
+            if (!engineStatus && !this._animation.stopped) {
+                if (animationId === this._animation.id) {
+                    this.broke();
+                }
+            }
+        }
+    };
+
+    private resetAnimation() {
+        this.showBrokeIcon(false);
+        const now = Date.now();
+        const id = Math.random();
+        this._animation.id = id;
+        this._animation.timestamp = now;
+        this._animation.startTime = now;
+        this._animation.stopped = false;
+        this._animation.pxPerSec = 0;
+        this._animation.position = 0;
+        return id;
+    }
+
+    private finish = () => {
+        this._animation.stopped = true;
+        console.log(`${this._name} ${Date.now() - this._animation.startTime} : ${this._animation.speed}`);
+    };
+
+    private broke = () => {
+        this.showBrokeIcon(true);
+        this._animation.stopped = true;
+    };
+
+    private drive = () => {
+        if (!this._engineData || this._animation.stopped) {
+            return;
+        }
+        const { distance, velocity } = this._engineData;
+        const speed = distance / velocity;
+        this._animation.speed = speed;
+
+        const carIcon = this._garageElements.car;
+        const carIconWidth = carIcon.clientWidth;
+        const trackWidth = this._garageElements.track.clientWidth;
+
+        const trackDistance = trackWidth - carIconWidth;
+
+        const PxPerSec = (trackDistance / speed) * EConstants.MS_IN_SEC;
+        this._animation.pxPerSec = PxPerSec;
+
+        const last = this._animation.timestamp;
+        const current = Date.now();
+        this._animation.timestamp = current;
+
+        const delta = current - last;
+        this._animation.position += (delta / EConstants.MS_IN_SEC) * PxPerSec;
+        carIcon.style.transform = `translate(${Math.floor(this._animation.position)}px, 0px)`;
+        if (this._animation.position < trackDistance) {
+            requestAnimationFrame(this.drive);
+        } else {
+            this.finish();
+        }
+    };
+
+    private showBrokeIcon(flag: boolean) {
+        const icon = <HTMLElement>this._garageElements.car.querySelector('.car-item__icon-broke');
+        if (icon) {
+            icon.style.display = flag ? 'flex' : 'none';
+        }
+    }
+
+    private reset = () => {
+        this.showBrokeIcon(false);
+        const { start, stop } = this._garageElements.engineButtons;
+        this._animation.stopped = true;
+        start.disabled = false;
+        stop.disabled = true;
+        this._garageElements.car.style.transform = 'translate(0px, 0px)';
+    };
+
+    private stop = async () => {
+        this._garageElements.engineButtons.stop.disabled = true;
+        const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
+        if (engineData) {
+            this.reset();
+        }
+    };
+
     private applyEvents() {
         // ToDo start/stop engine
+        const controls = this._garageElements.engineButtons;
+        controls.start.addEventListener('click', this.startEngine);
+        controls.stop.addEventListener('click', this.stop);
     }
 
     private createIcon() {
@@ -95,22 +208,25 @@ export default class Car {
 
         body.append(controls);
 
-        const track = this.createTrackElement();
+        const trackElements = this.createTrackElements();
+        const track = trackElements[0];
         body.append(track);
 
         return {
             element,
+            track,
+            car: trackElements[1],
             editButtons,
             engineButtons,
         };
     }
 
-    // ToDo:  rewrite datasets to enums
     private createEditButtons() {
         const select = <HTMLButtonElement>PageBuilder.createElement('button', {
             classes: 'button',
             content: 'Select',
             dataset: {
+                // ToDo:  rewrite datasets to enums
                 button: 'true',
                 type: 'edit',
                 action: ERedactorActions.select,
@@ -121,6 +237,7 @@ export default class Car {
             classes: 'button',
             content: 'Remove',
             dataset: {
+                // ToDo:  rewrite datasets to enums
                 button: 'true',
                 type: 'edit',
                 action: ERedactorActions.remove,
@@ -146,18 +263,18 @@ export default class Car {
         };
     }
 
-    private createTrackElement() {
+    private createTrackElements(): [HTMLDivElement, HTMLDivElement] {
         const track = <HTMLDivElement>PageBuilder.createElement('div', {
             classes: 'car-item__track',
         });
 
         const carContainer = <HTMLDivElement>PageBuilder.createElement('div', {
             classes: 'car-item__icon-container',
+            content: ['<div class="car-item__icon-broke">!</div>', this._commonElements.icon],
         });
-        carContainer.append(this._commonElements.icon);
         track.append(carContainer);
 
-        return track;
+        return [track, carContainer];
     }
 
     public setColor(value: TColorHEX) {

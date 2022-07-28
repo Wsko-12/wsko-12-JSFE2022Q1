@@ -1,5 +1,5 @@
-import { EConstants, EResponseStatuses, EUrls } from '../typescript/enums';
-import { ICarData, ICarDataShort, ICarsResponse } from '../typescript/interface';
+import { EConstants, EEngineStatuses, EResponseStatuses, EUrls } from '../typescript/enums';
+import { ICarData, ICarDataShort, ICarsResponse, IEngineData } from '../typescript/interface';
 import { TColorHEX } from '../typescript/types';
 
 export default class API {
@@ -79,14 +79,30 @@ export default class API {
         return Promise.resolve();
     }
 
+    public static async getEngineData(id: number, status: EEngineStatuses): Promise<IEngineData | null> {
+        const url = `${this.getEngineUrl()}?id=${id}&status=${status}`;
+        const init = {
+            method: 'PATCH',
+        };
+        const responseData = <IEngineData>await this.load(url, init);
+        if (!responseData) {
+            console.error(`[API] getEngineData error: can't receive data`);
+        }
+        return responseData;
+    }
+
     private static getGarageUrl() {
         return `${EUrls.base}${EUrls.garage}`;
+    }
+
+    private static getEngineUrl() {
+        return `${EUrls.base}${EUrls.engine}`;
     }
 
     private static async load<T>(url: string, init?: RequestInit): Promise<T | null> {
         try {
             const response = await fetch(url, init);
-            if (response.status === EResponseStatuses.success) {
+            if (response.status === EResponseStatuses.success || response.status === EResponseStatuses.created) {
                 const data = <T>await response.json();
                 return data || null;
             }

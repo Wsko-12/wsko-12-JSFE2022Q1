@@ -28,8 +28,24 @@
     flex-grow: 1;
     display: flex;
     align-items: flex-end;
+    overflow: hidden;
 }
 
 .car-item__icon-container{
     width: 70px;
+    position: relative;
+}
+
+.car-item__icon-broke {
+    display: none;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    right: 0px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid red;
+    border-radius: 25px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
 }
