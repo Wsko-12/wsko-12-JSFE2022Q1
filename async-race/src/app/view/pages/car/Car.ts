@@ -131,7 +131,7 @@ export default class Car {
 
     private stop = async () => {
         this._garageElements.engineButtons.stop.disabled = true;
-        const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
+        const engineData = await API.getEngineData(this._id, EEngineStatuses.stopped);
         if (engineData) {
             this.reset();
         }
