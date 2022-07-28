@@ -1,0 +1,35 @@
+.car-item{
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+
+    &-garage{
+        margin-bottom: 20px;
+        height: 80px;
+    }
+}
+
+.car-item__header{
+    display: flex;
+    height: 20px;
+    gap: 5px;
+
+    & > h3 {
+        margin: 0;
+    }
+}
+
+.car-item__body{
+    display: flex;
+}
+
+.car-item__track{
+    height: 50px;
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+}
+
+.car-item__icon-container{
+    width: 70px;
+}

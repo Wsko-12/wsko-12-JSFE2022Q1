@@ -57,9 +57,10 @@ export default class Redactor {
     public applyEvents() {
         const { input, button, color } = this._elements;
         button.addEventListener('click', () => {
-            if (this._onChangeCallback) {
+            const colorHex = color.value;
+            if (this._onChangeCallback && isColorHex(colorHex)) {
                 this.disableAll(true);
-                this._onChangeCallback(input.value, color.value, this.clearAll);
+                this._onChangeCallback(input.value, colorHex, this.clearAll);
             }
         });
     }
@@ -81,14 +82,18 @@ export default class Redactor {
         }
     }
 
+    public setInput(text: string) {
+        this._elements.input.value = text;
+    }
+
     public getElement() {
         return this._elements.element;
     }
 
-    private clearAll = () => {
+    private clearAll = (disable: boolean) => {
         const { input, color } = this._elements;
         input.value = '';
         color.value = '#000000';
-        this.disableAll(false);
+        this.disableAll(disable);
     };
 }

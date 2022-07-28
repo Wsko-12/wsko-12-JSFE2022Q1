@@ -1,6 +1,8 @@
+import { ERedactorActions } from '../../../../typescript/enums';
 import { ICarData } from '../../../../typescript/interface';
 import { TColorHEX } from '../../../../typescript/types';
 import PageBuilder from '../../../utils/PageBuilder';
+import './style.scss';
 
 export default class Car {
     private _name = '';
@@ -20,10 +22,14 @@ export default class Car {
         this._id = data.id;
         this.setName(data.name);
         this.setColor(data.color);
+        // ToDo:  rewrite datasets to enums
+        this._garageElements.element.dataset.carId = this._id.toString();
         this.applyEvents();
     }
 
-    private applyEvents() {}
+    private applyEvents() {
+        // ToDo start/stop engine
+    }
 
     private createIcon() {
         const svg = `
@@ -67,26 +73,64 @@ export default class Car {
     }
 
     private createGarageElements() {
-        const element = <HTMLLIElement>PageBuilder.createElement('li');
+        const element = <HTMLLIElement>PageBuilder.createElement('li', {
+            classes: 'car-item car-item-garage',
+        });
 
-        const header = <HTMLDivElement>PageBuilder.createElement('div');
+        const header = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'car-item__header',
+        });
+        const editButtons = this.createEditButtons();
+        header.append(editButtons.select, editButtons.remove, this._commonElements.title);
         element.append(header);
 
+        const body = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'car-item__body',
+        });
+        element.append(body);
+
+        const controls = <HTMLDivElement>PageBuilder.createElement('div');
+        const engineButtons = this.createEngineButtons();
+        controls.append(engineButtons.start, engineButtons.stop);
+
+        body.append(controls);
+
+        const track = this.createTrackElement();
+        body.append(track);
+
+        return {
+            element,
+            editButtons,
+            engineButtons,
+        };
+    }
+
+    // ToDo:  rewrite datasets to enums
+    private createEditButtons() {
         const select = <HTMLButtonElement>PageBuilder.createElement('button', {
             classes: 'button',
             content: 'Select',
+            dataset: {
+                button: 'true',
+                type: 'edit',
+                action: ERedactorActions.select,
+            },
         });
 
         const remove = <HTMLButtonElement>PageBuilder.createElement('button', {
             classes: 'button',
             content: 'Remove',
+            dataset: {
+                button: 'true',
+                type: 'edit',
+                action: ERedactorActions.remove,
+            },
         });
-        header.append(select, remove, this._commonElements.title);
 
-        const body = <HTMLDivElement>PageBuilder.createElement('div');
-        element.append(body);
+        return { select, remove };
+    }
 
-        const controls = <HTMLDivElement>PageBuilder.createElement('div');
+    private createEngineButtons() {
         const start = <HTMLButtonElement>PageBuilder.createElement('button', {
             classes: 'button',
             content: 'A',
@@ -96,27 +140,24 @@ export default class Car {
             classes: 'button',
             content: 'B',
         });
-        controls.append(start, stop);
-        body.append(controls);
+        return {
+            start,
+            stop,
+        };
+    }
 
-        const track = <HTMLDivElement>PageBuilder.createElement('div');
-        body.append(track);
+    private createTrackElement() {
+        const track = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'car-item__track',
+        });
 
-        const carContainer = <HTMLDivElement>PageBuilder.createElement('div');
+        const carContainer = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'car-item__icon-container',
+        });
         carContainer.append(this._commonElements.icon);
         track.append(carContainer);
 
-        return {
-            element,
-            headerButtons: {
-                select,
-                remove,
-            },
-            controlsButtons: {
-                start,
-                stop,
-            },
-        };
+        return track;
     }
 
     public setColor(value: TColorHEX) {

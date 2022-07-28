@@ -5,8 +5,11 @@ export interface ICarsResponse {
     cars: ICarData[];
 }
 
-export interface ICarData {
+export interface ICarDataShort {
     name: string;
     color: TColorHEX;
+}
+
+export interface ICarData extends ICarDataShort {
     id: number;
 }

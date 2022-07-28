@@ -16,3 +16,10 @@ export enum EUrls {
 export enum EResponseStatuses {
     success = 200,
 }
+
+export enum ERedactorActions {
+    create = 'create',
+    update = 'update',
+    select = 'select',
+    remove = 'remove',
+}

@@ -1,8 +1,10 @@
 import API from '../../../../../api/Api';
-import { EConstants } from '../../../../../typescript/enums';
+import { EConstants, ERedactorActions } from '../../../../../typescript/enums';
 import { ICarData } from '../../../../../typescript/interface';
+import { TCarSelectorCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Car from '../../car/Car';
+import './style.scss';
 
 export default class Table {
     private _elements: {
@@ -17,11 +19,21 @@ export default class Table {
         };
     };
 
+    private _callbacks: {
+        [ERedactorActions.select]: TCarSelectorCallback;
+        [ERedactorActions.remove]: TCarSelectorCallback;
+    };
+
     private _currentPage = 1;
 
     private _allCars = 0;
 
-    constructor() {
+    constructor(selectCar: TCarSelectorCallback, removeCar: TCarSelectorCallback) {
+        this._callbacks = {
+            [ERedactorActions.select]: selectCar,
+            [ERedactorActions.remove]: removeCar,
+        };
+
         const element = PageBuilder.createElement('section');
 
         const header = PageBuilder.createElement('header');
@@ -38,7 +50,9 @@ export default class Table {
 
         header.append(title, subtitle);
 
-        const list = <HTMLUListElement>PageBuilder.createElement('ul', {});
+        const list = <HTMLUListElement>PageBuilder.createElement('ul', {
+            classes: 'garage__table',
+        });
 
         const footerButtons = this.createFooterButtons();
         const footer = <HTMLElement>PageBuilder.createElement('footer', {
@@ -60,13 +74,14 @@ export default class Table {
         };
 
         this.update();
+        this.applyEvents();
     }
 
     public getElement() {
         return this._elements.element;
     }
 
-    public async update() {
+    public update = async () => {
         const data = await API.getCars(this._currentPage);
         if (data) {
             this._allCars = data.count;
@@ -74,20 +89,43 @@ export default class Table {
             this.updatePageElement();
             this.fillCarsList(data.cars);
         }
-    }
+    };
 
-    private createCarItem(data: ICarData) {
-        const container = <HTMLDivElement>PageBuilder.createElement('div', {
-            content: data.name,
+    private applyEvents() {
+        const { list } = this._elements;
+        list.addEventListener('click', (e) => {
+            if (e.target && e.target instanceof HTMLElement) {
+                const { dataset } = e.target;
+                if (dataset.button === 'true' && dataset.type === 'edit') {
+                    const { action } = dataset;
+                    const carItem = <HTMLElement>e.target.closest('.car-item');
+                    if (action && carItem && carItem.dataset.carId) {
+                        const { carId } = carItem.dataset;
+                        const carIdNumber = +carId;
+                        if (Number.isNaN(carIdNumber)) {
+                            return;
+                        }
+                        switch (action) {
+                            case ERedactorActions.remove:
+                                this._callbacks.remove(carIdNumber);
+                                break;
+                            case ERedactorActions.select:
+                                this._callbacks.select(carIdNumber);
+                                break;
+                            default:
+                        }
+                    }
+                }
+            }
         });
-        return container;
     }
 
     private fillCarsList(data: ICarData[]) {
         const cars = data.map((carData) => new Car(carData));
-        console.log(data);
         const elements = cars.map((car) => car.getGarageElement());
-        this._elements.list.append(...elements);
+        const { list } = this._elements;
+        list.innerHTML = '';
+        list.append(...elements);
     }
 
     private updateCounterElement(value: number) {
