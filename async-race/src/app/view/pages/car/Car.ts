@@ -76,11 +76,16 @@ export default class Car {
             this._garageElements.engineButtons.stop.disabled = false;
             const animationId = this.resetAnimation();
             this.drive(raceCallback);
-            const engineStatus = await API.getEngineData(this._id, EEngineStatuses.drive);
-            if (!engineStatus && !this._animation.stopped) {
-                if (animationId === this._animation.id) {
-                    this.broke();
-                }
+            this.sendDriveRequest(animationId);
+        }
+        return engineData;
+    };
+
+    private sendDriveRequest = async (animationId: number) => {
+        const engineStatus = await API.getEngineData(this._id, EEngineStatuses.drive);
+        if (!engineStatus && !this._animation.stopped) {
+            if (animationId === this._animation.id) {
+                this.broke();
             }
         }
     };

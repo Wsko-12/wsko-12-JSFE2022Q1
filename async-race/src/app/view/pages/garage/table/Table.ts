@@ -29,6 +29,8 @@ export default class Table {
         };
     };
 
+    private _raceMode = false;
+
     private _callbacks: {
         [ERedactorActions.select]: TCarSelectorCallback;
         [ERedactorActions.remove]: TCarSelectorCallback;
@@ -199,31 +201,45 @@ export default class Table {
         };
     }
 
-    private resetAll = async () => {
+    private resetAll = async (e?: Event) => {
+        // if user click "reset" during race, it's reset race
+        // and if car wins it will be skipped
+        // this was done because we use this function
+        // without e arg before the start of the race
+        this._raceMode = !e;
         this._elements.menu.buttons.reset.disabled = true;
 
         const promises = this._carsList.map((car) => car.stop());
 
         const allSettled = await Promise.allSettled(promises);
-        this._elements.menu.buttons.reset.disabled = false;
+        if (e && e.type === 'click') {
+            this._elements.menu.buttons.race.disabled = false;
+            this._elements.menu.buttons.reset.disabled = false;
+        }
         return allSettled;
     };
 
     private race = async () => {
+        this._raceMode = true;
         this._elements.menu.buttons.race.disabled = true;
         await this.resetAll();
         let winner = true;
         const raceCallback = (name: string, time: number) => {
             if (winner) {
                 winner = false;
-                this.showWinnerMessage(name, time);
-                return true;
+                if (this._raceMode) {
+                    this.showWinnerMessage(name, time);
+                    return true;
+                }
             }
             return winner;
         };
 
-        this._carsList.forEach((car) => {
-            car.startEngine(raceCallback);
+        const promises = this._carsList.map((car) => {
+            return car.startEngine(raceCallback);
+        });
+        Promise.allSettled(promises).then(() => {
+            this._elements.menu.buttons.reset.disabled = false;
         });
     };
 
