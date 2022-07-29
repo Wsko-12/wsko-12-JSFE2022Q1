@@ -1,3 +1,4 @@
+import Utils from '../app/utils/utils';
 import {
     EConstants,
     EEngineStatuses,
@@ -18,7 +19,7 @@ import { TColorHEX } from '../typescript/types';
 
 export default class API {
     public static async saveRaceWinnerResult(id: number, time: number) {
-        const sec = Math.round((time / EConstants.MS_IN_SEC) * 100) / 100;
+        const sec = Utils.msToSec(time);
         const inBase = await this.getWinner(id);
         if (inBase) {
             const { wins } = inBase;

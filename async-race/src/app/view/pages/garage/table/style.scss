@@ -1,3 +1,13 @@
 .garage__table{
     padding: 0;
 }
+.garage__popup{
+    display: none;
+    font-weight: bold;
+    font-size: 30px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}

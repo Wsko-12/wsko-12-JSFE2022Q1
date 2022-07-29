@@ -4,8 +4,10 @@ import { ICarData } from '../../../../../typescript/interface';
 // import { isCarData, isCarDataArr } from '../../../../../typescript/typeguards';
 import { TCarSelectorCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
+import Utils from '../../../../utils/utils';
 import Car from '../../components/car/Car';
 import Table from '../../components/table/Table';
+import './style.scss';
 
 // ToDO When update one car don't update all table
 export default class GarageTable extends Table {
@@ -16,15 +18,9 @@ export default class GarageTable extends Table {
 
     private _raceMode = false;
 
-    private _addedElements: {
-        menu: {
-            element: HTMLMenuElement;
-            buttons: {
-                race: HTMLButtonElement;
-                reset: HTMLButtonElement;
-                generate: HTMLButtonElement;
-            };
-        };
+    private _addedElements = {
+        menu: this.createMenu(),
+        popUp: this.createPopUpElement(),
     };
 
     private _carsList: Car[] = [];
@@ -37,12 +33,9 @@ export default class GarageTable extends Table {
             [ERedactorActions.remove]: removeCar,
         };
 
-        const menu = this.createMenu();
+        this._elements.header.prepend(this._addedElements.menu.element);
+        this._elements.element.append(this._addedElements.popUp.element);
 
-        this._elements.header.prepend(menu.element);
-        this._addedElements = {
-            menu,
-        };
         this.applyEvents();
         this.update();
     }
@@ -83,6 +76,39 @@ export default class GarageTable extends Table {
         this.applyListEvents();
     }
 
+    private showPopUp(flag: boolean, carName?: string, sec?: number) {
+        const { element, name, time } = this._addedElements.popUp;
+
+        if (!flag) {
+            element.style.display = 'none';
+        }
+        if (carName && sec) {
+            name.innerHTML = carName;
+            time.innerHTML = sec.toString();
+
+            element.style.display = 'block';
+
+            setTimeout(() => {
+                this.showPopUp(false);
+            }, 3000);
+        }
+    }
+
+    private createPopUpElement() {
+        const name = <HTMLSpanElement>PageBuilder.createElement('span');
+        const time = <HTMLSpanElement>PageBuilder.createElement('span');
+        const element = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'garage__popup',
+            content: [`Winner: `, name, ' time: ', time, 's'],
+        });
+
+        return {
+            element,
+            name,
+            time,
+        };
+    }
+
     private race = async () => {
         // !! ToFix: disable race when we don't have cars
         this._raceMode = true;
@@ -114,6 +140,7 @@ export default class GarageTable extends Table {
         // this was done because we use this function
         // without e arg before the start of the race
         this._raceMode = !e;
+        this.showPopUp(false);
         const { reset, race } = this._addedElements.menu.buttons;
 
         race.disabled = true;
@@ -131,6 +158,7 @@ export default class GarageTable extends Table {
 
     private showWinnerMessage(name: string, time: number) {
         this._addedElements.menu.buttons.race.disabled = false;
+        this.showPopUp(true, name, Utils.msToSec(time));
     }
 
     private generateCars = () => {};
