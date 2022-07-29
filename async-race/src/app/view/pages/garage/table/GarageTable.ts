@@ -113,6 +113,10 @@ export default class GarageTable extends Table {
 
     private race = async () => {
         // !! ToFix: disable race when we don't have cars
+        if (this._carsList.length === 0) {
+            return;
+        }
+        this.disablePagination(true);
         this._raceMode = true;
         this._addedElements.menu.buttons.race.disabled = true;
         await this.resetAll();
@@ -133,6 +137,7 @@ export default class GarageTable extends Table {
         });
         Promise.allSettled(promises).then(() => {
             this._addedElements.menu.buttons.reset.disabled = false;
+            this.disablePagination(false);
         });
     };
 

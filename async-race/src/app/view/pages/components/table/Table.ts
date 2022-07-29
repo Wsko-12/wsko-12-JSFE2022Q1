@@ -112,6 +112,12 @@ export default abstract class Table {
         this.applyFooterEvents();
     }
 
+    protected disablePagination(flag: boolean) {
+        const { prev, next } = this._elements.footer.buttons;
+        prev.disabled = flag;
+        next.disabled = flag;
+    }
+
     private applyFooterEvents() {
         const { prev, next } = this._elements.footer.buttons;
 
@@ -129,9 +135,10 @@ export default abstract class Table {
     }
 
     // ?! it's must be abstract
-    // Error Ts1243: 'Async' Modifier Cannot Be Used With 'Abstract'
+    // ?! Error Ts1243: 'Async' Modifier Cannot Be Used With 'Abstract'
     public update = async () => {};
 
+    // ?! it's must be abstract
     // protected abstract fillList<T>(data: T[]): void;
 
     public getElement() {
