@@ -35,7 +35,6 @@ export default class Car {
 
     private _garageElements = this.createGarageElements();
 
-
     constructor(data: ICarData) {
         this._id = data.id;
         this.setName(data.name);
@@ -89,6 +88,7 @@ export default class Car {
 
     public startEngine = async (raceCallback?: TRaceCallback) => {
         this._garageElements.engineButtons.start.disabled = true;
+        this.disableEditButtons(true);
         const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
         if (engineData) {
             this._engineData = engineData;
@@ -99,6 +99,12 @@ export default class Car {
         }
         return engineData;
     };
+
+    private disableEditButtons(flag: boolean) {
+        const { select, remove } = this._garageElements.editButtons;
+        select.disabled = flag;
+        remove.disabled = flag;
+    }
 
     private sendDriveRequest = async (animationId: number) => {
         const engineStatus = await API.getEngineData(this._id, EEngineStatuses.drive);
@@ -151,6 +157,7 @@ export default class Car {
 
     private reset = () => {
         this.showBrokeIcon(false);
+        this.disableEditButtons(false);
         const { start, stop } = this._garageElements.engineButtons;
         this._animation.stopped = true;
         start.disabled = false;
