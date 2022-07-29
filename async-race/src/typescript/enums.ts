@@ -8,6 +8,8 @@ export enum EConstants {
     MS_IN_SEC = 1000,
     CARS_PER_PAGE = 7,
     WINNERS_PER_PAGE = 10,
+    FF_16_Bit = 255,
+    CARS_GENERATOR = 100,
 }
 
 export enum EUrls {

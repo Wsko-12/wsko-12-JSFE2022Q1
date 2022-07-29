@@ -10,6 +10,8 @@ import Table from '../../components/table/Table';
 import './style.scss';
 
 // ToDO When update one car don't update all table
+
+// !! Bug: when race isn't end and we click next page button race isn't disable
 export default class GarageTable extends Table {
     private _callbacks: {
         [ERedactorActions.select]: TCarSelectorCallback;
@@ -55,7 +57,7 @@ export default class GarageTable extends Table {
 
         const generate = <HTMLButtonElement>PageBuilder.createElement('button', {
             classes: 'button',
-            content: 'Generate',
+            content: `Generate${EConstants.CARS_GENERATOR}`,
         });
 
         element.append(race, reset, generate);
@@ -161,7 +163,24 @@ export default class GarageTable extends Table {
         this.showPopUp(true, name, Utils.msToSec(time));
     }
 
-    private generateCars = () => {};
+    private generateCars = async () => {
+        const { generate } = this._addedElements.menu.buttons;
+
+        generate.disabled = true;
+
+        const promises = [];
+        for (let i = 0; i < EConstants.CARS_GENERATOR; i += 1) {
+            const name = Utils.generateCarName();
+            const color = Utils.generateHEXColor();
+            const promise = API.createCar(name, color);
+            promises.push(promise);
+        }
+
+        await Promise.allSettled(promises);
+
+        generate.disabled = false;
+        this.update();
+    };
 
     private applyListEvents() {
         const { list } = this._elements;
