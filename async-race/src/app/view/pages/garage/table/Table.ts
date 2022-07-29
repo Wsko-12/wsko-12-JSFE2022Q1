@@ -148,6 +148,8 @@ export default class Table {
             content: 'Next',
         });
 
+        element.append(prev, next);
+
         return {
             element,
             buttons: {
