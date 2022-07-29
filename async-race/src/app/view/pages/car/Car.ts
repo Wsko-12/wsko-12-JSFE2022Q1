@@ -1,7 +1,7 @@
 import API from '../../../../api/Api';
 import { EConstants, EEngineStatuses, ERedactorActions } from '../../../../typescript/enums';
 import { ICarData, IEngineData } from '../../../../typescript/interface';
-import { TColorHEX } from '../../../../typescript/types';
+import { TColorHEX, TRaceCallback } from '../../../../typescript/types';
 import PageBuilder from '../../../utils/PageBuilder';
 import './style.scss';
 
@@ -18,7 +18,6 @@ export default class Car {
         position: 0,
         timestamp: 0,
         pxPerSec: 0,
-        // optional
         startTime: 0,
         speed: 0,
     };
@@ -69,14 +68,14 @@ export default class Car {
         return this._id;
     }
 
-    private startEngine = async () => {
+    public startEngine = async (raceCallback?: TRaceCallback) => {
         this._garageElements.engineButtons.start.disabled = true;
         const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
         if (engineData) {
             this._engineData = engineData;
             this._garageElements.engineButtons.stop.disabled = false;
             const animationId = this.resetAnimation();
-            this.drive();
+            this.drive(raceCallback);
             const engineStatus = await API.getEngineData(this._id, EEngineStatuses.drive);
             if (!engineStatus && !this._animation.stopped) {
                 if (animationId === this._animation.id) {
@@ -86,18 +85,27 @@ export default class Car {
         }
     };
 
-    private stop = async () => {
+    public stop = async () => {
         this._garageElements.engineButtons.stop.disabled = true;
         const engineData = await API.getEngineData(this._id, EEngineStatuses.stopped);
         if (engineData) {
             this.reset();
         }
+        return engineData;
     };
 
-    private finish = () => {
+    private finish = (raceCallback?: TRaceCallback) => {
         this._animation.stopped = true;
-        console.log(`${this._name} ${Date.now() - this._animation.startTime} : ${this._animation.speed}`);
+        if (raceCallback) {
+            const time = Date.now() - this._animation.startTime;
+            const isWin = raceCallback(this._name, time);
+            if (isWin) {
+                this.saveResult(time);
+            }
+        }
     };
+
+    private saveResult(time: number) {}
 
     private broke = () => {
         this.showBrokeIcon(true);
@@ -126,7 +134,7 @@ export default class Car {
         this._garageElements.car.style.transform = 'translate(0px, 0px)';
     };
 
-    private drive = () => {
+    private drive = (raceCallback?: TRaceCallback) => {
         if (!this._engineData || this._animation.stopped) {
             return;
         }
@@ -151,16 +159,16 @@ export default class Car {
         this._animation.position += (delta / EConstants.MS_IN_SEC) * PxPerSec;
         carIcon.style.transform = `translate(${Math.floor(this._animation.position)}px, 0px)`;
         if (this._animation.position < trackDistance) {
-            requestAnimationFrame(this.drive);
+            requestAnimationFrame(() => this.drive(raceCallback));
         } else {
-            this.finish();
+            this.finish(raceCallback);
         }
     };
 
     private applyEvents() {
         // ToDo start/stop engine
         const controls = this._garageElements.engineButtons;
-        controls.start.addEventListener('click', this.startEngine);
+        controls.start.addEventListener('click', () => this.startEngine());
         controls.stop.addEventListener('click', this.stop);
     }
 

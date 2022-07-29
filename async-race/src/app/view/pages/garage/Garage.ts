@@ -1,7 +1,7 @@
 import API from '../../../../api/Api';
 import { TColorHEX } from '../../../../typescript/types';
 import PageBuilder from '../../../utils/PageBuilder';
-import Menu from './menu/Menu';
+import Editor from './editor/Editor';
 import Table from './table/Table';
 
 export default class Garage {
@@ -9,18 +9,18 @@ export default class Garage {
         element: HTMLElement;
     };
 
-    private _menu: Menu;
+    private _editor: Editor;
 
     private _table: Table;
 
     private _selectedCarId: number | null = null;
 
     constructor() {
-        this._menu = new Menu(this.createCar, this.updateCar);
+        this._editor = new Editor(this.createCar, this.updateCar);
         this._table = new Table(this.selectCar, this.removeCar);
 
         const element = PageBuilder.createElement('section', {
-            content: [this._menu.getElement(), this._table.getElement()],
+            content: [this._editor.getElement(), this._table.getElement()],
         });
 
         this._elements = {
@@ -32,7 +32,7 @@ export default class Garage {
         this._selectedCarId = id;
         const carData = await API.getCar(id);
         if (carData) {
-            this._menu.selectCar(carData);
+            this._editor.selectCar(carData);
         }
         return Promise.resolve();
     };

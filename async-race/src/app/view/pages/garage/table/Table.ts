@@ -14,8 +14,18 @@ export default class Table {
         list: HTMLUListElement;
         footer: {
             element: HTMLElement;
-            prevButton: HTMLButtonElement;
-            nextButton: HTMLButtonElement;
+            buttons: {
+                prev: HTMLButtonElement;
+                next: HTMLButtonElement;
+            };
+        };
+        menu: {
+            element: HTMLMenuElement;
+            buttons: {
+                race: HTMLButtonElement;
+                reset: HTMLButtonElement;
+                generate: HTMLButtonElement;
+            };
         };
     };
 
@@ -27,6 +37,8 @@ export default class Table {
     private _currentPage = 1;
 
     private _allCars = 0;
+
+    private _carsList: Car[] = [];
 
     constructor(selectCar: TCarSelectorCallback, removeCar: TCarSelectorCallback) {
         this._callbacks = {
@@ -48,29 +60,25 @@ export default class Table {
             content: ['Page ', page],
         });
 
-        header.append(title, subtitle);
-
         const list = <HTMLUListElement>PageBuilder.createElement('ul', {
             classes: 'garage__table',
         });
 
-        const footerButtons = this.createFooterButtons();
-        const footer = <HTMLElement>PageBuilder.createElement('footer', {
-            content: footerButtons,
-        });
+        const footer = this.createFooter();
 
-        element.append(header, list, footer);
+        const menu = this.createMenu();
+
+        header.append(menu.element, title, subtitle);
+
+        element.append(header, list, footer.element);
 
         this._elements = {
             element,
             counter,
             page,
             list,
-            footer: {
-                element: footer,
-                prevButton: footerButtons[0],
-                nextButton: footerButtons[1],
-            },
+            footer,
+            menu,
         };
 
         this.update();
@@ -92,6 +100,150 @@ export default class Table {
     };
 
     private applyEvents() {
+        this.applyFooterEvents();
+        this.applyMenuEvents();
+        this.applyListEvents();
+    }
+
+    private fillCarsList(data: ICarData[]) {
+        const cars = data.map((carData) => new Car(carData));
+        this._carsList = cars;
+        const elements = cars.map((car) => car.getGarageElement());
+        const { list } = this._elements;
+        list.innerHTML = '';
+        list.append(...elements);
+    }
+
+    private updateCounterElement(value: number) {
+        this._elements.counter.innerHTML = `(${value})`;
+    }
+
+    private updatePageElement() {
+        const { prev, next } = this._elements.footer.buttons;
+
+        next.disabled = false;
+        prev.disabled = false;
+
+        if (this._currentPage === 1) {
+            prev.disabled = true;
+        }
+        const current = this._currentPage * EConstants.CARS_PER_PAGE;
+        if (current >= this._allCars) {
+            next.disabled = true;
+        }
+        this._elements.page.innerHTML = `#${this._currentPage}`;
+    }
+
+    private createFooter() {
+        const element = <HTMLElement>PageBuilder.createElement('footer');
+
+        const prev = <HTMLButtonElement>PageBuilder.createElement('button', {
+            classes: 'button',
+            content: 'Prev',
+        });
+        const next = <HTMLButtonElement>PageBuilder.createElement('button', {
+            classes: 'button',
+            content: 'Next',
+        });
+
+        return {
+            element,
+            buttons: {
+                prev,
+                next,
+            },
+        };
+    }
+
+    private applyFooterEvents() {
+        const { prev, next } = this._elements.footer.buttons;
+
+        prev.addEventListener('click', () => {
+            this._currentPage -= 1;
+            this.update();
+        });
+
+        next.addEventListener('click', () => {
+            this._currentPage += 1;
+            this.update();
+        });
+    }
+
+    private createMenu() {
+        const element = <HTMLMenuElement>PageBuilder.createElement('menu');
+
+        const race = <HTMLButtonElement>PageBuilder.createElement('button', {
+            classes: 'button',
+            content: 'Race',
+        });
+
+        const reset = <HTMLButtonElement>PageBuilder.createElement('button', {
+            classes: 'button',
+            content: 'Reset',
+        });
+
+        const generate = <HTMLButtonElement>PageBuilder.createElement('button', {
+            classes: 'button',
+            content: 'Generate',
+        });
+
+        element.append(race, reset, generate);
+
+        return {
+            element,
+            buttons: {
+                race,
+                reset,
+                generate,
+            },
+        };
+    }
+
+    private resetAll = async () => {
+        this._elements.menu.buttons.reset.disabled = true;
+
+        const promises = this._carsList.map((car) => car.stop());
+
+        const allSettled = await Promise.allSettled(promises);
+        this._elements.menu.buttons.reset.disabled = false;
+        return allSettled;
+    };
+
+    private race = async () => {
+        this._elements.menu.buttons.race.disabled = true;
+        await this.resetAll();
+        let winner = true;
+        const raceCallback = (name: string, time: number) => {
+            if (winner) {
+                winner = false;
+                this.showWinnerMessage(name, time);
+                return true;
+            }
+            return winner;
+        };
+
+        this._carsList.forEach((car) => {
+            car.startEngine(raceCallback);
+        });
+    };
+
+    private showWinnerMessage(name: string, time: number) {
+        this._elements.menu.buttons.race.disabled = false;
+        console.log(`${name} wins ${time}`);
+    }
+
+    private applyMenuEvents() {
+        const { race, reset, generate } = this._elements.menu.buttons;
+        race.addEventListener('click', this.race);
+
+        reset.addEventListener('click', this.resetAll);
+
+        generate.addEventListener('click', this.generateCars);
+    }
+
+    private generateCars = () => {};
+
+    private applyListEvents() {
         const { list } = this._elements;
         list.addEventListener('click', (e) => {
             if (e.target && e.target instanceof HTMLElement) {
@@ -118,57 +270,5 @@ export default class Table {
                 }
             }
         });
-    }
-
-    private fillCarsList(data: ICarData[]) {
-        const cars = data.map((carData) => new Car(carData));
-        const elements = cars.map((car) => car.getGarageElement());
-        const { list } = this._elements;
-        list.innerHTML = '';
-        list.append(...elements);
-    }
-
-    private updateCounterElement(value: number) {
-        this._elements.counter.innerHTML = `(${value})`;
-    }
-
-    private updatePageElement() {
-        const next = this._elements.footer.nextButton;
-        const prev = this._elements.footer.prevButton;
-
-        next.disabled = false;
-        prev.disabled = false;
-
-        if (this._currentPage === 1) {
-            prev.disabled = true;
-        }
-        const current = this._currentPage * EConstants.CARS_PER_PAGE;
-        if (current >= this._allCars) {
-            next.disabled = true;
-        }
-        this._elements.page.innerHTML = `#${this._currentPage}`;
-    }
-
-    private createFooterButtons(): [HTMLButtonElement, HTMLButtonElement] {
-        const prev = <HTMLButtonElement>PageBuilder.createElement('button', {
-            classes: 'button',
-            content: 'Prev',
-        });
-        const next = <HTMLButtonElement>PageBuilder.createElement('button', {
-            classes: 'button',
-            content: 'Next',
-        });
-
-        prev.addEventListener('click', () => {
-            this._currentPage -= 1;
-            this.update();
-        });
-
-        next.addEventListener('click', () => {
-            this._currentPage += 1;
-            this.update();
-        });
-
-        return [prev, next];
     }
 }
