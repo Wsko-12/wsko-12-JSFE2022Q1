@@ -20,11 +20,24 @@ export default class WinnersTable extends Table {
         }
     };
 
-    private fillList(winners: IWinnerData[]) {
+    private fillList = async (winners: IWinnerData[]) => {
         this._elements.list.innerHTML = '';
-        const elements = winners
-            .filter((winner) => Car.memory[winner.id])
-            .map((winner, i) => Car.memory[winner.id].getWinnersElement(i + 1, winner.wins, winner.time));
+        let place = 0;
+        const elements: HTMLElement[] = [];
+        for await (const winner of winners) {
+            place += 1;
+            let element: HTMLElement;
+            if (!Car.memory[winner.id]) {
+                const data = await API.getCar(winner.id);
+                if (data) {
+                    element = new Car(data).getWinnersElement(place, winner.wins, winner.time);
+                    elements.push(element);
+                }
+            } else {
+                element = Car.memory[winner.id].getWinnersElement(place, winner.wins, winner.time);
+                elements.push(element);
+            }
+        }
         this._elements.list.append(...elements);
-    }
+    };
 }
