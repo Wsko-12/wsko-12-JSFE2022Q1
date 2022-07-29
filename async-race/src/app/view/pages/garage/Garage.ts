@@ -2,7 +2,7 @@ import API from '../../../../api/Api';
 import { TColorHEX } from '../../../../typescript/types';
 import PageBuilder from '../../../utils/PageBuilder';
 import Editor from './editor/Editor';
-import Table from './table/Table';
+import GarageTable from './table/GarageTable';
 
 export default class Garage {
     private _elements: {
@@ -11,13 +11,13 @@ export default class Garage {
 
     private _editor: Editor;
 
-    private _table: Table;
+    private _table: GarageTable;
 
     private _selectedCarId: number | null = null;
 
     constructor() {
         this._editor = new Editor(this.createCar, this.updateCar);
-        this._table = new Table(this.selectCar, this.removeCar);
+        this._table = new GarageTable(this.selectCar, this.removeCar);
 
         const element = PageBuilder.createElement('section', {
             content: [this._editor.getElement(), this._table.getElement()],

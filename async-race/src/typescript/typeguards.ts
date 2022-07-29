@@ -1,4 +1,5 @@
 import { EAppPages, EConstants } from './enums';
+import { ICarData } from './interface';
 import { TColorHEX } from './types';
 
 export const isAppPage = (value: string | null): value is EAppPages => {
@@ -18,4 +19,29 @@ export const isColorHex = (value: string | null): value is TColorHEX => {
 
     const bit16string = `0x${digits}`;
     return !Number.isNaN(+bit16string);
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isCarData = (obj: any): obj is ICarData => {
+    if (!obj || !(obj instanceof Object)) {
+        return false;
+    }
+
+    if (!obj.id || typeof obj.id !== 'number') {
+        return false;
+    }
+
+    if (!obj.name || typeof obj.name !== 'string') {
+        return false;
+    }
+
+    if (!obj.color || !isColorHex(obj.color)) {
+        return false;
+    }
+
+    return true;
+};
+
+export const isCarDataArr = (arr: unknown[]): arr is ICarData[] => {
+    return arr.every((value) => isCarData(value));
 };

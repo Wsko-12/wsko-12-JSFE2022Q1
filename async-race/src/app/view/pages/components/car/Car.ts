@@ -1,8 +1,8 @@
-import API from '../../../../api/Api';
-import { EConstants, EEngineStatuses, ERedactorActions } from '../../../../typescript/enums';
-import { ICarData, IEngineData } from '../../../../typescript/interface';
-import { TColorHEX, TRaceCallback } from '../../../../typescript/types';
-import PageBuilder from '../../../utils/PageBuilder';
+import API from '../../../../../api/Api';
+import { EConstants, EEngineStatuses, ERedactorActions } from '../../../../../typescript/enums';
+import { ICarData, IEngineData } from '../../../../../typescript/interface';
+import { TColorHEX, TRaceCallback } from '../../../../../typescript/types';
+import PageBuilder from '../../../../utils/PageBuilder';
 import './style.scss';
 
 export default class Car {
