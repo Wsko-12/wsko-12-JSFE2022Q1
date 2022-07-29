@@ -171,7 +171,6 @@ export default class Car {
     };
 
     private applyEvents() {
-        // ToDo start/stop engine
         const controls = this._garageElements.engineButtons;
         controls.start.addEventListener('click', () => this.startEngine());
         controls.stop.addEventListener('click', this.stop);
