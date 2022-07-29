@@ -92,6 +92,8 @@ export default class Table {
     }
 
     public update = async () => {
+        console.log('[Garage Table] update');
+
         const data = await API.getCars(this._currentPage);
         if (data) {
             this._allCars = data.count;

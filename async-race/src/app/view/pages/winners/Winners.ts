@@ -13,7 +13,11 @@ export default class Winners {
         };
     }
 
-    getElement() {
+    public update() {
+        console.log('[Winners] update');
+    }
+
+    public getElement() {
         return this._elements.element;
     }
 }

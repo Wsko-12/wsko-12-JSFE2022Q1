@@ -59,6 +59,11 @@ export default class Garage {
         return API.removeCar(id).then(this._table.update);
     };
 
+    public update() {
+        console.log('[Garage] update');
+        this._table.update();
+    }
+
     public getElement() {
         return this._elements.element;
     }

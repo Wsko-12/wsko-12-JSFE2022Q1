@@ -15,6 +15,8 @@ export default class View {
         [EAppPages.winners]: new Winners(),
     };
 
+    private _currentPage: EAppPages | null = null;
+
     constructor() {
         const headerButtons = this.createHeaderButtons();
         const header = PageBuilder.createElement('header', {
@@ -64,8 +66,13 @@ export default class View {
     }
 
     private renderPage(page: EAppPages) {
+        if (this._currentPage === page) {
+            return;
+        }
+        this._currentPage = page;
         const { main } = this._elements;
         main.innerHTML = '';
+        this._pages[page].update();
         main.append(this._pages[page].getElement());
     }
 
