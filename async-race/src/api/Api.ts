@@ -17,6 +17,65 @@ import {
 import { TColorHEX } from '../typescript/types';
 
 export default class API {
+    public static async saveRaceWinnerResult(id: number, time: number) {
+        const sec = Math.round((time / EConstants.MS_IN_SEC) * 100) / 100;
+        const inBase = await this.getWinner(id);
+        if (inBase) {
+            const { wins } = inBase;
+            const timeToSave = inBase.time > sec ? sec : inBase.time;
+            return this.updateWinner(id, wins + 1, timeToSave);
+        }
+        return this.createWinner(id, sec);
+    }
+
+    private static async updateWinner(id: number, wins: number, time: number) {
+        const url = `${this.getWinnersUrl()}/${id}`;
+        const data = { wins, time };
+        const init = {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const responseData = <IWinnersResponse>await this.load(url, init);
+        if (!responseData) {
+            console.error(`[API] updateWinner error: can't update winner`);
+        }
+        return responseData;
+    }
+
+    private static async createWinner(id: number, time: number) {
+        const url = `${this.getWinnersUrl()}`;
+
+        const data = {
+            id,
+            time,
+            wins: 1,
+        };
+
+        const init = {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const responseData = <ICarData>await this.load(url, init);
+        if (!responseData) {
+            console.error(`[API] createWinner error: can't create winner`);
+        }
+        return responseData;
+    }
+
+    private static async getWinner(id: number) {
+        const url = `${this.getWinnersUrl()}/${id}`;
+        const result = <IWinnerData>await this.load(url);
+        return result;
+    }
+
     public static async getCars(page: number): Promise<ICarsResponse | null> {
         const options = `?_page=${page}&_limit=${EConstants.CARS_PER_PAGE}`;
         const url = this.getGarageUrl() + options;
@@ -174,7 +233,7 @@ export default class API {
             }
             throw new Error(`[API] load error: ${response.status} ${response.statusText}`);
         } catch (err) {
-            console.error(`[API] load error: `, err);
+            // console.error(`[API] load error: `, err);
         }
         return null;
     }

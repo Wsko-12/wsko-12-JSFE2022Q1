@@ -28,7 +28,6 @@ export default class Car {
 
     private _commonElements = {
         icon: this.createIcon(),
-        title: <HTMLHeadingElement>PageBuilder.createElement('h3'),
     };
 
     private _winnersElements = this.createWinnersElements();
@@ -75,7 +74,9 @@ export default class Car {
 
     public setName(value: string) {
         this._name = value;
-        this._commonElements.title.innerHTML = value;
+        this._garageElements.name.innerHTML = value;
+
+        this._winnersElements.name.innerHTML = value;
     }
 
     public getName() {
@@ -135,7 +136,9 @@ export default class Car {
         }
     };
 
-    private saveResult(time: number) {}
+    private saveResult(time: number) {
+        API.saveRaceWinnerResult(this._id, time);
+    }
 
     private broke = () => {
         this.showBrokeIcon(true);
@@ -255,7 +258,9 @@ export default class Car {
             classes: 'car-item__header',
         });
         const editButtons = this.createEditButtons();
-        header.append(editButtons.select, editButtons.remove, this._commonElements.title);
+
+        const name = <HTMLHeadingElement>PageBuilder.createElement('h3');
+        header.append(editButtons.select, editButtons.remove, name);
         element.append(header);
 
         const body = <HTMLDivElement>PageBuilder.createElement('div', {
@@ -276,6 +281,7 @@ export default class Car {
         return {
             element,
             track,
+            name,
             car: trackElements[1],
             editButtons,
             engineButtons,
@@ -294,14 +300,18 @@ export default class Car {
             classes: 'car-item__icon-container_winners',
             content: ['<div class="car-item__icon-broke">!</div>', iconClone],
         });
+        const name = <HTMLDivElement>PageBuilder.createElement('div', {
+            content: this._name,
+        });
         const counter = <HTMLDivElement>PageBuilder.createElement('div', {});
 
         const time = <HTMLDivElement>PageBuilder.createElement('div', {});
 
-        element.append(marker, carContainer, counter, time);
+        element.append(marker, carContainer, name, counter, time);
         return {
             element,
             marker,
+            name,
             counter,
             time,
             car: carContainer,
