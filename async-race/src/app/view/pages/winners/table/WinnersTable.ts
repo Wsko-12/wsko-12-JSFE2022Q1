@@ -9,6 +9,7 @@ export default class WinnersTable extends Table {
     constructor() {
         super(EAppPages.winners, EConstants.WINNERS_PER_PAGE);
         this.update();
+        super.applyEvents();
     }
 
     public update = async () => {
