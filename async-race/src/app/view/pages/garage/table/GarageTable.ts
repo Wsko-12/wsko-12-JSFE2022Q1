@@ -116,6 +116,7 @@ export default class GarageTable extends Table {
         this._raceMode = !e;
         const { reset, race } = this._addedElements.menu.buttons;
 
+        race.disabled = true;
         reset.disabled = true;
 
         const promises = this._carsList.map((car) => car.stop());
@@ -130,7 +131,6 @@ export default class GarageTable extends Table {
 
     private showWinnerMessage(name: string, time: number) {
         this._addedElements.menu.buttons.race.disabled = false;
-        console.log(`${name} wins ${time}`);
     }
 
     private generateCars = () => {};
@@ -174,7 +174,7 @@ export default class GarageTable extends Table {
     }
 
     public update = async () => {
-        console.log('[Garage Table] update');
+        // console.log('[Garage Table] update');
 
         const data = await API.getCars(this._currentPage);
         if (data) {

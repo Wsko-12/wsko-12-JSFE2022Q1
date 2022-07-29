@@ -72,7 +72,9 @@ export default class View {
         this._currentPage = page;
         const { main } = this._elements;
         main.innerHTML = '';
-        this._pages[page].update();
+        if (page === EAppPages.winners) {
+            this._pages[page].update();
+        }
         main.append(this._pages[page].getElement());
     }
 

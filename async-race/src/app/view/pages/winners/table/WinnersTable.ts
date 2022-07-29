@@ -12,9 +12,7 @@ export default class WinnersTable extends Table {
     }
 
     public update = async () => {
-        console.log('[Winners Table] update');
         const data = await API.getWinners(this._currentPage);
-        console.log(data?.winners);
         if (data) {
             this.setAllItemsCount(data.count);
             this.updatePageElement();

@@ -57,13 +57,11 @@ export default class Garage {
 
     private removeCar = async (id: number) => {
         await API.removeCarGarage(id);
-        //ToDo update winners table
         await API.removeCarWinners(id);
         return this._table.update();
     };
 
     public update() {
-        console.log('[Garage] update');
         this._table.update();
     }
 

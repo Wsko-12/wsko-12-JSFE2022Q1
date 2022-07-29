@@ -19,7 +19,6 @@ export default class Winners {
     }
 
     public update() {
-        console.log('[Winners] update');
         this._table.update();
     }
 
