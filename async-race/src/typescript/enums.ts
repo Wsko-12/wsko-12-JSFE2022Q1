@@ -7,12 +7,14 @@ export enum EConstants {
     HEX_COLOR_STRING_LENGTH = 7,
     MS_IN_SEC = 1000,
     CARS_PER_PAGE = 7,
+    WINNERS_PER_PAGE = 10,
 }
 
 export enum EUrls {
     base = 'http://127.0.0.1:3000',
     garage = '/garage',
     engine = '/engine',
+    winners = '/winners',
 }
 
 export enum EResponseStatuses {
@@ -31,4 +33,15 @@ export enum EEngineStatuses {
     started = 'started',
     drive = 'drive',
     stopped = 'stopped',
+}
+
+export enum EWinnersSorts {
+    id = 'id',
+    wins = 'wins',
+    time = 'time',
+}
+
+export enum EWinnersSortsOrder {
+    ASC = 'ASC',
+    DESC = 'DESC',
 }

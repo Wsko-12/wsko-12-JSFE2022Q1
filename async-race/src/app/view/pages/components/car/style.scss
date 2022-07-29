@@ -3,9 +3,13 @@
     list-style-type: none;
     margin: 0;
 
-    &-garage{
+    &_garage{
         margin-bottom: 20px;
         height: 80px;
+    }
+
+    &_winners{
+        display: flex;
     }
 }
 
@@ -32,8 +36,15 @@
 }
 
 .car-item__icon-container{
-    width: 70px;
-    position: relative;
+    &_garage{
+        width: 70px;
+        position: relative;
+    }
+
+    &_winners{
+        width: 70px;
+        position: relative;
+    }
 }
 
 .car-item__icon-broke {

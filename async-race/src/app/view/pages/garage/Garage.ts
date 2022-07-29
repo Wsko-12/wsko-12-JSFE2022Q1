@@ -56,7 +56,10 @@ export default class Garage {
     };
 
     private removeCar = async (id: number) => {
-        return API.removeCar(id).then(this._table.update);
+        await API.removeCarGarage(id);
+        //ToDo update winners table
+        await API.removeCarWinners(id);
+        return this._table.update();
     };
 
     public update() {

@@ -6,6 +6,8 @@ import PageBuilder from '../../../../utils/PageBuilder';
 import './style.scss';
 
 export default class Car {
+    public static memory: { [key: string]: Car } = {};
+
     private _name = '';
 
     private _color: TColorHEX = '#000000';
@@ -29,7 +31,10 @@ export default class Car {
         title: <HTMLHeadingElement>PageBuilder.createElement('h3'),
     };
 
+    private _winnersElements = this.createWinnersElements();
+
     private _garageElements = this.createGarageElements();
+
 
     constructor(data: ICarData) {
         this._id = data.id;
@@ -39,16 +44,30 @@ export default class Car {
         this._garageElements.element.dataset.carId = this._id.toString();
         this._garageElements.engineButtons.stop.disabled = true;
         this.applyEvents();
+        Car.memory[this._id] = this;
     }
 
     public getGarageElement() {
         return this._garageElements.element;
     }
 
+    public getWinnersElement(place: number, wins: number, time: number) {
+        const elements = this._winnersElements;
+
+        elements.marker.innerHTML = place.toString();
+        elements.counter.innerHTML = wins.toString();
+        elements.time.innerHTML = time.toString();
+
+        return elements.element;
+    }
+
     public setColor(value: TColorHEX) {
         this._color = value;
-        const carBody = <SVGPathElement>this._commonElements.icon.querySelector('[data-name="body"]');
-        carBody.style.fill = value;
+        const carBodyGarage = <SVGPathElement>this._garageElements.car.querySelector('[data-name="body"]');
+        const carBodyWinners = <SVGPathElement>this._winnersElements.car.querySelector('[data-name="body"]');
+
+        carBodyGarage.style.fill = value;
+        carBodyWinners.style.fill = value;
     }
 
     public getColor() {
@@ -222,7 +241,7 @@ export default class Car {
 
     private createGarageElements() {
         const element = <HTMLLIElement>PageBuilder.createElement('li', {
-            classes: 'car-item car-item-garage',
+            classes: 'car-item car-item_garage',
         });
 
         const header = <HTMLDivElement>PageBuilder.createElement('div', {
@@ -253,6 +272,32 @@ export default class Car {
             car: trackElements[1],
             editButtons,
             engineButtons,
+        };
+    }
+
+    private createWinnersElements() {
+        const element = <HTMLLIElement>PageBuilder.createElement('li', {
+            classes: 'car-item car-item_winners',
+        });
+        const marker = <HTMLDivElement>PageBuilder.createElement('div', {});
+
+        const iconClone = <HTMLElement>this._commonElements.icon.cloneNode(true);
+
+        const carContainer = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'car-item__icon-container_winners',
+            content: ['<div class="car-item__icon-broke">!</div>', iconClone],
+        });
+        const counter = <HTMLDivElement>PageBuilder.createElement('div', {});
+
+        const time = <HTMLDivElement>PageBuilder.createElement('div', {});
+
+        element.append(marker, carContainer, counter, time);
+        return {
+            element,
+            marker,
+            counter,
+            time,
+            car: carContainer,
         };
     }
 
@@ -303,9 +348,11 @@ export default class Car {
             classes: 'car-item__track',
         });
 
+        const iconClone = <HTMLElement>this._commonElements.icon.cloneNode(true);
+
         const carContainer = <HTMLDivElement>PageBuilder.createElement('div', {
-            classes: 'car-item__icon-container',
-            content: ['<div class="car-item__icon-broke">!</div>', this._commonElements.icon],
+            classes: 'car-item__icon-container_winners',
+            content: ['<div class="car-item__icon-broke">!</div>', iconClone],
         });
         track.append(carContainer);
 

@@ -1,5 +1,19 @@
-import { EConstants, EEngineStatuses, EResponseStatuses, EUrls } from '../typescript/enums';
-import { ICarData, ICarDataShort, ICarsResponse, IEngineData } from '../typescript/interface';
+import {
+    EConstants,
+    EEngineStatuses,
+    EResponseStatuses,
+    EUrls,
+    EWinnersSorts,
+    EWinnersSortsOrder,
+} from '../typescript/enums';
+import {
+    ICarData,
+    ICarDataShort,
+    ICarsResponse,
+    IEngineData,
+    IWinnerData,
+    IWinnersResponse,
+} from '../typescript/interface';
 import { TColorHEX } from '../typescript/types';
 
 export default class API {
@@ -21,6 +35,43 @@ export default class API {
             }
         } catch (err) {
             console.error(`[API] getCars ${err}`);
+        }
+        return null;
+    }
+
+    private static createWinnersOptions(page = 1, sort?: EWinnersSorts, order?: EWinnersSortsOrder) {
+        let options = `?_page=${page}&_limit=${EConstants.WINNERS_PER_PAGE}`;
+        if (sort) {
+            options += `&_sort=${sort}`;
+        }
+        if (order) {
+            options += `&_order=${order}`;
+        }
+        return options;
+    }
+
+    public static async getWinners(
+        page = 1,
+        sort?: EWinnersSorts,
+        order?: EWinnersSortsOrder
+    ): Promise<IWinnersResponse | null> {
+        const options = this.createWinnersOptions(page, sort, order);
+        const url = this.getWinnersUrl() + options;
+
+        try {
+            const response = await fetch(url);
+            if (response.status === EResponseStatuses.success) {
+                const count = response.headers.get('X-Total-Count');
+                const winners = <IWinnerData[]>await response.json();
+                if (count && winners) {
+                    return {
+                        count: +count,
+                        winners,
+                    };
+                }
+            }
+        } catch (err) {
+            console.error(`[API] getWinners ${err}`);
         }
         return null;
     }
@@ -66,15 +117,26 @@ export default class API {
         return responseData;
     }
 
-    public static async removeCar(id: number): Promise<void> {
+    public static async removeCarWinners(id: number): Promise<void> {
+        const url = `${this.getWinnersUrl()}/${id}`;
+        const init = {
+            method: 'DELETE',
+        };
+        const responseData = await this.load(url, init);
+        if (!responseData) {
+            console.error(`[API] removeCarWinners error: can't delete car`);
+        }
+        return Promise.resolve();
+    }
+
+    public static async removeCarGarage(id: number): Promise<void> {
         const url = `${this.getGarageUrl()}/${id}`;
         const init = {
             method: 'DELETE',
         };
         const responseData = await this.load(url, init);
         if (!responseData) {
-            console.error(`[API] removeCar error: can't delete car`);
-            return Promise.reject();
+            console.error(`[API] removeCarGarage error: can't delete car`);
         }
         return Promise.resolve();
     }
@@ -97,6 +159,10 @@ export default class API {
 
     private static getEngineUrl() {
         return `${EUrls.base}${EUrls.engine}`;
+    }
+
+    private static getWinnersUrl() {
+        return `${EUrls.base}${EUrls.winners}`;
     }
 
     private static async load<T>(url: string, init?: RequestInit): Promise<T | null> {

@@ -44,6 +44,7 @@ export default class GarageTable extends Table {
             menu,
         };
         this.applyEvents();
+        this.update();
     }
 
     private createMenu() {
@@ -178,7 +179,6 @@ export default class GarageTable extends Table {
         const data = await API.getCars(this._currentPage);
         if (data) {
             this.setAllItemsCount(data.count);
-            this.updateCounterElement(data.count);
             this.updatePageElement();
             this.fillList(data.cars);
         }

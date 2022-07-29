@@ -6,6 +6,11 @@ export interface ICarsResponse {
     cars: ICarData[];
 }
 
+export interface IWinnersResponse {
+    count: number;
+    winners: IWinnerData[];
+}
+
 export interface ICarDataShort {
     name: string;
     color: TColorHEX;
@@ -18,4 +23,10 @@ export interface ICarData extends ICarDataShort {
 export interface IEngineData {
     velocity: number;
     distance: number;
+}
+
+export interface IWinnerData {
+    id: number;
+    wins: number;
+    time: number;
 }

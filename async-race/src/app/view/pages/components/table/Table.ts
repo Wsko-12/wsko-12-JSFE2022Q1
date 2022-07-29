@@ -44,7 +44,7 @@ export default abstract class Table {
         });
 
         const list = <HTMLUListElement>PageBuilder.createElement('ul', {
-            classes: 'garage__table',
+            classes: `${name}__table`,
         });
 
         const footer = Table.createFooter();
@@ -103,12 +103,9 @@ export default abstract class Table {
         this._elements.page.innerHTML = `#${this._currentPage}`;
     }
 
-    protected updateCounterElement(value: number) {
-        this._elements.counter.innerHTML = `(${value})`;
-    }
-
     protected setAllItemsCount(value: number) {
         this._allItemsCount = value;
+        this._elements.counter.innerHTML = `(${value})`;
     }
 
     protected applyEvents() {
