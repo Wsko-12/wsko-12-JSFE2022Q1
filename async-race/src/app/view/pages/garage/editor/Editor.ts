@@ -11,8 +11,6 @@ export default class Menu {
         create: Redactor;
     };
 
-    private _selectedCar: ICarData | null = null;
-
     constructor(createCar: TCarMenuEditorCallback, updateCar: TCarMenuEditorCallback) {
         const create = new Redactor(ERedactorActions.create, (name, color, clear) => {
             createCar(name, color).then(() => clear(false));
@@ -34,8 +32,6 @@ export default class Menu {
     }
 
     public selectCar(car: ICarData) {
-        this._selectedCar = car;
-
         const { update } = this._elements;
         update.setColor(car.color);
         update.setInput(car.name);

@@ -11,7 +11,6 @@ import './style.scss';
 
 // ToDO When update one car don't update all table
 
-// !! Bug: when race isn't end and we click next page button race isn't disable
 export default class GarageTable extends Table {
     private _callbacks: {
         [ERedactorActions.select]: TCarSelectorCallback;
@@ -112,10 +111,10 @@ export default class GarageTable extends Table {
     }
 
     private race = async () => {
-        // !! ToFix: disable race when we don't have cars
         if (this._carsList.length === 0) {
             return;
         }
+
         this.disablePagination(true);
         this._raceMode = true;
         this._addedElements.menu.buttons.race.disabled = true;
@@ -148,29 +147,23 @@ export default class GarageTable extends Table {
         // without e arg before the start of the race
         this._raceMode = !e;
         this.showPopUp(false);
-        const { reset, race } = this._addedElements.menu.buttons;
-
-        race.disabled = true;
-        reset.disabled = true;
-
+        this.disableMenuButtons(true);
         const promises = this._carsList.map((car) => car.stop());
 
         const allSettled = await Promise.allSettled(promises);
         if (e && e.type === 'click') {
-            race.disabled = false;
-            reset.disabled = false;
+            this.disableMenuButtons(false);
         }
         return allSettled;
     };
 
     private showWinnerMessage(name: string, time: number) {
-        this._addedElements.menu.buttons.race.disabled = false;
+        this.disableMenuButtons(false);
         this.showPopUp(true, name, Utils.msToSec(time));
     }
 
     private generateCars = async () => {
         const { generate } = this._addedElements.menu.buttons;
-
         generate.disabled = true;
 
         const promises = [];
@@ -225,11 +218,17 @@ export default class GarageTable extends Table {
         generate.addEventListener('click', this.generateCars);
     }
 
-    public update = async () => {
-        // console.log('[Garage Table] update');
+    private disableMenuButtons(flag: boolean) {
+        const { race, reset, generate } = this._addedElements.menu.buttons;
+        race.disabled = flag;
+        reset.disabled = flag;
+        generate.disabled = flag;
+    }
 
+    public update = async () => {
         const data = await API.getCars(this._currentPage);
         if (data) {
+            this.disableMenuButtons(false);
             this.setAllItemsCount(data.count);
             this.updatePageElement();
             this.fillList(data.cars);

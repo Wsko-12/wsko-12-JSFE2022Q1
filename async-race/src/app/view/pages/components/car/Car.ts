@@ -50,6 +50,7 @@ export default class Car {
     }
 
     public getWinnersElement(place: number, wins: number, time: number) {
+        this._animation.stopped = true;
         const elements = this._winnersElements;
 
         elements.marker.innerHTML = place.toString();
@@ -91,21 +92,15 @@ export default class Car {
         this._garageElements.engineButtons.start.disabled = true;
         this.disableEditButtons(true);
         const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
+        const animationId = this.resetAnimationData();
         if (engineData) {
             this._engineData = engineData;
             this._garageElements.engineButtons.stop.disabled = false;
-            const animationId = this.resetAnimation();
-            this.drive(raceCallback);
+            this.driveAnimation(raceCallback);
             this.sendDriveRequest(animationId);
         }
         return engineData;
     };
-
-    private disableEditButtons(flag: boolean) {
-        const { select, remove } = this._garageElements.editButtons;
-        select.disabled = flag;
-        remove.disabled = flag;
-    }
 
     private sendDriveRequest = async (animationId: number) => {
         const engineStatus = await API.getEngineData(this._id, EEngineStatuses.drive);
@@ -115,6 +110,12 @@ export default class Car {
             }
         }
     };
+
+    private disableEditButtons(flag: boolean) {
+        const { select, remove } = this._garageElements.editButtons;
+        select.disabled = flag;
+        remove.disabled = flag;
+    }
 
     public stop = async () => {
         this._garageElements.engineButtons.stop.disabled = true;
@@ -145,7 +146,7 @@ export default class Car {
         this._animation.stopped = true;
     };
 
-    private resetAnimation() {
+    private resetAnimationData() {
         this.showBrokeIcon(false);
         const now = Date.now();
         const id = Math.random();
@@ -168,10 +169,11 @@ export default class Car {
         this._garageElements.car.style.transform = 'translate(0px, 0px)';
     };
 
-    private drive = (raceCallback?: TRaceCallback) => {
+    private driveAnimation = (raceCallback?: TRaceCallback) => {
         if (!this._engineData || this._animation.stopped) {
             return;
         }
+
         const { distance, velocity } = this._engineData;
         const speed = distance / velocity;
         this._animation.speed = speed;
@@ -179,6 +181,13 @@ export default class Car {
         const carIcon = this._garageElements.car;
         const carIconWidth = carIcon.clientWidth;
         const trackWidth = this._garageElements.track.clientWidth;
+
+        if (trackWidth === 0) {
+            // This case is triggered when the user clicks on the pagination buttons or move to another page.
+            // trackElement.clientWidth returns 0 because element isn't on the page,
+            // which means the page has changed and we can abort animation and race
+            return;
+        }
 
         const trackDistance = trackWidth - carIconWidth;
 
@@ -193,7 +202,7 @@ export default class Car {
         this._animation.position += (delta / EConstants.MS_IN_SEC) * PxPerSec;
         carIcon.style.transform = `translate(${Math.floor(this._animation.position)}px, 0px)`;
         if (this._animation.position < trackDistance) {
-            requestAnimationFrame(() => this.drive(raceCallback));
+            requestAnimationFrame(() => this.driveAnimation(raceCallback));
         } else {
             this.finish(raceCallback);
         }
