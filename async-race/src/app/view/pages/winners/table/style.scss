@@ -1,3 +1,33 @@
 .winners__table{
     padding: 0;
 }
+
+.winners__item, .winners__table > *{
+    display: grid;
+    grid-template-columns: 60px 80px 100px 55px 90px;
+    font-size: 0.9rem;
+    align-items: center;
+}
+
+.winners__table > * > div:nth-child(1){
+    text-align: center;
+}
+
+.winners__menu{
+    padding: 0;
+    align-items: center;
+    & > *{
+        font-weight: bold;
+        align-content: center;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        border: 1px solid gray;
+        padding-left: 2px;
+    }
+}
+
+.winners__menu_button{
+    cursor: pointer;
+    background-color: lightblue;
+}

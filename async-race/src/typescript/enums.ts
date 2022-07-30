@@ -38,7 +38,6 @@ export enum EEngineStatuses {
 }
 
 export enum EWinnersSorts {
-    id = 'id',
     wins = 'wins',
     time = 'time',
 }
@@ -46,4 +45,9 @@ export enum EWinnersSorts {
 export enum EWinnersSortsOrder {
     ASC = 'ASC',
     DESC = 'DESC',
+}
+
+export enum EWinnersSortsOrderChars {
+    ASC = '🠕',
+    DESC = '🠗',
 }

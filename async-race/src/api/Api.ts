@@ -99,7 +99,7 @@ export default class API {
         return null;
     }
 
-    private static createWinnersOptions(page = 1, sort?: EWinnersSorts, order?: EWinnersSortsOrder) {
+    private static createWinnersOptions(page = 1, sort?: EWinnersSorts | null, order?: EWinnersSortsOrder | null) {
         let options = `?_page=${page}&_limit=${EConstants.WINNERS_PER_PAGE}`;
         if (sort) {
             options += `&_sort=${sort}`;
@@ -112,8 +112,8 @@ export default class API {
 
     public static async getWinners(
         page = 1,
-        sort?: EWinnersSorts,
-        order?: EWinnersSortsOrder
+        sort?: EWinnersSorts | null,
+        order?: EWinnersSortsOrder | null
     ): Promise<IWinnersResponse | null> {
         const options = this.createWinnersOptions(page, sort, order);
         const url = this.getWinnersUrl() + options;

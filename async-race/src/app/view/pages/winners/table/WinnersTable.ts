@@ -1,24 +1,106 @@
 import API from '../../../../../api/Api';
-import { EAppPages, EConstants } from '../../../../../typescript/enums';
+import {
+    EAppPages,
+    EConstants,
+    EWinnersSorts,
+    EWinnersSortsOrder,
+    EWinnersSortsOrderChars,
+} from '../../../../../typescript/enums';
 import { IWinnerData } from '../../../../../typescript/interface';
+import PageBuilder from '../../../../utils/PageBuilder';
 import Car from '../../components/car/Car';
 import Table from '../../components/table/Table';
 import './style.scss';
 
+enum ESortingContentString {
+    wins = 'Wins',
+    time = 'Best time (s)',
+}
 export default class WinnersTable extends Table {
+    private _addedElements = {
+        menu: this.createMenu(),
+    };
+
+    private _sortOrder: EWinnersSortsOrder | null = null;
+
+    private _sortSelected: EWinnersSorts | null = null;
+
     constructor() {
         super(EAppPages.winners, EConstants.WINNERS_PER_PAGE);
+
+        this._elements.header.append(this._addedElements.menu.element);
         this.update();
-        super.applyEvents();
+        this.applyEvents();
     }
 
     public update = async () => {
-        const data = await API.getWinners(this._currentPage);
+        const data = await API.getWinners(this._currentPage, this._sortSelected, this._sortOrder);
         if (data) {
             this.setAllItemsCount(data.count);
             this.updatePageElement();
             this.fillList(data.winners);
         }
+    };
+
+    protected applyEvents() {
+        super.applyEvents();
+        const { time, wins } = this._addedElements.menu;
+        time.addEventListener('click', this.handleSorting);
+        wins.addEventListener('click', this.handleSorting);
+    }
+
+    private createMenu() {
+        const element = <HTMLMenuElement>PageBuilder.createElement('menu', {
+            classes: 'winners__menu, winners__item',
+        });
+        const position = <HTMLDivElement>PageBuilder.createElement('div', {
+            content: 'Number',
+        });
+        const car = <HTMLDivElement>PageBuilder.createElement('div', {
+            content: 'Car',
+        });
+
+        const name = <HTMLDivElement>PageBuilder.createElement('div', {
+            content: 'Name',
+        });
+
+        const wins = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'winners__menu_button',
+            content: ESortingContentString.wins,
+            dataset: {
+                sorting: EWinnersSorts.wins,
+            },
+        });
+
+        const time = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'winners__menu_button',
+            content: ESortingContentString.time,
+            dataset: {
+                sorting: EWinnersSorts.time,
+            },
+        });
+
+        element.append(position, car, name, wins, time);
+
+        return {
+            element,
+            wins,
+            time,
+        };
+    }
+
+    private handleSorting = (e: MouseEvent) => {
+        const target = <HTMLDivElement>e.target;
+        const sorting = <EWinnersSorts>target.dataset.sorting;
+        this._sortSelected = sorting;
+
+        this._sortOrder = this._sortOrder === EWinnersSortsOrder.ASC ? EWinnersSortsOrder.DESC : EWinnersSortsOrder.ASC;
+        const oppositeSorting = sorting === EWinnersSorts.wins ? EWinnersSorts.time : EWinnersSorts.wins;
+        this._addedElements.menu[oppositeSorting].innerHTML = ESortingContentString[oppositeSorting];
+        this._addedElements.menu[sorting].innerHTML =
+            ESortingContentString[sorting] + EWinnersSortsOrderChars[this._sortOrder];
+
+        this.update();
     };
 
     private fillList = async (winners: IWinnerData[]) => {
