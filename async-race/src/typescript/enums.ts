@@ -49,6 +49,6 @@ export enum EWinnersSortsOrder {
 }
 
 export enum EWinnersSortsOrderChars {
-    ASC = '🠕',
-    DESC = '🠗',
+    ASC = '🠗',
+    DESC = '🠕',
 }
