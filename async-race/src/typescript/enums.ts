@@ -10,6 +10,7 @@ export enum EConstants {
     WINNERS_PER_PAGE = 10,
     FF_16_Bit = 255,
     CARS_GENERATOR = 100,
+    POP_UP_SHOW_TIME = 4000,
 }
 
 export enum EUrls {

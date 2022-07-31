@@ -2,61 +2,135 @@
     width: 100%;
     list-style-type: none;
     margin: 0;
+    overflow: hidden;
+
 
     &_garage{
-        margin-bottom: 20px;
-        height: 80px;
-    }
+        padding: 10px;
 
-    &_winners{
-        display: flex;
+        margin-bottom: 20px;
+        background-color: white;
+        border: 3px solid #303030;
+        border-radius: 15px;
+        box-shadow: 5px 5px 0px #303030;
     }
 }
 
 .car-item__header{
     display: flex;
-    height: 20px;
-    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 15px;
 
     & > h3 {
+        order: 2;
+        flex-grow: 1;
+        font-size: 2.5rem;
         margin: 0;
+        margin-left: 20px;
+        @include media-mobile-big{
+            order: 1;
+            width: 100%;
+            margin-left: 5px;
+            font-size: 2rem;
+        };
+    }
+
+    & .button[data-action="select"] {
+        order: 1;
+        @include media-mobile-big{
+            order: 2;
+        };
+        background-color: #6293f5;
+    }
+
+    & .button[data-action="remove"] {
+        order: 3;
+        background-color: #f5627f;
     }
 }
 
 .car-item__body{
     display: flex;
+    gap: 10px;
 }
 
 .car-item__track{
-    height: 50px;
     flex-grow: 1;
     display: flex;
     align-items: flex-end;
-    overflow: hidden;
+
+    @include media-mobile-big{
+        border-radius: 10px;
+    };
+}
+
+.car-item__track_inner{
+    padding-top: 20px;
 }
 
 .car-item__icon-container{
     &_garage{
-        width: 70px;
+        width: 150px;
         position: relative;
+        left: 3px;
+
+        @include media-mobile-big{
+            width: 100px;
+        };
+
+        @include media-mobile{
+            width: 50px;
+        };
     }
 
     &_winners{
         width: 70px;
         position: relative;
+
+        @include media-mobile{
+            width: 40px;
+        };
     }
 }
 
 .car-item__icon-broke {
     display: none;
-    font-weight: bold;
-    width: 20px;
-    height: 20px;
-    right: 0px;
+    font-weight: 800;
+    width: 30px;
+    height: 30px;
+    top:0px;
+    right: 5px;
     background-color: rgb(255, 255, 255);
-    border: 1px solid red;
+    box-shadow: 5px 5px 0px #303030;
+    border: 4px solid red;
     border-radius: 25px;
     position: absolute;
     align-items: center;
     justify-content: center;
+
+    @include media-mobile-big{
+        font-size: 2rem;
+    };
+    @include media-mobile{
+        font-size: 2rem;
+        width: 10px;
+        height: 10px;
+
+    };
+}
+
+
+.car-item__control-btn{
+    width: 50px;
+    height: 50px;
+    padding: 0!important;
+    border-radius: 100% !important;
+}
+.car-item__stop{
+    background-color: #f56262;
+}
+
+.car-item__start{
+    background-color: #9ff562;
 }

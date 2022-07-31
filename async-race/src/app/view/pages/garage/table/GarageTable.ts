@@ -42,20 +42,22 @@ export default class GarageTable extends Table {
     }
 
     private createMenu() {
-        const element = <HTMLMenuElement>PageBuilder.createElement('menu');
+        const element = <HTMLMenuElement>PageBuilder.createElement('menu', {
+            classes: 'garage-menu',
+        });
 
         const race = <HTMLButtonElement>PageBuilder.createElement('button', {
-            classes: 'button',
+            classes: 'button garage-menu__button garage-menu__button_race',
             content: 'Race',
         });
 
         const reset = <HTMLButtonElement>PageBuilder.createElement('button', {
-            classes: 'button',
+            classes: 'button garage-menu__button',
             content: 'Reset',
         });
 
         const generate = <HTMLButtonElement>PageBuilder.createElement('button', {
-            classes: 'button',
+            classes: 'button garage-menu__button',
             content: `Generate${EConstants.CARS_GENERATOR}`,
         });
 
@@ -82,8 +84,7 @@ export default class GarageTable extends Table {
 
         if (!flag) {
             element.style.display = 'none';
-        }
-        if (carName && sec) {
+        } else if (carName && sec) {
             name.innerHTML = carName;
             time.innerHTML = sec.toString();
 
@@ -91,16 +92,27 @@ export default class GarageTable extends Table {
 
             setTimeout(() => {
                 this.showPopUp(false);
-            }, 3000);
+            }, EConstants.POP_UP_SHOW_TIME);
         }
     }
 
     private createPopUpElement() {
         const name = <HTMLSpanElement>PageBuilder.createElement('span');
         const time = <HTMLSpanElement>PageBuilder.createElement('span');
+
+        const inner = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'display__inner garage__popup_display',
+            content: [`Winner: `, name, ' time: ', time, 's'],
+        });
+
+        const container = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'display',
+            content: inner,
+        });
+
         const element = <HTMLDivElement>PageBuilder.createElement('div', {
             classes: 'garage__popup',
-            content: [`Winner: `, name, ' time: ', time, 's'],
+            content: container,
         });
 
         return {

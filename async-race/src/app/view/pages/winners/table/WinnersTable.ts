@@ -14,7 +14,7 @@ import './style.scss';
 
 enum ESortingContentString {
     wins = 'Wins',
-    time = 'Best time (s)',
+    time = 'Time (s)',
 }
 export default class WinnersTable extends Table {
     private _addedElements = {
@@ -27,6 +27,9 @@ export default class WinnersTable extends Table {
 
     constructor() {
         super(EAppPages.winners, EConstants.WINNERS_PER_PAGE);
+
+        this._elements.listContainer.classList.add('display');
+        this._elements.list.classList.add('display__inner');
 
         this._elements.header.append(this._addedElements.menu.element);
         this.update();
@@ -54,7 +57,7 @@ export default class WinnersTable extends Table {
             classes: 'winners__menu, winners__item',
         });
         const position = <HTMLDivElement>PageBuilder.createElement('div', {
-            content: 'Number',
+            content: 'N',
         });
         const car = <HTMLDivElement>PageBuilder.createElement('div', {
             content: 'Car',
@@ -65,7 +68,7 @@ export default class WinnersTable extends Table {
         });
 
         const wins = <HTMLDivElement>PageBuilder.createElement('div', {
-            classes: 'winners__menu_button',
+            classes: 'winners__menu_button button',
             content: ESortingContentString.wins,
             dataset: {
                 sorting: EWinnersSorts.wins,
@@ -73,7 +76,7 @@ export default class WinnersTable extends Table {
         });
 
         const time = <HTMLDivElement>PageBuilder.createElement('div', {
-            classes: 'winners__menu_button',
+            classes: 'winners__menu_button button',
             content: ESortingContentString.time,
             dataset: {
                 sorting: EWinnersSorts.time,

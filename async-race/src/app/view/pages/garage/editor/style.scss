@@ -1,0 +1,32 @@
+.editor{
+    display: inline-flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 3px #303030 solid;
+    gap: 20px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 0px #303030;
+    background-color: #62c9f5;
+    margin-bottom: 20px;
+
+
+
+    @include media-mobile-big{
+        position: relative;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        padding: 10px;
+        max-width: 100%;
+    };
+
+    @include media-mobile{
+        gap: 25px;
+    };
+
+    // background: repeating-linear-gradient(45deg, #62c9f5 10px, #f562dd 10px, #f562dd 20px, #62c9f5 20px, #62c9f5 30px, #f562dd 30px);
+    background: repeating-linear-gradient(45deg, #62c9f5 10px, #c462f5 10px, #c462f5 20px, #62c9f5 20px, #62c9f5 30px, #c462f5 30px);
+
+    & .redactor__button{
+        background-color: #cebfff;
+    }
+}

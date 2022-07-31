@@ -1,0 +1,23 @@
+.header{
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+
+    @include media-mobile-big{
+        justify-content: center
+    };
+
+    @include media-mobile{
+        justify-content: center
+    };
+}
+
+.header__buttons{
+    &_garage{
+        background-color: #62f5d5;
+    }
+    &_winners {
+        background-color: #f5629f;
+    }
+}

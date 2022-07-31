@@ -1,0 +1,20 @@
+.table__title{
+    font-size: 6rem;
+    margin: 0;
+    margin-bottom: 10px;
+    text-align: center;
+
+    @include media-mobile-big{
+        font-size: 4.5rem;
+    }
+
+    @include media-mobile{
+        font-size: 4rem;
+    }
+}
+
+.table__subtitle{
+    font-size: 3rem;
+    margin: 0;
+    margin-bottom: 10px;
+}

@@ -3,6 +3,7 @@ import { isAppPage } from '../../typescript/typeguards';
 import PageBuilder from '../utils/PageBuilder';
 import Garage from './pages/garage/Garage';
 import Winners from './pages/winners/Winners';
+import './style.scss';
 
 export default class View {
     private _elements: {
@@ -20,6 +21,7 @@ export default class View {
     constructor() {
         const headerButtons = this.createHeaderButtons();
         const header = PageBuilder.createElement('header', {
+            classes: 'header',
             content: headerButtons,
         });
 
@@ -48,14 +50,14 @@ export default class View {
 
     private createHeaderButtons(): [HTMLButtonElement, HTMLButtonElement] {
         const garage = <HTMLButtonElement>PageBuilder.createElement('button', {
-            classes: 'button',
+            classes: 'button header__buttons header__buttons_garage',
             content: 'To Garage',
             dataset: {
                 page: EAppPages.garage,
             },
         });
         const winners = <HTMLButtonElement>PageBuilder.createElement('button', {
-            classes: 'button',
+            classes: 'button header__buttons header__buttons_winners',
             content: 'To Winners',
             dataset: {
                 page: EAppPages.winners,

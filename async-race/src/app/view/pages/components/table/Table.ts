@@ -1,4 +1,5 @@
 import PageBuilder from '../../../../utils/PageBuilder';
+import './style.scss';
 
 export default abstract class Table {
     protected _name: string;
@@ -8,6 +9,7 @@ export default abstract class Table {
         counter: HTMLSpanElement;
         page: HTMLSpanElement;
         list: HTMLUListElement;
+        listContainer: HTMLDivElement;
         header: HTMLElement;
         footer: {
             element: HTMLElement;
@@ -29,17 +31,21 @@ export default abstract class Table {
         name = name.trim();
         this._name = name;
         const nameCapitalized = name[0].toUpperCase() + name.slice(1).toLowerCase();
-        const element = PageBuilder.createElement('section');
+        const element = PageBuilder.createElement('section', {
+            classes: `${name}__section`,
+        });
 
         const header = PageBuilder.createElement('header');
 
         const counter = <HTMLSpanElement>PageBuilder.createElement('span', {});
         const title = <HTMLHeadingElement>PageBuilder.createElement('h2', {
+            classes: 'table__title',
             content: [`${nameCapitalized} `, counter],
         });
 
         const page = <HTMLSpanElement>PageBuilder.createElement('span', {});
         const subtitle = <HTMLHeadingElement>PageBuilder.createElement('h3', {
+            classes: 'table__subtitle',
             content: ['Page ', page],
         });
 
@@ -47,17 +53,23 @@ export default abstract class Table {
             classes: `${name}__table`,
         });
 
+        const listContainer = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: `${name}__table_container`,
+            content: list,
+        });
+
         const footer = Table.createFooter();
 
         header.append(title, subtitle);
 
-        element.append(header, list, footer.element);
+        element.append(header, listContainer, footer.element);
 
         this._elements = {
             element,
             header,
             counter,
             list,
+            listContainer,
             page,
             footer,
         };

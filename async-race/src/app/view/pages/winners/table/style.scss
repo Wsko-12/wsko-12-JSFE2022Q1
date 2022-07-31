@@ -1,12 +1,67 @@
+
+.winners__section{
+    display: inline-flex;
+    flex-direction: column;
+    background-color: white;
+    border: 3px solid #303030;
+    border-radius: 20px;
+    box-shadow: 20px 20px 0px #303030;
+
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 20px;
+
+    $color-f: #ffc4e3;
+    $color-s: #fff7df;
+    background: repeating-linear-gradient(45deg, $color-f 10px, $color-s 10px, $color-s 20px, $color-f 20px, $color-f 30px, $color-s 30px);
+
+    @include media-mobile-big{
+        box-shadow: 10px 10px 0px #303030;
+        padding: 20px 5px;
+    }
+
+    @include media-mobile{
+        padding: 20px 5px;
+    }
+}
+
 .winners__table{
-    padding: 0;
+    padding: 10px;
+    margin: 0;
+    display: inline-flex;
+    flex-direction: column;
+    min-height: 275px;
+
+    @include media-mobile{
+        min-height: 180px;
+    }
+}
+
+.winners__table_container{
+    display: inline-flex;
+    margin-bottom: 20px;
 }
 
 .winners__item, .winners__table > *{
     display: grid;
-    grid-template-columns: 60px 80px 100px 55px 90px;
-    font-size: 0.9rem;
+    grid-template-columns: 120px 80px 180px 80px 170px;
     align-items: center;
+
+
+    font-size:1.5rem;
+
+    @include media-mobile-big{
+        grid-template-columns: 18px 80px 140px 47px 68px;
+    }
+
+    @include media-mobile{
+        grid-template-columns: 18px 50px 100px 40px 60px;
+    }
+}
+
+.winners__table > * > div:nth-child(1){
+    text-align: center;
 }
 
 .winners__table > * > div:nth-child(1){
@@ -16,18 +71,29 @@
 .winners__menu{
     padding: 0;
     align-items: center;
+
     & > *{
         font-weight: bold;
         align-content: center;
         height: 30px;
         display: flex;
         align-items: center;
-        border: 1px solid gray;
         padding-left: 2px;
     }
+
+    
+    & > div:nth-child(1){
+        align-self: center;
+    }
+
 }
 
 .winners__menu_button{
     cursor: pointer;
-    background-color: lightblue;
+   background-color: #fe9df4;
+
+   @include media-mobile-big{
+        padding: 2px !important;
+        font-size:1rem !important;
+    }
 }

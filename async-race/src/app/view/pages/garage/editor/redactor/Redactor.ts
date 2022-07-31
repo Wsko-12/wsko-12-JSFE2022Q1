@@ -1,6 +1,7 @@
 import { isColorHex } from '../../../../../../typescript/typeguards';
 import { TCarRedactorCallback, TColorHEX } from '../../../../../../typescript/types';
 import PageBuilder, { ICreateElementProps } from '../../../../../utils/PageBuilder';
+import './style.scss';
 
 export default class Redactor {
     private _elements: {
@@ -18,19 +19,26 @@ export default class Redactor {
         };
 
         const input = createInputElement({
+            classes: 'redactor__input_inner display__inner',
             attrs: {
                 type: 'text',
             },
         });
 
+        const inputContainer = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'redactor__input display',
+            content: input,
+        });
+
         const color = createInputElement({
+            classes: 'redactor__color',
             attrs: {
                 type: 'color',
             },
         });
 
         const button = createInputElement({
-            classes: 'button',
+            classes: 'button redactor__button',
             attrs: {
                 type: 'button',
                 value: name,
@@ -38,7 +46,8 @@ export default class Redactor {
         });
 
         const element = <HTMLDivElement>PageBuilder.createElement('div', {
-            content: [input, color, button],
+            classes: 'redactor',
+            content: [inputContainer, color, button],
         });
 
         this._elements = {

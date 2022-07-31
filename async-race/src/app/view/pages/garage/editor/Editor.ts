@@ -3,6 +3,7 @@ import { ICarData } from '../../../../../typescript/interface';
 import { TCarMenuEditorCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Redactor from './redactor/Redactor';
+import './style.scss';
 
 export default class Menu {
     private _elements: {
@@ -21,6 +22,7 @@ export default class Menu {
         update.disableAll(true);
 
         const container = PageBuilder.createElement('section', {
+            classes: 'editor',
             content: [create.getElement(), update.getElement()],
         });
 
