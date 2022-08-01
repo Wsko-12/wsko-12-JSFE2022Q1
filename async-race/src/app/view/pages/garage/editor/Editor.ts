@@ -33,6 +33,10 @@ export default class Menu {
         };
     }
 
+    public clearUpdateField() {
+        this._elements.update.disableAll(true);
+    }
+
     public selectCar(car: ICarData) {
         const { update } = this._elements;
         update.setColor(car.color);

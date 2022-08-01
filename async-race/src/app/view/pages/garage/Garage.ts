@@ -58,6 +58,9 @@ export default class Garage {
     private removeCar = async (id: number) => {
         await API.removeCarGarage(id);
         await API.removeCarWinners(id);
+        if (this._selectedCarId === id) {
+            this._editor.clearUpdateField();
+        }
         return this._table.update();
     };
 

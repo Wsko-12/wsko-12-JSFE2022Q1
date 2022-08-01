@@ -11,8 +11,6 @@ import './style.scss';
 
 // ToDO When update one car don't update all table
 
-// !! BUG when click update car than remove -> need to clear update redactor
-
 export default class GarageTable extends Table {
     private _callbacks: {
         [ERedactorActions.select]: TCarSelectorCallback;
