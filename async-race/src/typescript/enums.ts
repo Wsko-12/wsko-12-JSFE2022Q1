@@ -52,3 +52,11 @@ export enum EWinnersSortsOrderChars {
     ASC = '🠗',
     DESC = '🠕',
 }
+
+export enum EHTTPMethods {
+    GET = 'GET',
+    POST = 'POST',
+    PATCH = 'PATCH',
+    PUT = 'PUT',
+    DELETE = 'DELETE',
+}
