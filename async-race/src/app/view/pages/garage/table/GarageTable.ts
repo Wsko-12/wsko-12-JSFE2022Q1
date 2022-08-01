@@ -9,8 +9,6 @@ import Car from '../../components/car/Car';
 import Table from '../../components/table/Table';
 import './style.scss';
 
-// ToDO When update one car don't update all table
-
 export default class GarageTable extends Table {
     private _callbacks: {
         [ERedactorActions.select]: TCarSelectorCallback;
@@ -39,6 +37,14 @@ export default class GarageTable extends Table {
 
         this.applyEvents();
         this.update();
+    }
+
+    public updateCar(data: ICarData) {
+        const car = this._carsList.find((item) => item.getId() === data.id);
+        if (car) {
+            car.setName(data.name);
+            car.setColor(data.color);
+        }
     }
 
     private createMenu() {

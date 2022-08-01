@@ -43,7 +43,9 @@ export default class Garage {
                 name,
                 color,
             });
-            this._table.update();
+            if (result) {
+                this._table.updateCar(result);
+            }
             return result;
         }
         return Promise.resolve(null);
