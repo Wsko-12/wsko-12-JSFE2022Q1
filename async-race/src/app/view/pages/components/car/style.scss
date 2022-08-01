@@ -36,7 +36,7 @@
         };
     }
 
-    & .button[data-action="select"] {
+    & .button[data-button-action="select"] {
         order: 1;
         @include media-mobile-big{
             order: 2;
@@ -44,7 +44,7 @@
         background-color: #6293f5;
     }
 
-    & .button[data-action="remove"] {
+    & .button[data-button-action="remove"] {
         order: 3;
         background-color: #f5627f;
     }

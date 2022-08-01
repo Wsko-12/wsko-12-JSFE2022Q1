@@ -1,5 +1,5 @@
 import API from '../../../../../api/Api';
-import { EAppPages, EConstants, ERedactorActions } from '../../../../../typescript/enums';
+import { EAppPages, EConstants, EHTMLDataSet, ERedactorActions } from '../../../../../typescript/enums';
 import { ICarData } from '../../../../../typescript/interface';
 // import { isCarData, isCarDataArr } from '../../../../../typescript/typeguards';
 import { TCarSelectorCallback } from '../../../../../typescript/types';
@@ -10,6 +10,8 @@ import Table from '../../components/table/Table';
 import './style.scss';
 
 // ToDO When update one car don't update all table
+
+// !! BUG when click update car than remove -> need to clear update redactor
 
 export default class GarageTable extends Table {
     private _callbacks: {
@@ -197,23 +199,25 @@ export default class GarageTable extends Table {
         list.addEventListener('click', (e) => {
             if (e.target && e.target instanceof HTMLElement) {
                 const { dataset } = e.target;
-                if (dataset.button === 'true' && dataset.type === 'edit') {
-                    const { action } = dataset;
+                if (dataset[EHTMLDataSet.button]) {
+                    const action = dataset[EHTMLDataSet.buttonAction];
                     const carItem = <HTMLElement>e.target.closest('.car-item');
-                    if (action && carItem && carItem.dataset.carId) {
-                        const { carId } = carItem.dataset;
-                        const carIdNumber = +carId;
-                        if (Number.isNaN(carIdNumber)) {
-                            return;
-                        }
-                        switch (action) {
-                            case ERedactorActions.remove:
-                                this._callbacks.remove(carIdNumber);
-                                break;
-                            case ERedactorActions.select:
-                                this._callbacks.select(carIdNumber);
-                                break;
-                            default:
+                    if (action && carItem) {
+                        const carId = carItem.dataset[EHTMLDataSet.carId];
+                        if (carId) {
+                            const carIdNumber = +carId;
+                            if (Number.isNaN(carIdNumber)) {
+                                return;
+                            }
+                            switch (action) {
+                                case ERedactorActions.remove:
+                                    this._callbacks.remove(carIdNumber);
+                                    break;
+                                case ERedactorActions.select:
+                                    this._callbacks.select(carIdNumber);
+                                    break;
+                                default:
+                            }
                         }
                     }
                 }

@@ -1,5 +1,4 @@
-import { EAppPages } from '../../typescript/enums';
-import { isAppPage } from '../../typescript/typeguards';
+import { EAppPages, EHTMLDataSet } from '../../typescript/enums';
 import PageBuilder from '../utils/PageBuilder';
 import Garage from './pages/garage/Garage';
 import Winners from './pages/winners/Winners';
@@ -40,8 +39,8 @@ export default class View {
         header.addEventListener('click', (e) => {
             if (e.target !== e.currentTarget) {
                 const button = <HTMLElement>e.target;
-                const { page } = button.dataset;
-                if (page && isAppPage(page)) {
+                const page = <EAppPages>button.dataset[EHTMLDataSet.page];
+                if (page) {
                     this.renderPage(page);
                 }
             }
@@ -53,14 +52,14 @@ export default class View {
             classes: 'button header__buttons header__buttons_garage',
             content: 'To Garage',
             dataset: {
-                page: EAppPages.garage,
+                [EHTMLDataSet.page]: EAppPages.garage,
             },
         });
         const winners = <HTMLButtonElement>PageBuilder.createElement('button', {
             classes: 'button header__buttons header__buttons_winners',
             content: 'To Winners',
             dataset: {
-                page: EAppPages.winners,
+                [EHTMLDataSet.page]: EAppPages.winners,
             },
         });
 

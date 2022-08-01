@@ -1,14 +1,14 @@
-import { EAppPages, EConstants } from './enums';
+import { EConstants } from './enums';
 import { ICarData } from './interface';
 import { TColorHEX } from './types';
 
-export const isAppPage = (value: string | null): value is EAppPages => {
-    if (!value) {
-        return false;
-    }
+// export const isAppPage = (value: string | null): value is EAppPages => {
+//     if (!value) {
+//         return false;
+//     }
 
-    return value in EAppPages;
-};
+//     return value in EAppPages;
+// };
 
 export const isColorHex = (value: string | null): value is TColorHEX => {
     if (!value || value.length < EConstants.HEX_COLOR_STRING_LENGTH || value[0] !== '#') {

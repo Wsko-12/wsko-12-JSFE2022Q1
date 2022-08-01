@@ -1,5 +1,5 @@
 import API from '../../../../../api/Api';
-import { EConstants, EEngineStatuses, ERedactorActions } from '../../../../../typescript/enums';
+import { EConstants, EEngineStatuses, EHTMLDataSet, ERedactorActions } from '../../../../../typescript/enums';
 import { ICarData, IEngineData } from '../../../../../typescript/interface';
 import { TColorHEX, TRaceCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
@@ -38,8 +38,7 @@ export default class Car {
         this._id = data.id;
         this.setName(data.name);
         this.setColor(data.color);
-        // ToDo:  rewrite datasets to enums
-        this._garageElements.element.dataset.carId = this._id.toString();
+        this._garageElements.element.dataset[EHTMLDataSet.carId] = this._id.toString();
         this._garageElements.engineButtons.stop.disabled = true;
         this.applyEvents();
         Car.memory[this._id] = this;
@@ -325,10 +324,8 @@ export default class Car {
             classes: 'button',
             content: 'edit',
             dataset: {
-                // ToDo:  rewrite datasets to enums
-                button: 'true',
-                type: 'edit',
-                action: ERedactorActions.select,
+                [EHTMLDataSet.button]: 'true',
+                [EHTMLDataSet.buttonAction]: ERedactorActions.select,
             },
         });
 
@@ -336,10 +333,8 @@ export default class Car {
             classes: 'button',
             content: 'Remove',
             dataset: {
-                // ToDo:  rewrite datasets to enums
-                button: 'true',
-                type: 'edit',
-                action: ERedactorActions.remove,
+                [EHTMLDataSet.button]: 'true',
+                [EHTMLDataSet.buttonAction]: ERedactorActions.remove,
             },
         });
 

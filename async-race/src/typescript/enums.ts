@@ -60,3 +60,11 @@ export enum EHTTPMethods {
     PUT = 'PUT',
     DELETE = 'DELETE',
 }
+
+export enum EHTMLDataSet {
+    page = 'page',
+    button = 'isButton',
+    buttonAction = 'buttonAction',
+    carId = 'carId',
+    sorting = 'sorting',
+}

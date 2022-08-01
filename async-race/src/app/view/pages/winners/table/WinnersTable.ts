@@ -2,6 +2,7 @@ import API from '../../../../../api/Api';
 import {
     EAppPages,
     EConstants,
+    EHTMLDataSet,
     EWinnersSorts,
     EWinnersSortsOrder,
     EWinnersSortsOrderChars,
@@ -71,7 +72,7 @@ export default class WinnersTable extends Table {
             classes: 'winners__menu_button button',
             content: ESortingContentString.wins,
             dataset: {
-                sorting: EWinnersSorts.wins,
+                [EHTMLDataSet.sorting]: EWinnersSorts.wins,
             },
         });
 
@@ -79,7 +80,7 @@ export default class WinnersTable extends Table {
             classes: 'winners__menu_button button',
             content: ESortingContentString.time,
             dataset: {
-                sorting: EWinnersSorts.time,
+                [EHTMLDataSet.sorting]: EWinnersSorts.time,
             },
         });
 
@@ -94,7 +95,7 @@ export default class WinnersTable extends Table {
 
     private handleSorting = (e: MouseEvent) => {
         const target = <HTMLDivElement>e.target;
-        const sorting = <EWinnersSorts>target.dataset.sorting;
+        const sorting = <EWinnersSorts>target.dataset[EHTMLDataSet.sorting];
         this._sortSelected = sorting;
 
         this._sortOrder = this._sortOrder === EWinnersSortsOrder.ASC ? EWinnersSortsOrder.DESC : EWinnersSortsOrder.ASC;
