@@ -128,6 +128,9 @@ export default abstract class Table {
         const { prev, next } = this._elements.footer.buttons;
         prev.disabled = flag;
         next.disabled = flag;
+        if (!flag) {
+            this.updatePageElement();
+        }
     }
 
     private applyFooterEvents() {
