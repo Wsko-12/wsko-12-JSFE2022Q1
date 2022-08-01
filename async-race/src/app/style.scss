@@ -48,17 +48,18 @@ body{
     padding: 15px;
     border-radius: 10px;
     border: 2px solid #303030;
-    box-shadow: 3px 3px 0px #303030;
+    box-shadow: 4px 4px 0px #303030;
     color: #303030;
     margin: 0 2px;
+    transition-duration: 0.1s;
     cursor: pointer;
     &:hover{
-        transform: translate(1px, 1px);
+        transform: translate(2px, 2px);
         box-shadow: 2px 2px 0px #303030;
     }
 
     &:active{
-        transform: translate(3px, 3px);
+        transform: translate(4px, 4px);
         box-shadow: none
     }
     &:disabled, &:disabled:hover{
@@ -66,7 +67,7 @@ body{
         color: #737373;
         background-color: #dcdcdc !important;
         border: 2px solid #737373;
-        box-shadow: 3px 3px 0px #737373;
+        box-shadow: 4px 4px 0px #737373;
     }
 
     @include media-mobile{
