@@ -345,7 +345,7 @@ export default class Car {
 
         const carContainer = <HTMLDivElement>PageBuilder.createElement('div', {
             classes: 'car-item__icon-container_winners',
-            content: ['<div class="car-item__icon-broke">!</div>', iconClone],
+            content: [iconClone],
         });
         const name = <HTMLDivElement>PageBuilder.createElement('div', {
             content: this._name,
