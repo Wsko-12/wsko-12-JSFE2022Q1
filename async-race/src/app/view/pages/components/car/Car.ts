@@ -3,7 +3,7 @@ import { EConstants, EEngineStatuses, EErrors, EHTMLDataSet, ERedactorActions } 
 import { ICarData, IEngineData } from '../../../../../typescript/interface';
 import { TColorHEX, TRaceCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
-import ErrorView from '../errorView/ErrorView';
+import ErrorView from '../errorView/errorView';
 import './style.scss';
 
 export default class Car {

@@ -6,7 +6,7 @@ import { TCarSelectorCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Utils from '../../../../utils/utils';
 import Car from '../../components/car/Car';
-import ErrorView from '../../components/errorView/ErrorView';
+import ErrorView from '../../components/errorView/errorView';
 import Table from '../../components/table/Table';
 import './style.scss';
 
