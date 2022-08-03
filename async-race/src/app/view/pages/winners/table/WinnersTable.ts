@@ -43,6 +43,8 @@ export default class WinnersTable extends Table {
             this.setAllItemsCount(data.count);
             this.updatePageElement();
             this.fillList(data.winners);
+        } else {
+            this.showError();
         }
     };
 

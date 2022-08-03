@@ -252,6 +252,8 @@ export default class GarageTable extends Table {
             this.setAllItemsCount(data.count);
             this.updatePageElement();
             this.fillList(data.cars);
+        } else {
+            this.showError();
         }
     };
 

@@ -159,4 +159,13 @@ export default abstract class Table {
     public getElement() {
         return this._elements.element;
     }
+
+    protected showError() {
+        this._elements.list.innerHTML = '';
+        const errorMessage = <HTMLHeadingElement>PageBuilder.createElement('h2', {
+            classes: 'table__error',
+            content: 'Sorry, something went wrong :(',
+        });
+        this._elements.list.append(errorMessage);
+    }
 }
