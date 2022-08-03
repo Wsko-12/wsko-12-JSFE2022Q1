@@ -11,7 +11,7 @@ export enum EConstants {
     FF_16_Bit = 255,
     CARS_GENERATOR = 100,
     POP_UP_SHOW_TIME = 4000,
-    ERROR_SHOW_TIME = 3000,
+    ERROR_SHOW_TIME = 4000,
 
     BLACK_HEX = '#000000',
 }

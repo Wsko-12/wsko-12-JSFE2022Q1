@@ -7,10 +7,20 @@ import './style.scss';
 
 export default class View {
     public static showError(msg: string) {
-        const errorMessage = <HTMLHeadingElement>PageBuilder.createElement('h2', {
-            classes: 'error',
+        const title = <HTMLHeadingElement>PageBuilder.createElement('h1', {
+            classes: 'error__title',
+            content: 'ERROR',
+        });
+
+        const subtitle = <HTMLHeadingElement>PageBuilder.createElement('h3', {
+            classes: 'error__subtitle',
             content: msg,
         });
+        const errorMessage = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'error',
+            content: [title, subtitle],
+        });
+
         document.body.append(errorMessage);
         setTimeout(() => {
             errorMessage.remove();
