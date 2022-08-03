@@ -81,7 +81,7 @@ export default class Garage {
     };
 
     public update() {
-        this._table.update();
+        void this._table.update();
     }
 
     public getElement() {

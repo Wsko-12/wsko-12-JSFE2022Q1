@@ -1,8 +1,9 @@
 import { EErrors } from '../../../../../typescript/enums';
 import PageBuilder from '../../../../utils/PageBuilder';
 import './style.scss';
+import {ICarData, IWinnerData} from "../../../../../typescript/interface";
 
-export default abstract class Table {
+export default abstract class Table<T extends ICarData | IWinnerData> {
     protected _name: string;
 
     protected _elements: {
@@ -104,11 +105,9 @@ export default abstract class Table {
         const { prev, next } = this._elements.footer.buttons;
 
         next.disabled = false;
-        prev.disabled = false;
 
-        if (this._currentPage === 1) {
-            prev.disabled = true;
-        }
+        prev.disabled = this._currentPage === 1;
+
         const current = this._currentPage * this._maxItemsPerPage;
         if (current >= this._allItemsCount) {
             next.disabled = true;
@@ -152,10 +151,13 @@ export default abstract class Table {
 
     // ?! it's must be abstract
     // ?! Error Ts1243: 'Async' Modifier Cannot Be Used With 'Abstract'
-    public update = async () => {};
+    // no need for abstract method show that it async,
+    // you can show if needed that it returns Promise<>
+     public abstract update(): void;
 
     // ?! it's must be abstract
-    // protected abstract fillList<T>(data: T[]): void;
+    // answer is simple ;) generic on class not on method
+    protected abstract fillList(data: Array<T>): void;
 
     public getElement() {
         return this._elements.element;

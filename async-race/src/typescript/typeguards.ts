@@ -36,11 +36,8 @@ export const isCarData = (obj: any): obj is ICarData => {
         return false;
     }
 
-    if (!obj.color || !isColorHex(obj.color)) {
-        return false;
-    }
-
-    return true;
+    // simplify
+    return !(!obj.color || !isColorHex(obj.color));
 };
 
 export const isCarDataArr = (arr: unknown[]): arr is ICarData[] => {

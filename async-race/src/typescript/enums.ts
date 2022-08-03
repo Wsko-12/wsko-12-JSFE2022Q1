@@ -1,9 +1,12 @@
-export enum EAppPages {
+export const enum EAppPages {
     garage = 'garage',
     winners = 'winners',
 }
 
-export enum EConstants {
+// usually enums used for data when you need at same time some value and its type, here you need just value
+// its possible to use it in such way but use const for it
+// with const enums you can just read it fields (can't iterate, use in, Object.values(enum) and so on)
+export const enum EConstants {
     HEX_COLOR_STRING_LENGTH = 7,
     MS_IN_SEC = 1000,
     CARS_PER_PAGE = 7,
@@ -16,14 +19,14 @@ export enum EConstants {
     BLACK_HEX = '#000000',
 }
 
-export enum EUrls {
+export const enum EUrls {
     base = 'http://127.0.0.1:3000',
     garage = '/garage',
     engine = '/engine',
     winners = '/winners',
 }
 
-export enum EResponseStatuses {
+export const enum EResponseStatuses {
     success = 200,
     created = 201,
 }

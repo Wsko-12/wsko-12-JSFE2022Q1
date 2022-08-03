@@ -7,7 +7,7 @@ import {
     EWinnersSortsOrder,
     EWinnersSortsOrderChars,
 } from '../../../../../typescript/enums';
-import { IWinnerData } from '../../../../../typescript/interface';
+import {ICarData, IWinnerData} from '../../../../../typescript/interface';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Car from '../../components/car/Car';
 import Table from '../../components/table/Table';
@@ -17,7 +17,8 @@ enum ESortingContentString {
     wins = 'Wins',
     time = 'Time (s)',
 }
-export default class WinnersTable extends Table {
+
+export default class WinnersTable extends Table<IWinnerData> {
     private _addedElements = {
         menu: this.createMenu(),
     };
@@ -33,7 +34,7 @@ export default class WinnersTable extends Table {
         this._elements.list.classList.add('display__inner');
 
         this._elements.header.append(this._addedElements.menu.element);
-        this.update();
+        void this.update();
         this.applyEvents();
     }
 
@@ -106,10 +107,11 @@ export default class WinnersTable extends Table {
         this._addedElements.menu[sorting].innerHTML =
             ESortingContentString[sorting] + EWinnersSortsOrderChars[this._sortOrder];
 
-        this.update();
+        void this.update();
     };
 
-    private fillList = async (winners: IWinnerData[]) => {
+    // Promise.all instead of for await of
+    protected fillList = async (winners: Array<IWinnerData>) => {
         this._elements.list.innerHTML = '';
         let place = 0;
         const elements: HTMLElement[] = [];

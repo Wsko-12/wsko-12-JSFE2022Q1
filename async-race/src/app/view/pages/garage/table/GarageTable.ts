@@ -1,7 +1,7 @@
 import API from '../../../../../api/Api';
 import { EAppPages, EConstants, EErrors, EHTMLDataSet, ERedactorActions } from '../../../../../typescript/enums';
-import { ICarData } from '../../../../../typescript/interface';
-// import { isCarData, isCarDataArr } from '../../../../../typescript/typeguards';
+import {ICarData, IWinnerData} from '../../../../../typescript/interface';
+import { isCarData, isCarDataArr } from '../../../../../typescript/typeguards';
 import { TCarSelectorCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Utils from '../../../../utils/utils';
@@ -10,7 +10,7 @@ import ErrorView from '../../components/errorView/errorView';
 import Table from '../../components/table/Table';
 import './style.scss';
 
-export default class GarageTable extends Table {
+export default class GarageTable extends Table<ICarData> {
     private _callbacks: {
         select: TCarSelectorCallback;
         remove: TCarSelectorCallback;
@@ -43,7 +43,7 @@ export default class GarageTable extends Table {
     public updateCar(data: ICarData) {
         const car = this._carsList.find((item) => item.getId() === data.id);
         if (car) {
-            car.setName(data.name);
+            car.name = data.name;
             car.setColor(data.color);
         }
     }
@@ -282,34 +282,45 @@ export default class GarageTable extends Table {
     };
 
     // ?! How to make it using abstract method
-    // private fillList<T>(data: T[]) {
-    // /* // ?! Why this typeguard don't works */
-    //     if (isCarDataArr(data)) {
-    //     const cars = data.map((carData) => {
-    //         if (isCarData(carData)) {
-    //             return new Car(carData);
-    //         }
-    //     });
+    protected fillList(data: Array<ICarData>) {
+    /* // ?! Why this typeguard don't works */
+        // if (isCarDataArr(data)) {
+        // const cars = data.map((carData) => {
+        //     // if (isCarData(carData)) {
+        //         return new Car(carData);
+        //     // }
+        // });
 
     /* //?! Second way */
-    //     const filtered = data.filter(isCarData);
-    //     const cars = filtered.map((carData) => new Car(carData));
+        // const filtered = data.filter(isCarData);
+        const cars = data.map((carData) => new Car(carData));
 
+        this._carsList = cars;
+        const elements = cars.map((car) => car.garageElement);
+        const { list } = this._elements;
+        list.innerHTML = '';
+        list.append(...elements);
+    }
+    //
+    // private fillList(data: ICarData[]) {
+    //     const cars = data.map((carData) => {
+    //         return new Car(carData);
+    //     });
     //     this._carsList = cars;
-    //     const elements = cars.map((car) => car.getGarageElement());
+    //     const elements = cars.map((car) => car.garageElement);
     //     const { list } = this._elements;
     //     list.innerHTML = '';
     //     list.append(...elements);
     // }
 
-    private fillList(data: ICarData[]) {
-        const cars = data.map((carData) => {
-            return new Car(carData);
-        });
-        this._carsList = cars;
-        const elements = cars.map((car) => car.getGarageElement());
-        const { list } = this._elements;
-        list.innerHTML = '';
-        list.append(...elements);
-    }
+    // private fillList(data: ICarData[]) {
+    //     const cars = data.map((carData) => {
+    //         return new Car(carData);
+    //     });
+    //     this._carsList = cars;
+    //     const elements = cars.map((car) => car.garageElement);
+    //     const { list } = this._elements;
+    //     list.innerHTML = '';
+    //     list.append(...elements);
+    // }
 }
