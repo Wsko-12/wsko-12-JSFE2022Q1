@@ -75,6 +75,11 @@ export enum EHTMLDataSet {
 
 export enum EErrors {
     tableFill = 'Sorry, something went wrong :(',
+
     raceStart = "Sorry, can't receive all cars engine data. Please, reset the race and try again",
+    raceStartReset = "Sorry, can't start race because can't reset all cars. Please, try again",
+    tableReset = "Sorry, can't reset all cars. Please, try again",
+
     carStart = "Sorry, can't receive engine data. Please, try again",
+    carStop = "Sorry, can't receive engine data. Please, try again",
 }

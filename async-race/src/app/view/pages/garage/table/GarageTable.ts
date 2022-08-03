@@ -7,6 +7,7 @@ import PageBuilder from '../../../../utils/PageBuilder';
 import Utils from '../../../../utils/utils';
 // eslint-disable-next-line import/no-cycle
 import View from '../../../View';
+// eslint-disable-next-line import/no-cycle
 import Car from '../../components/car/Car';
 import Table from '../../components/table/Table';
 import './style.scss';
@@ -135,10 +136,18 @@ export default class GarageTable extends Table {
             return;
         }
 
-        this.disablePagination(true);
-        this._raceMode = true;
         this._addedElements.menu.buttons.race.disabled = true;
-        await this.resetAll();
+        const allReseted = await this.resetAll();
+
+        if (!allReseted) {
+            this.disablePagination(false);
+            this._raceMode = false;
+            this.disableMenuButtons(false);
+            this.disablePagination(false);
+            View.showError(EErrors.raceStartReset);
+            return;
+        }
+
         let winner = true;
         const raceCallback = (name: string, time: number) => {
             if (winner) {
@@ -154,15 +163,16 @@ export default class GarageTable extends Table {
         const promises = this._carsList.map((car) => {
             return car.startEngine(raceCallback);
         });
-        Promise.all(promises)
-            .catch(() => {
-                this._raceMode = false;
-                View.showError(EErrors.raceStart);
-            })
-            .finally(() => {
-                this._addedElements.menu.buttons.reset.disabled = false;
-                this.disablePagination(false);
-            });
+
+        try {
+            await Promise.all(promises);
+        } catch (err) {
+            this._raceMode = false;
+            View.showError(EErrors.raceStart);
+        } finally {
+            this.disablePagination(false);
+            this._addedElements.menu.buttons.reset.disabled = false;
+        }
     };
 
     private resetAll = async (e?: Event) => {
@@ -173,13 +183,22 @@ export default class GarageTable extends Table {
         this._raceMode = !e;
         this.showPopUp(false);
         this.disableMenuButtons(true);
-        const promises = this._carsList.map((car) => car.stop());
+        const promises = this._carsList.map((car) => car.stop(true));
 
-        const allSettled = await Promise.allSettled(promises);
-        if (e instanceof Event && e.type === 'click') {
-            this.disableMenuButtons(false);
+        try {
+            await Promise.all(promises);
+            if (e instanceof Event && e.type === 'click') {
+                this.disableMenuButtons(false);
+            }
+            return true;
+        } catch (err) {
+            this._raceMode = false;
+            this._addedElements.menu.buttons.reset.disabled = false;
+            if (e) {
+                View.showError(EErrors.tableReset);
+            }
+            return false;
         }
-        return allSettled;
     };
 
     private showWinnerMessage(name: string, time: number) {

@@ -120,7 +120,7 @@ export default class Car {
             this._garageElements.engineButtons.start.disabled = false;
             this.reset();
             View.showError(EErrors.carStart);
-            return Promise.reject();
+            return false;
         }
 
         // user clicks 'race'
@@ -142,14 +142,31 @@ export default class Car {
         remove.disabled = flag;
     }
 
-    public stop = async () => {
+    public stop = async (tableReset?: boolean) => {
         this._garageElements.engineButtons.stop.disabled = true;
         const engineData = await API.getEngineData(this._id, EEngineStatuses.stopped);
+
+        /* Error simulator */
+        // if (Math.random() < 0.5) {
+        //     engineData = null;
+        // }
+
         if (engineData) {
             this.reset();
             return engineData;
         }
 
+        /* Errors catcher */
+        // if can't receive data when...
+
+        // user clicks 'B'(stop engine button);
+        if (!tableReset) {
+            this._garageElements.engineButtons.stop.disabled = false;
+            View.showError(EErrors.carStop);
+            return false;
+        }
+
+        // user clicks 'reset'
         return Promise.reject();
     };
 
@@ -238,7 +255,9 @@ export default class Car {
     private applyEvents() {
         const controls = this._garageElements.engineButtons;
         controls.start.addEventListener('click', () => this.startEngine());
-        controls.stop.addEventListener('click', this.stop);
+        controls.stop.addEventListener('click', () => {
+            this.stop();
+        });
     }
 
     private showBrokeIcon(flag: boolean) {
