@@ -209,7 +209,7 @@ export default class GarageTable extends Table {
                     if (action && carItem) {
                         const carId = carItem.dataset[EHTMLDataSet.carId];
                         if (carId) {
-                            const carIdNumber = +carId;
+                            const carIdNumber = Number(carId);
                             if (Number.isNaN(carIdNumber)) {
                                 return;
                             }

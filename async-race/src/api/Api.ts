@@ -28,7 +28,7 @@ export default class API {
                 const data = <T>await response.json();
                 if (count && data) {
                     return {
-                        count: +count,
+                        count: Number(count),
                         data,
                     };
                 }
@@ -53,7 +53,7 @@ export default class API {
                 const cars = <ICarData[]>await response.json();
                 if (count && cars) {
                     return {
-                        count: +count,
+                        count: Number(count),
                         cars,
                     };
                 }
@@ -130,7 +130,7 @@ export default class API {
                 const winners = <IWinnerData[]>await response.json();
                 if (count && winners) {
                     return {
-                        count: +count,
+                        count: Number(count),
                         winners,
                     };
                 }
@@ -241,6 +241,9 @@ export default class API {
         try {
             const response = await fetch(url, init);
             if (response.status === EResponseStatuses.success || response.status === EResponseStatuses.created) {
+                // When I add <T> before brackets data becomes any
+                // const data = await response.json<T>();
+
                 const data = <T>await response.json();
                 return data || null;
             }

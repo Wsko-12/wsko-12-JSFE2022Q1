@@ -18,9 +18,10 @@ export const isColorHex = (value: string | null): value is TColorHEX => {
     const digits = value.slice(1);
 
     const bit16string = `0x${digits}`;
-    return !Number.isNaN(+bit16string);
+    return !Number.isNaN(Number(bit16string));
 };
 
+// ? is it okay to use any type in typeguards?
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isCarData = (obj: any): obj is ICarData => {
     if (!obj || !(obj instanceof Object)) {
