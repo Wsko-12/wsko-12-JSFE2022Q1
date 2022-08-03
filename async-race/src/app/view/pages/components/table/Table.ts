@@ -1,3 +1,4 @@
+import { EErrors } from '../../../../../typescript/enums';
 import PageBuilder from '../../../../utils/PageBuilder';
 import './style.scss';
 
@@ -162,9 +163,10 @@ export default abstract class Table {
 
     protected showError() {
         this._elements.list.innerHTML = '';
+        const errorMsg: string = EErrors.tableFill;
         const errorMessage = <HTMLHeadingElement>PageBuilder.createElement('h2', {
             classes: 'table__error',
-            content: 'Sorry, something went wrong :(',
+            content: errorMsg,
         });
         this._elements.list.append(errorMessage);
     }

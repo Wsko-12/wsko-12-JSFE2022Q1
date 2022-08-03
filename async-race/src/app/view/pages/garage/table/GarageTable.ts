@@ -1,5 +1,5 @@
 import API from '../../../../../api/Api';
-import { EAppPages, EConstants, EHTMLDataSet, ERedactorActions } from '../../../../../typescript/enums';
+import { EAppPages, EConstants, EErrors, EHTMLDataSet, ERedactorActions } from '../../../../../typescript/enums';
 import { ICarData } from '../../../../../typescript/interface';
 // import { isCarData, isCarDataArr } from '../../../../../typescript/typeguards';
 import { TCarSelectorCallback } from '../../../../../typescript/types';
@@ -157,7 +157,7 @@ export default class GarageTable extends Table {
         Promise.all(promises)
             .catch(() => {
                 this._raceMode = false;
-                View.showError("Sorry, can't receive all cars engine data. Please, reset the race and try again");
+                View.showError(EErrors.raceStart);
             })
             .finally(() => {
                 this._addedElements.menu.buttons.reset.disabled = false;
