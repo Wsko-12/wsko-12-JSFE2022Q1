@@ -11,6 +11,7 @@ export enum EConstants {
     FF_16_Bit = 255,
     CARS_GENERATOR = 100,
     POP_UP_SHOW_TIME = 4000,
+    BLACK_HEX = '#000000',
 }
 
 export enum EUrls {
@@ -62,6 +63,7 @@ export enum EHTTPMethods {
 }
 
 export enum EHTMLDataSet {
+    name = 'name',
     page = 'page',
     button = 'isButton',
     buttonAction = 'buttonAction',

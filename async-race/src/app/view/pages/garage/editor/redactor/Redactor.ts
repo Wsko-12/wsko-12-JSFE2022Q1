@@ -1,3 +1,4 @@
+import { EConstants } from '../../../../../../typescript/enums';
 import { isColorHex } from '../../../../../../typescript/typeguards';
 import { TCarRedactorCallback, TColorHEX } from '../../../../../../typescript/types';
 import PageBuilder, { ICreateElementProps } from '../../../../../utils/PageBuilder';
@@ -102,7 +103,7 @@ export default class Redactor {
     private clearAll = (disable: boolean) => {
         const { input, color } = this._elements;
         input.value = '';
-        color.value = '#000000';
+        color.value = EConstants.BLACK_HEX;
         this.disableAll(disable);
     };
 }

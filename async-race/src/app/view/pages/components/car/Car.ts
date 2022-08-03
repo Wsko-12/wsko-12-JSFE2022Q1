@@ -61,8 +61,12 @@ export default class Car {
 
     public setColor(value: TColorHEX) {
         this._color = value;
-        const carBodyGarage = <SVGPathElement>this._garageElements.car.querySelector('[data-name="body"]');
-        const carBodyWinners = <SVGPathElement>this._winnersElements.car.querySelector('[data-name="body"]');
+        const carBodyGarage = <SVGPathElement>(
+            this._garageElements.car.querySelector(`[data-${EHTMLDataSet.name}="body"]`)
+        );
+        const carBodyWinners = <SVGPathElement>(
+            this._winnersElements.car.querySelector(`[data-${EHTMLDataSet.name}="body"]`)
+        );
 
         carBodyGarage.style.fill = value;
         carBodyWinners.style.fill = value;
@@ -276,14 +280,14 @@ export default class Car {
         body.append(controls);
 
         const trackElements = this.createTrackElements();
-        const track = trackElements[0];
+        const { track } = trackElements;
         body.append(track);
 
         return {
             element,
             track,
             name,
-            car: trackElements[1],
+            car: trackElements.carContainer,
             editButtons,
             engineButtons,
         };
@@ -357,7 +361,7 @@ export default class Car {
         };
     }
 
-    private createTrackElements(): [HTMLDivElement, HTMLDivElement] {
+    private createTrackElements() {
         const track = <HTMLDivElement>PageBuilder.createElement('div', {
             classes: 'car-item__track display',
         });
@@ -375,6 +379,6 @@ export default class Car {
         trackInner.append(carContainer);
         track.append(trackInner);
 
-        return [track, carContainer];
+        return { track, carContainer };
     }
 }
