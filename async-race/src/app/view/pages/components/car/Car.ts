@@ -1,8 +1,10 @@
 import API from '../../../../../api/Api';
-import { EConstants, EEngineStatuses, EHTMLDataSet, ERedactorActions } from '../../../../../typescript/enums';
+import { EConstants, EEngineStatuses, EErrors, EHTMLDataSet, ERedactorActions } from '../../../../../typescript/enums';
 import { ICarData, IEngineData } from '../../../../../typescript/interface';
 import { TColorHEX, TRaceCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
+// eslint-disable-next-line import/no-cycle
+import View from '../../../View';
 import './style.scss';
 
 export default class Car {
@@ -97,9 +99,9 @@ export default class Car {
         const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
         const animationId = this.resetAnimationData();
 
-        // Error test
+        /* Error simulator */
         // if (Math.random() < 0.5) {
-        //     return Promise.reject();
+        //     engineData = null;
         // }
 
         if (engineData) {
@@ -110,6 +112,18 @@ export default class Car {
             return engineData;
         }
 
+        /* Errors catcher */
+        // if can't receive data when...
+
+        // user clicks 'A'(start engine button);
+        if (!raceCallback) {
+            this._garageElements.engineButtons.start.disabled = false;
+            this.reset();
+            View.showError(EErrors.carStart);
+            return Promise.reject();
+        }
+
+        // user clicks 'race'
         return Promise.reject();
     };
 
@@ -133,8 +147,10 @@ export default class Car {
         const engineData = await API.getEngineData(this._id, EEngineStatuses.stopped);
         if (engineData) {
             this.reset();
+            return engineData;
         }
-        return engineData;
+
+        return Promise.reject();
     };
 
     private finish = (raceCallback?: TRaceCallback) => {
