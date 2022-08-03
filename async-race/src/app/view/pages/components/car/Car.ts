@@ -3,8 +3,7 @@ import { EConstants, EEngineStatuses, EErrors, EHTMLDataSet, ERedactorActions } 
 import { ICarData, IEngineData } from '../../../../../typescript/interface';
 import { TColorHEX, TRaceCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
-// eslint-disable-next-line import/no-cycle
-import View from '../../../View';
+import ErrorView from '../errorView/ErrorView';
 import './style.scss';
 
 export default class Car {
@@ -119,7 +118,7 @@ export default class Car {
         if (!raceCallback) {
             this._garageElements.engineButtons.start.disabled = false;
             this.reset();
-            View.showError(EErrors.carStart);
+            ErrorView.showError(EErrors.carStart);
             return false;
         }
 
@@ -162,7 +161,7 @@ export default class Car {
         // user clicks 'B'(stop engine button);
         if (!tableReset) {
             this._garageElements.engineButtons.stop.disabled = false;
-            View.showError(EErrors.carStop);
+            ErrorView.showError(EErrors.carStop);
             return false;
         }
 

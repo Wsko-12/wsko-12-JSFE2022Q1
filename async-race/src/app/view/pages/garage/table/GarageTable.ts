@@ -5,10 +5,8 @@ import { ICarData } from '../../../../../typescript/interface';
 import { TCarSelectorCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Utils from '../../../../utils/utils';
-// eslint-disable-next-line import/no-cycle
-import View from '../../../View';
-// eslint-disable-next-line import/no-cycle
 import Car from '../../components/car/Car';
+import ErrorView from '../../components/errorView/ErrorView';
 import Table from '../../components/table/Table';
 import './style.scss';
 
@@ -144,7 +142,7 @@ export default class GarageTable extends Table {
             this._raceMode = false;
             this.disableMenuButtons(false);
             this.disablePagination(false);
-            View.showError(EErrors.raceStartReset);
+            ErrorView.showError(EErrors.raceStartReset);
             return;
         }
 
@@ -168,7 +166,7 @@ export default class GarageTable extends Table {
             await Promise.all(promises);
         } catch (err) {
             this._raceMode = false;
-            View.showError(EErrors.raceStart);
+            ErrorView.showError(EErrors.raceStart);
         } finally {
             this.disablePagination(false);
             this._addedElements.menu.buttons.reset.disabled = false;
@@ -195,7 +193,7 @@ export default class GarageTable extends Table {
             this._raceMode = false;
             this._addedElements.menu.buttons.reset.disabled = false;
             if (e) {
-                View.showError(EErrors.tableReset);
+                ErrorView.showError(EErrors.tableReset);
             }
             return false;
         }

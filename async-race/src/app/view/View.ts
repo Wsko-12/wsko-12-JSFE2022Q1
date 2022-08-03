@@ -1,32 +1,10 @@
-import { EAppPages, EConstants, EHTMLDataSet } from '../../typescript/enums';
+import { EAppPages, EHTMLDataSet } from '../../typescript/enums';
 import PageBuilder from '../utils/PageBuilder';
-// eslint-disable-next-line import/no-cycle
 import Garage from './pages/garage/Garage';
 import Winners from './pages/winners/Winners';
 import './style.scss';
 
 export default class View {
-    public static showError(msg: string) {
-        const title = <HTMLHeadingElement>PageBuilder.createElement('h1', {
-            classes: 'error__title',
-            content: 'ERROR',
-        });
-
-        const subtitle = <HTMLHeadingElement>PageBuilder.createElement('h3', {
-            classes: 'error__subtitle',
-            content: msg,
-        });
-        const errorMessage = <HTMLDivElement>PageBuilder.createElement('div', {
-            classes: 'error',
-            content: [title, subtitle],
-        });
-
-        document.body.append(errorMessage);
-        setTimeout(() => {
-            errorMessage.remove();
-        }, EConstants.ERROR_SHOW_TIME);
-    }
-
     private _elements: {
         header: HTMLElement;
         main: HTMLElement;
