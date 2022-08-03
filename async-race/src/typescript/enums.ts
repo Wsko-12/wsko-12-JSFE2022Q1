@@ -82,4 +82,9 @@ export enum EErrors {
 
     carStart = "Sorry, can't receive engine data. Please, try again",
     carStop = "Sorry, can't receive engine data. Please, try again",
+
+    selectCar = 'Sorry, something went wrong. Please, try again',
+    updateCar = "Can't update car. Please, try again",
+    createCar = "Can't create car. Please, try again",
+    carRemove = "Can't remove car. Please, try again",
 }

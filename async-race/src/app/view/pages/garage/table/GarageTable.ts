@@ -12,8 +12,8 @@ import './style.scss';
 
 export default class GarageTable extends Table {
     private _callbacks: {
-        [ERedactorActions.select]: TCarSelectorCallback;
-        [ERedactorActions.remove]: TCarSelectorCallback;
+        select: TCarSelectorCallback;
+        remove: TCarSelectorCallback;
     };
 
     private _raceMode = false;
@@ -29,8 +29,8 @@ export default class GarageTable extends Table {
         super(EAppPages.garage, EConstants.CARS_PER_PAGE);
 
         this._callbacks = {
-            [ERedactorActions.select]: selectCar,
-            [ERedactorActions.remove]: removeCar,
+            select: selectCar,
+            remove: removeCar,
         };
 
         this._elements.header.prepend(this._addedElements.menu.element);

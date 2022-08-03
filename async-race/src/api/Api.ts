@@ -66,10 +66,8 @@ export default class API {
 
     public static async getCar(id: number): Promise<ICarData | null> {
         const url = `${this.getGarageUrl()}/${id}`;
+
         const responseData = <ICarData>await this.load(url);
-        if (!responseData) {
-            // console.error(`[API] getCar error: can't receive data`);
-        }
         return responseData;
     }
 
@@ -78,9 +76,6 @@ export default class API {
         const init = this.getInit(EHTTPMethods.POST, { name, color });
 
         const responseData = <ICarData>await this.load(url, init);
-        if (!responseData) {
-            // console.error(`[API] createCar error: can't create car`);
-        }
         return responseData;
     }
 
@@ -89,31 +84,22 @@ export default class API {
         const init = this.getInit(EHTTPMethods.PUT, data);
 
         const responseData = <ICarData>await this.load(url, init);
-        if (!responseData) {
-            // console.error(`[API] updateCar error: can't receive data`);
-        }
         return responseData;
     }
 
-    public static async removeCarGarage(id: number): Promise<void> {
+    public static async removeCarGarage(id: number): Promise<object | null> {
         const url = `${this.getGarageUrl()}/${id}`;
         const init = this.getInit(EHTTPMethods.DELETE);
 
-        const responseData = await this.load(url, init);
-        if (!responseData) {
-            // console.error(`[API] removeCarGarage error: can't delete car`);
-        }
-        return Promise.resolve();
+        const responseData = <object>await this.load(url, init);
+        return responseData;
     }
 
-    public static async removeCarWinners(id: number): Promise<void> {
+    public static async removeCarWinners(id: number) {
         const url = `${this.getWinnersUrl()}/${id}`;
         const init = this.getInit(EHTTPMethods.DELETE);
-        const responseData = await this.load(url, init);
-        if (!responseData) {
-            // console.error(`[API] removeCarWinners error: can't delete car`);
-        }
-        return Promise.resolve();
+
+        await this.load(url, init);
     }
 
     public static async getWinners(
