@@ -96,13 +96,21 @@ export default class Car {
         this.disableEditButtons(true);
         const engineData = await API.getEngineData(this._id, EEngineStatuses.started);
         const animationId = this.resetAnimationData();
+
+        // Error test
+        // if (Math.random() < 0.5) {
+        //     return Promise.reject();
+        // }
+
         if (engineData) {
             this._engineData = engineData;
             this._garageElements.engineButtons.stop.disabled = false;
             this.driveAnimation(raceCallback);
             this.sendDriveRequest(animationId);
+            return engineData;
         }
-        return engineData;
+
+        return Promise.reject();
     };
 
     private sendDriveRequest = async (animationId: number) => {

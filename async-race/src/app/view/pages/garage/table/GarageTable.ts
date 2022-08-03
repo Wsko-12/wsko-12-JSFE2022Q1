@@ -5,6 +5,8 @@ import { ICarData } from '../../../../../typescript/interface';
 import { TCarSelectorCallback } from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Utils from '../../../../utils/utils';
+// eslint-disable-next-line import/no-cycle
+import View from '../../../View';
 import Car from '../../components/car/Car';
 import Table from '../../components/table/Table';
 import './style.scss';
@@ -152,10 +154,15 @@ export default class GarageTable extends Table {
         const promises = this._carsList.map((car) => {
             return car.startEngine(raceCallback);
         });
-        Promise.allSettled(promises).then(() => {
-            this._addedElements.menu.buttons.reset.disabled = false;
-            this.disablePagination(false);
-        });
+        Promise.all(promises)
+            .catch(() => {
+                this._raceMode = false;
+                View.showError("Sorry, can't receive all cars engine data. Please, reset the race and try again");
+            })
+            .finally(() => {
+                this._addedElements.menu.buttons.reset.disabled = false;
+                this.disablePagination(false);
+            });
     };
 
     private resetAll = async (e?: Event) => {
@@ -169,7 +176,7 @@ export default class GarageTable extends Table {
         const promises = this._carsList.map((car) => car.stop());
 
         const allSettled = await Promise.allSettled(promises);
-        if (e && e.type === 'click') {
+        if (e instanceof Event && e.type === 'click') {
             this.disableMenuButtons(false);
         }
         return allSettled;
