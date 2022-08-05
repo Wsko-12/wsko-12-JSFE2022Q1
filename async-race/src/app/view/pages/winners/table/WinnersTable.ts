@@ -7,7 +7,7 @@ import {
     EWinnersSortsOrder,
     EWinnersSortsOrderChars,
 } from '../../../../../typescript/enums';
-import {ICarData, IWinnerData} from '../../../../../typescript/interface';
+import {IWinnerData} from '../../../../../typescript/interface';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Car from '../../components/car/Car';
 import Table from '../../components/table/Table';

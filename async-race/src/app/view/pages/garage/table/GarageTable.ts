@@ -1,7 +1,6 @@
 import API from '../../../../../api/Api';
 import {EAppPages, EConstants, EErrors, EHTMLDataSet, ERedactorActions} from '../../../../../typescript/enums';
-import {ICarData, IWinnerData} from '../../../../../typescript/interface';
-import {isCarData, isCarDataArr} from '../../../../../typescript/typeguards';
+import {ICarData} from '../../../../../typescript/interface';
 import {TCarSelectorCallback} from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Utils from '../../../../utils/utils';
@@ -281,18 +280,7 @@ export default class GarageTable extends Table<ICarData> {
         }
     };
 
-    // ?! How to make it using abstract method
     protected fillList(data: Array<ICarData>) {
-        /* // ?! Why this typeguard don't works */
-        // if (isCarDataArr(data)) {
-        // const cars = data.map((carData) => {
-        //     // if (isCarData(carData)) {
-        //         return new Car(carData);
-        //     // }
-        // });
-
-        /* //?! Second way */
-        // const filtered = data.filter(isCarData);
         const cars = data.map((carData) => new Car(carData));
 
         this._carsList = cars;
@@ -301,26 +289,4 @@ export default class GarageTable extends Table<ICarData> {
         list.innerHTML = '';
         list.append(...elements);
     }
-    //
-    // private fillList(data: ICarData[]) {
-    //     const cars = data.map((carData) => {
-    //         return new Car(carData);
-    //     });
-    //     this._carsList = cars;
-    //     const elements = cars.map((car) => car.garageElement);
-    //     const { list } = this._elements;
-    //     list.innerHTML = '';
-    //     list.append(...elements);
-    // }
-
-    // private fillList(data: ICarData[]) {
-    //     const cars = data.map((carData) => {
-    //         return new Car(carData);
-    //     });
-    //     this._carsList = cars;
-    //     const elements = cars.map((car) => car.garageElement);
-    //     const { list } = this._elements;
-    //     list.innerHTML = '';
-    //     list.append(...elements);
-    // }
 }

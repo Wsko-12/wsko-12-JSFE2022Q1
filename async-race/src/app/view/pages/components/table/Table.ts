@@ -149,12 +149,8 @@ export default abstract class Table<T extends ICarData | IWinnerData> {
         });
     }
 
-    // no need for abstract method show that it async,
-    // you can show if needed that it returns Promise<>
     public abstract update(): void;
 
-    // ?! it's must be abstract
-    // answer is simple ;) generic on class not on method
     protected abstract fillList(data: Array<T>): void;
 
     public getElement() {
