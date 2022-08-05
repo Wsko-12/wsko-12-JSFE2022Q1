@@ -1,8 +1,8 @@
 import API from '../../../../../api/Api';
-import { EAppPages, EConstants, EErrors, EHTMLDataSet, ERedactorActions } from '../../../../../typescript/enums';
+import {EAppPages, EConstants, EErrors, EHTMLDataSet, ERedactorActions} from '../../../../../typescript/enums';
 import {ICarData, IWinnerData} from '../../../../../typescript/interface';
-import { isCarData, isCarDataArr } from '../../../../../typescript/typeguards';
-import { TCarSelectorCallback } from '../../../../../typescript/types';
+import {isCarData, isCarDataArr} from '../../../../../typescript/typeguards';
+import {TCarSelectorCallback} from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Utils from '../../../../utils/utils';
 import Car from '../../components/car/Car';
@@ -87,7 +87,7 @@ export default class GarageTable extends Table<ICarData> {
     }
 
     private showPopUp(flag: boolean, carName?: string, sec?: number) {
-        const { element, name, time } = this._addedElements.popUp;
+        const {element, name, time} = this._addedElements.popUp;
 
         if (!flag) {
             element.style.display = 'none';
@@ -205,7 +205,7 @@ export default class GarageTable extends Table<ICarData> {
     }
 
     private generateCars = async () => {
-        const { generate } = this._addedElements.menu.buttons;
+        const {generate} = this._addedElements.menu.buttons;
         generate.disabled = true;
 
         const promises = [];
@@ -223,10 +223,10 @@ export default class GarageTable extends Table<ICarData> {
     };
 
     private applyListEvents() {
-        const { list } = this._elements;
+        const {list} = this._elements;
         list.addEventListener('click', (e) => {
             if (e.target && e.target instanceof HTMLElement) {
-                const { dataset } = e.target;
+                const {dataset} = e.target;
                 if (dataset[EHTMLDataSet.button]) {
                     const action = dataset[EHTMLDataSet.buttonAction];
                     const carItem = <HTMLElement>e.target.closest('.car-item');
@@ -254,7 +254,7 @@ export default class GarageTable extends Table<ICarData> {
     }
 
     private applyMenuEvents() {
-        const { race, reset, generate } = this._addedElements.menu.buttons;
+        const {race, reset, generate} = this._addedElements.menu.buttons;
         race.addEventListener('click', this.race);
 
         reset.addEventListener('click', this.resetAll);
@@ -263,7 +263,7 @@ export default class GarageTable extends Table<ICarData> {
     }
 
     private disableMenuButtons(flag: boolean) {
-        const { race, reset, generate } = this._addedElements.menu.buttons;
+        const {race, reset, generate} = this._addedElements.menu.buttons;
         race.disabled = flag;
         reset.disabled = flag;
         generate.disabled = flag;
@@ -283,7 +283,7 @@ export default class GarageTable extends Table<ICarData> {
 
     // ?! How to make it using abstract method
     protected fillList(data: Array<ICarData>) {
-    /* // ?! Why this typeguard don't works */
+        /* // ?! Why this typeguard don't works */
         // if (isCarDataArr(data)) {
         // const cars = data.map((carData) => {
         //     // if (isCarData(carData)) {
@@ -291,13 +291,13 @@ export default class GarageTable extends Table<ICarData> {
         //     // }
         // });
 
-    /* //?! Second way */
+        /* //?! Second way */
         // const filtered = data.filter(isCarData);
         const cars = data.map((carData) => new Car(carData));
 
         this._carsList = cars;
         const elements = cars.map((car) => car.garageElement);
-        const { list } = this._elements;
+        const {list} = this._elements;
         list.innerHTML = '';
         list.append(...elements);
     }

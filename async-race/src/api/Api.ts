@@ -16,7 +16,7 @@ import {
     IWinnerData,
     IWinnersResponse,
 } from '../typescript/interface';
-import { TColorHEX } from '../typescript/types';
+import {TColorHEX} from '../typescript/types';
 
 export default class API {
     // ?!
@@ -73,7 +73,7 @@ export default class API {
 
     public static async createCar(name: string, color: TColorHEX): Promise<ICarData | null> {
         const url = `${this.getGarageUrl()}`;
-        const init = this.getInit(EHTTPMethods.POST, { name, color });
+        const init = this.getInit(EHTTPMethods.POST, {name, color});
 
         const responseData = <ICarData>await this.load(url, init);
         return responseData;
@@ -153,7 +153,7 @@ export default class API {
 
     private static async updateWinner(id: number, wins: number, time: number) {
         const url = `${this.getWinnersUrl()}/${id}`;
-        const data = { wins, time };
+        const data = {wins, time};
         const init = this.getInit(EHTTPMethods.PUT, data);
 
         const responseData = <IWinnersResponse>await this.load(url, init);
@@ -167,7 +167,7 @@ export default class API {
         const sec = Utils.msToSec(time);
         const inBase = await this.getWinner(id);
         if (inBase) {
-            const { wins } = inBase;
+            const {wins} = inBase;
             const timeToSave = inBase.time > sec ? sec : inBase.time;
             return this.updateWinner(id, wins + 1, timeToSave);
         }

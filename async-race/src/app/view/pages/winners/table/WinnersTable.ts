@@ -51,7 +51,7 @@ export default class WinnersTable extends Table<IWinnerData> {
 
     protected applyEvents() {
         super.applyEvents();
-        const { time, wins } = this._addedElements.menu;
+        const {time, wins} = this._addedElements.menu;
         time.addEventListener('click', this.handleSorting);
         wins.addEventListener('click', this.handleSorting);
     }

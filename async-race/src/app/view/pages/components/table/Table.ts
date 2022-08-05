@@ -1,7 +1,7 @@
-import { EErrors } from '../../../../../typescript/enums';
+import {EErrors} from '../../../../../typescript/enums';
 import PageBuilder from '../../../../utils/PageBuilder';
 import './style.scss';
-import {ICarData, IWinnerData} from "../../../../../typescript/interface";
+import {ICarData, IWinnerData} from '../../../../../typescript/interface';
 
 export default abstract class Table<T extends ICarData | IWinnerData> {
     protected _name: string;
@@ -102,7 +102,7 @@ export default abstract class Table<T extends ICarData | IWinnerData> {
     }
 
     protected updatePageElement() {
-        const { prev, next } = this._elements.footer.buttons;
+        const {prev, next} = this._elements.footer.buttons;
 
         next.disabled = false;
 
@@ -125,7 +125,7 @@ export default abstract class Table<T extends ICarData | IWinnerData> {
     }
 
     protected disablePagination(flag: boolean) {
-        const { prev, next } = this._elements.footer.buttons;
+        const {prev, next} = this._elements.footer.buttons;
         prev.disabled = flag;
         next.disabled = flag;
         if (!flag) {
@@ -134,7 +134,7 @@ export default abstract class Table<T extends ICarData | IWinnerData> {
     }
 
     private applyFooterEvents() {
-        const { prev, next } = this._elements.footer.buttons;
+        const {prev, next} = this._elements.footer.buttons;
 
         prev.addEventListener('click', () => {
             this._currentPage -= 1;
@@ -149,11 +149,9 @@ export default abstract class Table<T extends ICarData | IWinnerData> {
         });
     }
 
-    // ?! it's must be abstract
-    // ?! Error Ts1243: 'Async' Modifier Cannot Be Used With 'Abstract'
     // no need for abstract method show that it async,
     // you can show if needed that it returns Promise<>
-     public abstract update(): void;
+    public abstract update(): void;
 
     // ?! it's must be abstract
     // answer is simple ;) generic on class not on method

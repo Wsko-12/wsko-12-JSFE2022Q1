@@ -1,6 +1,6 @@
-import { EConstants } from './enums';
-import { ICarData } from './interface';
-import { TColorHEX } from './types';
+import {EConstants} from './enums';
+import {ICarData} from './interface';
+import {TColorHEX} from './types';
 
 // export const isAppPage = (value: string | null): value is EAppPages => {
 //     if (!value) {

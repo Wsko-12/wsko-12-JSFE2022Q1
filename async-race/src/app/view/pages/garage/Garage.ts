@@ -1,6 +1,6 @@
 import API from '../../../../api/Api';
-import { EErrors } from '../../../../typescript/enums';
-import { TColorHEX } from '../../../../typescript/types';
+import {EErrors} from '../../../../typescript/enums';
+import {TColorHEX} from '../../../../typescript/types';
 import PageBuilder from '../../../utils/PageBuilder';
 import ErrorView from '../components/errorView/errorView';
 import Editor from './editor/Editor';

@@ -1,4 +1,4 @@
-import { EAppPages, EHTMLDataSet } from '../../typescript/enums';
+import {EAppPages, EHTMLDataSet} from '../../typescript/enums';
 import PageBuilder from '../utils/PageBuilder';
 import Garage from './pages/garage/Garage';
 import Winners from './pages/winners/Winners';
@@ -35,7 +35,7 @@ export default class View {
     }
 
     private applyEvents() {
-        const { header } = this._elements;
+        const {header} = this._elements;
         header.addEventListener('click', (e) => {
             if (e.target !== e.currentTarget) {
                 const button = <HTMLElement>e.target;
@@ -71,7 +71,7 @@ export default class View {
             return;
         }
         this._currentPage = page;
-        const { main } = this._elements;
+        const {main} = this._elements;
         main.innerHTML = '';
         if (page === EAppPages.winners) {
             this._pages[page].update();

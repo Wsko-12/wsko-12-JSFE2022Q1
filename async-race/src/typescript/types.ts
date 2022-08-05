@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { ICarData } from './interface';
+import {ICarData} from './interface';
 
 export type TColorHEX = `#${string}`;
 

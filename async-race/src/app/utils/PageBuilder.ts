@@ -1,6 +1,6 @@
 type TClassProperty = string[] | string;
-type TAttrProperty = { [key: string]: string | number | boolean };
-type TDatasetProperty = { [key: string]: string | number };
+type TAttrProperty = {[key: string]: string | number | boolean};
+type TDatasetProperty = {[key: string]: string | number};
 type TContentProperty = string | (HTMLElement | string)[] | HTMLElement;
 
 export interface ICreateElementProps {

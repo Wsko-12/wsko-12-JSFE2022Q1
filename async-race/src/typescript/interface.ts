@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { TColorHEX } from './types';
+import {TColorHEX} from './types';
 
 export interface ICarsResponse {
     count: number;

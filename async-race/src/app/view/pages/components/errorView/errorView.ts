@@ -1,4 +1,4 @@
-import { EConstants } from '../../../../../typescript/enums';
+import {EConstants} from '../../../../../typescript/enums';
 import PageBuilder from '../../../../utils/PageBuilder';
 
 export default class ErrorView {

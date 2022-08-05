@@ -1,7 +1,7 @@
-import { EConstants } from '../../../../../../typescript/enums';
-import { isColorHex } from '../../../../../../typescript/typeguards';
-import { TCarRedactorCallback, TColorHEX } from '../../../../../../typescript/types';
-import PageBuilder, { ICreateElementProps } from '../../../../../utils/PageBuilder';
+import {EConstants} from '../../../../../../typescript/enums';
+import {isColorHex} from '../../../../../../typescript/typeguards';
+import {TCarRedactorCallback, TColorHEX} from '../../../../../../typescript/types';
+import PageBuilder, {ICreateElementProps} from '../../../../../utils/PageBuilder';
 import './style.scss';
 
 export default class Redactor {
@@ -65,7 +65,7 @@ export default class Redactor {
     }
 
     public applyEvents() {
-        const { input, button, color } = this._elements;
+        const {input, button, color} = this._elements;
         button.addEventListener('click', () => {
             const colorHex = color.value;
             if (this._onChangeCallback && isColorHex(colorHex)) {
@@ -80,7 +80,7 @@ export default class Redactor {
     }
 
     public disableAll(flag: boolean) {
-        const { input, button, color } = this._elements;
+        const {input, button, color} = this._elements;
         input.disabled = flag;
         button.disabled = flag;
         color.disabled = flag;
@@ -101,7 +101,7 @@ export default class Redactor {
     }
 
     private clearAll = (disable: boolean) => {
-        const { input, color } = this._elements;
+        const {input, color} = this._elements;
         input.value = '';
         color.value = EConstants.BLACK_HEX;
         this.disableAll(disable);

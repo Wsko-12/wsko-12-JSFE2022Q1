@@ -1,6 +1,6 @@
-import { ERedactorActions } from '../../../../../typescript/enums';
-import { ICarData } from '../../../../../typescript/interface';
-import { TCarMenuEditorCallback } from '../../../../../typescript/types';
+import {ERedactorActions} from '../../../../../typescript/enums';
+import {ICarData} from '../../../../../typescript/interface';
+import {TCarMenuEditorCallback} from '../../../../../typescript/types';
 import PageBuilder from '../../../../utils/PageBuilder';
 import Redactor from './redactor/Redactor';
 import './style.scss';
@@ -38,7 +38,7 @@ export default class Menu {
     }
 
     public selectCar(car: ICarData) {
-        const { update } = this._elements;
+        const {update} = this._elements;
         update.setColor(car.color);
         update.setInput(car.name);
 

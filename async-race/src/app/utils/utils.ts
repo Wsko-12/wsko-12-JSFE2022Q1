@@ -1,5 +1,5 @@
-import { EConstants } from '../../typescript/enums';
-import { TColorHEX } from '../../typescript/types';
+import {EConstants} from '../../typescript/enums';
+import {TColorHEX} from '../../typescript/types';
 
 const carNames = [
     'Acura',
