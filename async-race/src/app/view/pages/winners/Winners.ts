@@ -18,7 +18,6 @@ export default class Winners {
         };
     }
 
-    // use prefix void if ignore result of async function
     public update() {
         void this._table.update();
     }

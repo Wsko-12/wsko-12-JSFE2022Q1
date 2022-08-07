@@ -111,10 +111,13 @@ export default class WinnersTable extends Table<IWinnerData> {
     };
 
     // Promise.all instead of for await of
+    // here I use cache. If I will use Promise.all I have to send request all the time
+    // or save index of this promise to find this data after Promise.all
     protected fillList = async (winners: Array<IWinnerData>) => {
         this._elements.list.innerHTML = '';
         let place = 0;
         const elements: HTMLElement[] = [];
+
         for await (const winner of winners) {
             place += 1;
             let element: HTMLElement;
