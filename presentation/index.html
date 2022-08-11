@@ -1,0 +1,822 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style>
+			.color-logo{
+				color: #9ee9f8 !important;
+			}
+			.apps-item{
+				display: flex;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+			.app-icon{
+				width: 60px;
+				height: 60px;
+				margin: 0 !important;
+				margin-right: 20px !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal" >
+			<div class="slides">
+				<section>
+					<svg class="site-header-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="500px">
+						<g stroke="#9ee9f8" fill="none" fill-rule="evenodd">
+						  <path class="svg-stroke" d="M11.7014354,7.72646259 C7.91761319,7.04380371 4.81334929,7.69369948 3.61536899,9.74908711 C2.72656361,11.27402 3.03878853,13.3122813 4.27551338,15.4489979 M6.32642733,18.1886712 C7.89193828,19.8928217 9.9666792,21.548102 12.4120986,22.9466461 C18.2414315,26.2804624 24.2930499,27.0779063 27.1669222,25.1368228 M29.8456419,24.0565148 C29.8456419,23.1971812 29.1423799,22.5005537 28.2748621,22.5005537 C27.4073444,22.5005537 26.7040823,23.1971812 26.7040823,24.0565148 C26.7040823,24.9158484 27.4073444,25.612476 28.2748621,25.612476 C29.1423799,25.612476 29.8456419,24.9158484 29.8456419,24.0565148 L29.8456419,24.0565148 Z"></path>
+						  <path class="svg-stroke" d="M26.1017264,17.699802 C28.5790274,14.8008665 29.5563892,11.8210699 28.3609038,9.7699627 C27.4866535,8.27000212 25.5971843,7.51855661 23.1692624,7.48727915 M19.6970573,7.86083838 C17.4054295,8.34719767 14.8948834,9.30454988 12.424266,10.7175048 C6.42288792,14.1497143 2.65401611,19.1281832 3.16552768,22.580522 M3.68501877,25.612476 C4.5525365,25.612476 5.25579857,24.9158484 5.25579857,24.0565148 C5.25579857,23.1971812 4.5525365,22.5005537 3.68501877,22.5005537 C2.81750104,22.5005537 2.11423897,23.1971812 2.11423897,24.0565148 C2.11423897,24.9158484 2.81750104,25.612476 3.68501877,25.612476 L3.68501877,25.612476 L3.68501877,25.612476 Z"></path>
+						  <path class="svg-stroke" d="M10.1856596,25.0699995 C11.480995,28.6529192 13.5999849,30.9876144 15.99422,30.9876144 C17.7292778,30.9876144 19.3197869,29.7615184 20.5570359,27.7228112 M22.0509221,24.3364015 C22.7373456,22.1635452 23.1341282,19.5948285 23.1341282,16.8425133 C23.1341282,10.0879866 20.7444131,4.43922457 17.5485944,3.03357113 M15.99422,4.25337326 C16.8617378,4.25337326 17.5649998,3.55674574 17.5649998,2.69741214 C17.5649998,1.83807854 16.8617378,1.14145101 15.99422,1.14145101 C15.1267023,1.14145101 14.4234402,1.83807854 14.4234402,2.69741214 C14.4234402,3.55674574 15.1267023,4.25337326 15.99422,4.25337326 Z"></path>
+						  <path class="svg-fill" d="M16.2975137,18.2334955 C15.5219407,18.3994908 14.7578457,17.9112502 14.5899415,17.142994 C14.4226932,16.3747378 14.9152558,15.6178512 15.6908287,15.451531 C16.4664016,15.2855357 17.2304967,15.7737763 17.3984009,16.5420325 C17.5659771,17.3102887 17.0730866,18.0671753 16.2975137,18.2334955 Z"></path>
+						</g>
+					</svg>
+					<h1 class="color-logo">Electron</h1>
+				</section>
+				<section data-background-color="#303030">
+					<section>
+						<h2>What is Electron</h2>
+						<p class="fragment">
+							Electron is an open-source framework that gives us the ability to create desktop applications for Windows, macOS, Linux using only 
+							<strong>JavaScript</strong>, <strong>HTML</strong> and <strong>CSS</strong>
+						</p>
+					</section>
+					<section style="text-align: left;">
+						<h3 style="text-align: center;">Why do we need desktop app</h3>
+							<ul style="text-align: left;">
+								<li class="fragment">Offline</li>
+								<li class="fragment">File system</li>
+								<li class="fragment">User-obvious</li>
+							<ul>
+					</section>
+					<section>
+						<h3 style="text-align: center;">Electron apps</h3>
+							<ul style="text-align: left;">
+								<li class="apps-item">
+									<img src="./images/vs-code-icon.png" class="app-icon">
+									<span> Visual Studio Code</span>
+								</li>
+								<li class="apps-item">
+									<img src="./images/figma-icon.png" class="app-icon">
+									<span> Figma</span>
+								</li>
+								<li class="apps-item">
+									<img src="./images/whatsapp-icon.png" class="app-icon">
+									<span> WhatsApp</span>
+								</li>
+								<li class="apps-item">
+									<img src="./images/discord-icon.png" class="app-icon">
+									<span> Discord</span>
+								</li>
+								<li class="apps-item">
+									<img src="./images/spotify-icon.png" class="app-icon">
+									<span> Spotify</span>
+								</li>
+								<li class="apps-item">
+									<img src="./images/skype-icon.png" class="app-icon">
+									<span> Skype</span>
+								</li>
+								<li class="apps-item">
+									<img src="./images/twitch-icon.png" class="app-icon">
+									<span> Twitch</span>
+								</li>
+							<ul>
+							<p>...769 apps more: <a href="https://www.electronjs.org/apps" target="_blank">https://www.electronjs.org/apps</a></p>
+					</section>
+				</section>
+				<section data-background-color="#546664">
+					<section>
+						<h2>How Electron works</h2>
+						<div class="fragment" style="text-align: left">
+							<p>Components: </p>
+							<ul>
+								<li class="apps-item">
+									<img src="./images/chromium-icon.png" class="app-icon">
+									<span>Chromium</span>
+								</li>
+								<li class="apps-item">
+									<img src="./images/nodejs-icon.png" class="app-icon">
+									<span>Node.js</span>
+								</li>
+								<li class="apps-item">
+									<span style="padding-left: 80px;">Native modules</span>
+								</li>
+							<ul>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Processes</h2>
+						<ul class="fragment">
+							<li>
+								Main
+							</li>
+							<li>
+								Renderer
+							</li>
+						<ul>
+					</section>
+
+					
+					<section>
+						<img src="./images/processes.png" style="width: 100%;">
+					</section>
+
+					<section>
+						<h2>Renderer</h2>
+						<p>UI of our application</p>
+						<p>In Electron called BrowserWindow</p>
+						<div style="display: flex; align-items: center; gap: 20px;" class="fragment">
+							<img src="./images/browser-tabs.png">
+							<p>Like tab in the browser</p>
+						</div>
+						<p class="fragment">We can create any number of renderer processes</p>
+
+					</section>
+
+					<section>
+						<h2>Main</h2>
+						<p>No UI (Node.js) process responsible for LifeCycle of our app</p>
+						<ul>
+							<li class="fragment">Interacts with OS</li>
+							<li class="fragment">Creates/closes Renderer processes</li>
+						</ul>
+						<p class="fragment">Main process is only one</p>
+
+					</section>
+
+				</section>
+
+				<section>
+					<h2>Installation</h2>
+					<ol>
+						<li class="fragment">Create folder and initialize our project using <code>npm init</code></li>
+						<li class="fragment"><code>npm install --save-dev electron</code></li>
+						<li class="fragment">
+							Create files <code>main.js</code> and <code>index.html</code>
+							<br/>
+							<img src="./images/project-structure.png">
+						</li>
+						<li class="fragment">
+							<p>Add to <code>package.json</code> main file and starting script</p>
+							<pre>
+								<code class="hljs" data-trim data-line-numbers>
+									{
+										"main": "main.js",
+										"scripts": {
+											"start": "electron ."
+										},
+									}
+								</code>
+							</pre>
+						</li>
+					</ol>
+				</section>
+
+				<section>
+					<section data-auto-animate>
+						<h2>Hello world app</h2>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers="|1|3-5|7-9">
+									<script type="text/template">
+										const { app, BrowserWindow } = require('electron');
+
+										function createWindow(){
+											...
+										};
+										
+										app.whenReady().then(() => {
+											createWindow();
+										});
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+					<section data-auto-animate>
+						<h2>Creating window</h2>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers="|2|4">
+									<script type="text/template">
+										function createWindow(){
+											const win = new BrowserWindow();
+
+											win.loadFile('renderer/index.html');
+										};
+									</script>
+								</code>
+							</pre>
+						</div>
+
+					</section>
+					<section data-auto-animate>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										const { app, BrowserWindow } = require('electron');
+
+										function createWindow(){
+											const win = new BrowserWindow();
+										
+											win.loadFile('renderer/index.html');
+										};
+										
+										app.whenReady().then(() => {
+											createWindow();
+										});
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+
+					<section>
+						<h2>Window</h2>
+						<div>
+							<p style="text-align: left;">index.html</p>
+							<br/>
+							<img src="images/html_1.png">
+						</div>
+
+					</section>
+
+					<section>
+						<h2>Start app</h2>
+						<p><code>npm start</code> and enjoy the magic</p>
+						<img src="images/app_1.png" class="fragment">
+
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Window options</h2>
+					</section>
+					<section data-auto-animate>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										function createWindow(){
+											const win = new BrowserWindow();
+										
+											win.loadFile('renderer/index.html');
+										};
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+
+					<section data-auto-animate>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										function createWindow(){
+											const win = new BrowserWindow({
+
+											});
+										
+											win.loadFile('renderer/index.html');
+										};
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+
+					<section data-auto-animate>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										function createWindow(){
+											const win = new BrowserWindow({
+												width: 800,
+												height: 600,
+											});
+										
+											win.loadFile('renderer/index.html');
+										};
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+
+					<section data-auto-animate>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										function createWindow(){
+											const win = new BrowserWindow({
+												fullscreen: true,
+											});
+										
+											win.loadFile('renderer/index.html');
+										};
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+
+					<section data-auto-animate>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										function createWindow(){
+											const win = new BrowserWindow({
+												width: 800,
+												height: 600,
+												backgroundColor: '#303030',
+											});
+										
+											win.loadFile('renderer/index.html');
+										};
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+
+					<section data-auto-animate>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										function createWindow(){
+											const win = new BrowserWindow({
+												width: 800,
+												height: 600,
+												transparent: true,
+											});
+										
+											win.loadFile('renderer/index.html');
+										};
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+
+					
+					<section data-auto-animate>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										function createWindow(){
+											const win = new BrowserWindow({
+												width: 800,
+												height: 600,
+												transparent: true,
+												frame: false,
+											});
+										
+											win.loadFile('renderer/index.html');
+										};
+									</script>
+								</code>
+							</pre>
+						</div>
+					</section>
+
+					<section>
+						<h3>Window frame</h3>
+						<img src="./images/window-frame.png">
+						<p>If we disable standard window frame we have to create custom frame and make at least an exit button</p>
+						<p>Otherwise user won't be able to drag the window and simple close it</p>
+					</section>
+
+					<section>
+						<h3>DEV tools</h3>
+						<div>
+							<p style="text-align: left;">main.js</p>
+							<pre data-id="code-animation">
+								<code class="hljs" data-trim data-line-numbers>
+									<script type="text/template">
+										const win = new BrowserWindow({
+											webPreferences:{
+												devTools: true,
+											}
+										});
+										win.webContents.openDevTools();
+									</script>
+								</code>
+							</pre>
+						</div>
+						<img src="./images/dev-tools.png">
+					</section>
+
+					<section>
+						<h3>Window options</h3>
+						<a href="https://www.electronjs.org/docs/latest/api/browser-window#class-browserwindow" target="_blank">https://www.electronjs.org/docs/latest/api/browser-window#class-browserwindow</a>
+					</section>
+				</section>
+
+			<section>
+				<section>
+					<h2>Inter-Process Communication</h2>
+					<div class="fragment">
+						<p>
+							Processes communicate by passing messages through <span class="color-logo">ipcMain</span> and <span class="color-logo">ipcRenderer</span>
+							using <span class="color-logo">preload file</span> .
+						</p>
+					</div>
+				</section>
+				<section>
+					<h2>Preload file</h2>
+					<p class="fragment">
+						Bridge between Main and Renderer process
+					</p>
+
+					<p class="fragment">
+						Preload scripts are injected before a web page loads in the renderer script
+					</p>
+
+					<img class="fragment" src="./images/ipc.png">
+
+				</section>
+
+				<section>
+					<h2>Creating window from renderer process</h2>
+					<p>
+						index.html
+					</p>
+					<img src="./images/html_2.png">
+					<p>
+						and create script.js in renderer folder
+
+					</p>
+				</section>
+
+				<section>
+					<p>
+						Create additional folder with html with basic layout and preload.js in project folder
+					</p>
+					<img src="./images/project-structure_2.png">
+				</section>
+
+
+				<section>
+					<div>
+						<p style="text-align: left;">preload.js</p>
+						<pre data-id="code-animation">
+							<code class="hljs" data-trim data-line-numbers="|1|3|4">
+								<script type="text/template">
+									const { contextBridge, ipcRenderer } = require('electron');
+
+									contextBridge.exposeInMainWorld('appWindows', {
+										openAdditional: () => ipcRenderer.invoke('open-add-window'),
+
+									});
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<p style="text-align: left;">main.js</p>
+						<pre data-id="code-animation">
+							<code class="hljs" data-trim data-line-numbers="|2,8">
+								<script type="text/template">
+									const { app, BrowserWindow } = require('electron');
+									const path = require('path');
+									
+									function createWindow(){
+										const win = new BrowserWindow({
+											webPreferences:{
+												devTools: true,
+												preload: path.join(__dirname, 'preload.js'),
+											}
+										});
+										win.webContents.openDevTools();
+									
+										win.loadFile('renderer/index.html');
+									};
+									
+									app.whenReady().then(() => {
+										createWindow();
+									});
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<p style="text-align: left;">renderer/index.js</p>
+						<pre data-id="code-animation">
+							<code class="hljs" data-trim data-line-numbers>
+								<script type="text/template">
+									console.log(appWindows)
+								</script>
+							</code>
+						</pre>
+					</div>
+					<img src="./images/ipc_1.png">
+
+				</section>
+
+				<section>
+					set up handler
+					<div>
+						<p style="text-align: left;">main.js</p>
+						<pre data-id="code-animation">
+							<code class="js" data-trim data-line-numbers="|4-6, 9-13|12">
+								<script type="text/template">
+
+									app.whenReady().then(() => {
+										createWindow();
+									
+										ipcMain.handle('open-add-window', () => {
+											openAddWindow()
+										})
+									});
+
+									function openAddWindow(){
+										const win = new BrowserWindow();
+									
+										win.loadFile('additional/index.html');
+									};
+
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					set up button
+					<div>
+						<p style="text-align: left;">renderer/index.js</p>
+						<pre data-id="code-animation">
+							<code class="js" data-trim data-line-numbers="">
+								<script type="text/template">
+									const btn = document.querySelector('#open')
+									btn.onclick = () => {appWindows.openAdditional()};
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<img src="images/add-window.png">
+				</section>
+			</section>
+			<section style="text-align: left">
+				<section>
+					<h2>Child and parent window</h2>
+					<p class="fragment">Child</p>
+					<ul class="fragment">
+						<li>Displayed above the parent</li>
+						<li>Can't exist without a parent</li>
+					</ul>
+				</section>
+				<section data-auto-animate>
+					<div>
+						<p style="text-align: left;">main.js</p>
+						<pre data-id="code-animation">
+							<code class="js" data-trim data-line-numbers="|1|3,14,15|17,19,23">
+								<script type="text/template">
+									const appWindows = {};
+
+									function createWindow(){
+										const win = new BrowserWindow({
+											webPreferences:{
+												devTools: true,
+												preload: path.join(__dirname, 'preload.js'),
+											}
+										});
+										win.webContents.openDevTools();
+									
+										win.loadFile('renderer/index.html');
+									
+										appWindows.start = win;
+									};
+
+									function openAddWindow(){
+										const win = new BrowserWindow({
+											parent: appWindows.start,
+										});
+									
+										win.loadFile('additional/index.html');
+									};
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<div>
+						<p style="text-align: left;">main.js</p>
+						<pre data-id="code-animation">
+							<code class="js" data-trim data-line-numbers="20">
+								<script type="text/template">
+									const appWindows = {};
+
+									function createWindow(){
+										const win = new BrowserWindow({
+											webPreferences:{
+												devTools: true,
+												preload: path.join(__dirname, 'preload.js'),
+											}
+										});
+										win.webContents.openDevTools();
+									
+										win.loadFile('renderer/index.html');
+									
+										appWindows.start = win;
+									};
+
+									function openAddWindow(){
+										const win = new BrowserWindow({
+											parent: appWindows.start,
+											modal: true,
+										});
+									
+										win.loadFile('additional/index.html');
+									};
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h2>File system</h2>
+					<p>Read file and show result</p>
+				</section>
+
+				<section>
+					<div>
+						<p style="text-align: left;">preload.js</p>
+						<pre data-id="code-animation">
+							<code class="js" data-trim data-line-numbers="3| 4-7">
+								<script type="text/template">
+									const { contextBridge, ipcRenderer } = require('electron');
+
+									contextBridge.exposeInMainWorld('fileSystem', {
+										readFile: async (fileName, callback) => { 
+											const data = await ipcRenderer.invoke('read-file', fileName);
+											callback(data);
+										},
+									});
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<p style="text-align: left;">renderer/script.js</p>
+						<pre data-id="code-animation">
+							<code class="js" data-trim data-line-numbers = '| 2 | 4-8'>
+								<script type="text/template">
+									const btn = document.querySelector('#readFile')
+									btn.onclick = () => {fileSystem.readFile('text.txt', showData)};
+									
+									function showData(data) {
+										const element = document.createElement('p');
+										element.innerHTML = data;
+										document.body.append(element);
+									};
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<p style="text-align: left;">text.txt</p>
+						<pre data-id="code-animation">
+							<code class="js" data-trim data-line-numbers>
+								<script type="text/template">
+									Lorem ipsum dolor sit amet consectetur adipisicing elit.
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<div>
+						<p style="text-align: left;">main.js</p>
+						<pre data-id="code-animation">
+							<code class="js" data-trim data-line-numbers="|1| 6-9">
+								<script type="text/template">
+									const fs = require('fs').promises;
+
+									app.whenReady().then(() => {
+										createWindow();
+									
+										ipcMain.handle('read-file', async (_event, fileName) => {
+											const result = await fs.readFile(path.join(__dirname, '/', fileName), 'utf-8');
+											return result;
+										});
+									});
+								</script>
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<img src="images/read-file.png">
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h2>Pros and Cons</h2>
+				</section>
+				
+				<section>
+					<p>Pros</p>
+					<ul>
+						<li class="fragment">HTML CSS JS</li>
+						<li class="fragment">Chromium</li>
+						<li class="fragment">Node.js</li>
+						<li class="fragment">Cross-platform</li>
+					</ul>
+					
+				</section>
+
+				<section>
+					<p>Cons</p>
+					<ul>
+						<li class="fragment">Node and Chromium size (>100mb)</li>
+						<li class="fragment">
+							<p>Node and Chromium processes</p>
+							<div>
+								<img src="images/pc-processes.png">
+							</div>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					Thanks for watching
+				</section>
+			</section>
+
+
+
+			
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
