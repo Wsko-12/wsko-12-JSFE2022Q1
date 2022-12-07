@@ -1,0 +1,52 @@
+.header{
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+
+    @include media-mobile-big{
+        justify-content: center
+    };
+
+    @include media-mobile{
+        justify-content: center
+    };
+}
+
+.header__buttons{
+    &_garage{
+        background-color: #62f5d5;
+    }
+    &_winners {
+        background-color: #f5629f;
+    }
+}
+
+.error{
+    position: fixed;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 15px;
+    border: 3px solid #303030;
+    box-shadow: 3px 3px 0px #303030;
+
+    $color-f: #303030;
+    $color-s: #ffc400;
+    background: repeating-linear-gradient(45deg, $color-f 10px, $color-s 10px, $color-s 20px, $color-f 20px, $color-f 30px, $color-s 30px);
+
+    &__title{
+        color: white;
+        text-shadow: 0px 0px 10px #000000;
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    &__subtitle{
+        padding: 10px;
+        border-radius: 10px;
+        background-color: white;
+        color: #303030;
+    }
+}

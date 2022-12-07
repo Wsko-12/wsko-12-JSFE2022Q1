@@ -1,0 +1,292 @@
+import API from '../../../../../api/Api';
+import {EAppPages, EConstants, EErrors, EHTMLDataSet, ERedactorActions} from '../../../../../typescript/enums';
+import {ICarData} from '../../../../../typescript/interface';
+import {TCarSelectorCallback} from '../../../../../typescript/types';
+import PageBuilder from '../../../../utils/PageBuilder';
+import Utils from '../../../../utils/utils';
+import Car from '../../components/car/Car';
+import ErrorView from '../../components/errorView/errorView';
+import Table from '../../components/table/Table';
+import './style.scss';
+
+export default class GarageTable extends Table<ICarData> {
+    private _callbacks: {
+        select: TCarSelectorCallback;
+        remove: TCarSelectorCallback;
+    };
+
+    private _raceMode = false;
+
+    private _addedElements = {
+        menu: this.createMenu(),
+        popUp: this.createPopUpElement(),
+    };
+
+    private _carsList: Car[] = [];
+
+    constructor(selectCar: TCarSelectorCallback, removeCar: TCarSelectorCallback) {
+        super(EAppPages.garage, EConstants.CARS_PER_PAGE);
+
+        this._callbacks = {
+            select: selectCar,
+            remove: removeCar,
+        };
+
+        this._elements.header.prepend(this._addedElements.menu.element);
+        this._elements.element.append(this._addedElements.popUp.element);
+
+        this.applyEvents();
+        this.update();
+    }
+
+    public updateCar(data: ICarData) {
+        const car = this._carsList.find((item) => item.getId() === data.id);
+        if (car) {
+            car.name = data.name;
+            car.setColor(data.color);
+        }
+    }
+
+    private createMenu() {
+        const element = <HTMLMenuElement>PageBuilder.createElement('menu', {
+            classes: 'garage-menu',
+        });
+
+        const race = <HTMLButtonElement>PageBuilder.createElement('button', {
+            classes: 'button garage-menu__button garage-menu__button_race',
+            content: 'Race',
+        });
+
+        const reset = <HTMLButtonElement>PageBuilder.createElement('button', {
+            classes: 'button garage-menu__button',
+            content: 'Reset',
+        });
+
+        const generate = <HTMLButtonElement>PageBuilder.createElement('button', {
+            classes: 'button garage-menu__button',
+            content: `Generate${EConstants.CARS_GENERATOR}`,
+        });
+
+        element.append(race, reset, generate);
+
+        return {
+            element,
+            buttons: {
+                race,
+                reset,
+                generate,
+            },
+        };
+    }
+
+    protected applyEvents() {
+        super.applyEvents();
+        this.applyMenuEvents();
+        this.applyListEvents();
+    }
+
+    private showPopUp(flag: boolean, carName?: string, sec?: number) {
+        const {element, name, time} = this._addedElements.popUp;
+
+        if (!flag) {
+            element.style.display = 'none';
+        } else if (carName && sec) {
+            name.innerHTML = carName;
+            time.innerHTML = sec.toString();
+
+            element.style.display = 'block';
+
+            setTimeout(() => {
+                this.showPopUp(false);
+            }, EConstants.POP_UP_SHOW_TIME);
+        }
+    }
+
+    private createPopUpElement() {
+        const name = <HTMLSpanElement>PageBuilder.createElement('span');
+        const time = <HTMLSpanElement>PageBuilder.createElement('span');
+
+        const inner = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'display__inner garage__popup_display',
+            content: [`Winner: `, name, ' time: ', time, 's'],
+        });
+
+        const container = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'display',
+            content: inner,
+        });
+
+        const element = <HTMLDivElement>PageBuilder.createElement('div', {
+            classes: 'garage__popup',
+            content: container,
+        });
+
+        return {
+            element,
+            name,
+            time,
+        };
+    }
+
+    private race = async () => {
+        if (this._carsList.length === 0) {
+            return;
+        }
+
+        this._addedElements.menu.buttons.race.disabled = true;
+        const allReseted = await this.resetAll();
+
+        if (!allReseted) {
+            this.disablePagination(false);
+            this._raceMode = false;
+            this.disableMenuButtons(false);
+            this.disablePagination(false);
+            ErrorView.showError(EErrors.raceStartReset);
+            return;
+        }
+
+        let winner = true;
+        const raceCallback = (name: string, time: number) => {
+            if (winner) {
+                winner = false;
+                if (this._raceMode) {
+                    this.showWinnerMessage(name, time);
+                    return true;
+                }
+            }
+            return winner;
+        };
+
+        const promises = this._carsList.map((car) => {
+            return car.startEngine(raceCallback);
+        });
+
+        try {
+            await Promise.all(promises);
+        } catch (err) {
+            this._raceMode = false;
+            ErrorView.showError(EErrors.raceStart);
+        } finally {
+            this.disablePagination(false);
+            this._addedElements.menu.buttons.reset.disabled = false;
+        }
+    };
+
+    private resetAll = async (e?: Event) => {
+        // if user click "reset" during race, it's reset race
+        // and if car wins it will be skipped
+        // this was done because we use this function
+        // without e arg before the start of the race
+        this._raceMode = !e;
+        this.showPopUp(false);
+        this.disableMenuButtons(true);
+        const promises = this._carsList.map((car) => car.stop(true));
+
+        try {
+            await Promise.all(promises);
+            if (e instanceof Event && e.type === 'click') {
+                this.disableMenuButtons(false);
+            }
+            return true;
+        } catch (err) {
+            this._raceMode = false;
+            this._addedElements.menu.buttons.reset.disabled = false;
+            if (e) {
+                ErrorView.showError(EErrors.tableReset);
+            }
+            return false;
+        }
+    };
+
+    private showWinnerMessage(name: string, time: number) {
+        this.disableMenuButtons(false);
+        this.showPopUp(true, name, Utils.msToSec(time));
+    }
+
+    private generateCars = async () => {
+        const {generate} = this._addedElements.menu.buttons;
+        generate.disabled = true;
+
+        const promises = [];
+        for (let i = 0; i < EConstants.CARS_GENERATOR; i += 1) {
+            const name = Utils.generateCarName();
+            const color = Utils.generateHEXColor();
+            const promise = API.createCar(name, color);
+            promises.push(promise);
+        }
+
+        await Promise.allSettled(promises);
+
+        generate.disabled = false;
+        this.update();
+    };
+
+    private applyListEvents() {
+        const {list} = this._elements;
+        list.addEventListener('click', (e) => {
+            if (e.target && e.target instanceof HTMLElement) {
+                const {dataset} = e.target;
+                if (dataset[EHTMLDataSet.button]) {
+                    const action = dataset[EHTMLDataSet.buttonAction];
+                    const carItem = <HTMLElement>e.target.closest('.car-item');
+                    if (action && carItem) {
+                        const carId = carItem.dataset[EHTMLDataSet.carId];
+                        if (carId) {
+                            const carIdNumber = Number(carId);
+                            if (Number.isNaN(carIdNumber)) {
+                                return;
+                            }
+                            switch (action) {
+                                case ERedactorActions.remove:
+                                    this._callbacks.remove(carIdNumber);
+                                    break;
+                                case ERedactorActions.select:
+                                    this._callbacks.select(carIdNumber);
+                                    break;
+                                default:
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private applyMenuEvents() {
+        const {race, reset, generate} = this._addedElements.menu.buttons;
+        race.addEventListener('click', this.race);
+
+        reset.addEventListener('click', this.resetAll);
+
+        generate.addEventListener('click', this.generateCars);
+    }
+
+    private disableMenuButtons(flag: boolean) {
+        const {race, reset, generate} = this._addedElements.menu.buttons;
+        race.disabled = flag;
+        reset.disabled = flag;
+        generate.disabled = flag;
+    }
+
+    public update = async () => {
+        const data = await API.getCars(this._currentPage);
+        if (data) {
+            this.disableMenuButtons(false);
+            this.setAllItemsCount(data.count);
+            this.updatePageElement();
+            this.fillList(data.cars);
+        } else {
+            this.showError();
+        }
+    };
+
+    protected fillList(data: Array<ICarData>) {
+        const cars = data.map((carData) => new Car(carData));
+
+        this._carsList = cars;
+        const elements = cars.map((car) => car.garageElement);
+        const {list} = this._elements;
+        list.innerHTML = '';
+        list.append(...elements);
+    }
+}

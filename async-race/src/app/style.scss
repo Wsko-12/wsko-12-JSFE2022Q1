@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+html{
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+
+    @include media-mobile-big{
+        font-size: 12px;
+    };
+
+    @include media-mobile{
+        font-size: 10px;
+    };
+}
+html, body {
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+
+html{
+    background-color: rgba(244, 243, 214, 1);
+    background-image: url(./images/dot.png);
+}
+
+body{
+    padding: 20px;
+    min-height: 100%;
+    background-color: rgba(244, 243, 214, 0.9);
+
+    @include media-mobile{
+        padding: 5px;
+    };
+
+}
+
+.button {
+    border: none;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 1rem;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #303030;
+    box-shadow: 4px 4px 0px #303030;
+    color: #303030;
+    margin: 0 2px;
+    transition-duration: 0.1s;
+    cursor: pointer;
+    &:hover{
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px #303030;
+    }
+
+    &:active{
+        transform: translate(4px, 4px);
+        box-shadow: none
+    }
+    &:disabled, &:disabled:hover{
+        transform: translate(0px, 0px);
+        color: #737373;
+        background-color: #dcdcdc !important;
+        border: 2px solid #737373;
+        box-shadow: 4px 4px 0px #737373;
+    }
+
+    @include media-mobile{
+        padding: 10px
+    };
+}
+
+
+.display{
+    border: 2px solid #303030;
+    overflow: hidden;
+    background-color: #4a4a4a;
+    box-shadow: inset 5px 5px 0px #303030;
+    border-radius: 20px;
+}
+
+.display__inner{
+    width: 100%;
+    height: 100%;
+    background-color: #588c61;
+    box-shadow: inset 5px 5px 0px #303030;
+    border-radius: 20px;
+    $color-f_m: rgba(0, 0, 0, 1);
+    $color-s_m: rgba(0, 0, 0, 0);
+    color: #00ff2a;
+    font-family: 'VT323', monospace;
+    font-weight: 800;
+    text-shadow: 0px 0px 4px #4a4a4a;
+    top: 1px;
+    -webkit-mask-image: repeating-linear-gradient($color-f_m 1px, $color-s_m 1px, $color-s_m 2px, $color-f_m 2px, $color-f_m 3px, $color-s_m 3px);
+    mask-image: repeating-linear-gradient($color-f_m 1px, $color-s_m 1px, $color-s_m 2px, $color-f_m 2px, $color-f_m 3px, $color-s_m 3px);
+}
