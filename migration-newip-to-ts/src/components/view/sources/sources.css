@@ -1,0 +1,34 @@
+.sources {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 120px;
+    overflow: auto;
+    align-items: center;
+    font: 300 1em 'Fira Sans', sans-serif;
+}
+
+.source__item {
+    background: #d3d3d3;
+    color: #303030;
+    line-height: 1;
+    margin: 0.5em;
+    padding: 1em 2em;
+    border-radius: 2em;
+    font-weight: bold;
+    transition: 0.25s; 
+    cursor: pointer;
+}
+
+.source__item:hover,
+.source__item:focus {
+    background: #5ad67d;
+    color: white;
+
+    box-shadow: 0 0.5em 1em -0.4em #5ad67d;
+    transform: translateY(-0.25em);
+}
+
+.source__item-name {
+    white-space: nowrap;
+}

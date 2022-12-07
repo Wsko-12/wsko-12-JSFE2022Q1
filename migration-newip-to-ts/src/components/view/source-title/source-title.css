@@ -1,0 +1,48 @@
+.title-container{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.source-title{
+    font-size: 3em;
+}
+.favorite-btn{
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+    border: none;
+    fill: gray;
+    background: none;
+    cursor: pointer;
+}
+.favorite-btn_active{
+    fill: #5ad67d;
+}
+
+
+@media screen and (min-width: 769px) {
+    .favorite-btn:hover{
+        fill: #a2f5ba;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .title-container{
+        justify-content: flex-start;
+    }
+    .source-title {
+        font-size: 2.5em;
+        padding: 0px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .title-container{
+        justify-content: flex-start;
+    }
+    .source-title {
+        font-size: 2em;
+        padding: 0px;
+    }
+}
