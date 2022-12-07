@@ -1,0 +1,28 @@
+.colors{
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.colors__container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.colors__item{
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    box-shadow: inset 3px 3px 10px rgba(0,0,0, 0.3), inset -3px -3px 10px rgba(255,255,255, 0.2);
+    transition-duration: 0.1s;
+    cursor: pointer;
+    &_selected{
+        transform: scale(1.15);
+        box-shadow: 3px 3px 5px rgba(0,0,0, 0.3), inset 3px 3px 10px rgba(255,255,255, 0.2);
+    }
+    &:hover, &_selected:hover{
+        transform: scale(1.1);
+        box-shadow: inset 1px 1px 1px rgba(0,0,0, 0.1);
+    }
+}

@@ -1,0 +1,64 @@
+
+.header {
+    width: 100%;
+    height: $header-height;
+    background-color: #303030;
+    padding: 0 25px;
+}
+.header__container{
+    margin: auto;
+    max-width: 1280px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 20px;
+    @include media-tablet{
+        padding-right: 0;
+    };
+}
+.logo{
+    font-size: 2rem;
+    color: white;
+    font-weight: 700; 
+}
+.logo-span{
+   align-self: flex-start;
+   font-weight: 300; 
+}
+.basket{
+    width: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.basket-icon__counter{
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    position: absolute;
+    right: -2px;
+    top: -5px;
+    border-radius: 10px;
+    font-size: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    &_hidden{
+        visibility: hidden;
+    }
+}
+
+.basket .basket-icon svg path{ 
+    fill: #ccc;
+}
+.basket:hover .basket-icon svg path{ 
+    fill: white;
+}
+

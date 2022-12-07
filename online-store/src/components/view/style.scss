@@ -1,0 +1,31 @@
+.container{
+    max-width: 1280px;
+    width: 100%;
+    padding: 30px 10px;
+    margin: auto;
+    display: flex;
+    gap: 10px;
+    @include media-tablet{
+        gap: 10px;
+        padding: 20px 10px;
+    };
+    @include media-mobile{
+        flex-direction: column;
+        gap: 5px;
+        padding: 25px 5px;
+    };
+}
+main{
+    margin-bottom: 100px;
+}
+.wrapper{
+    position: relative;
+    min-height: calc(100% - $header-height - 1px);
+    padding-bottom: 100px;
+}
+
+.page-item{
+    background-color: #fcfcfc;
+    box-shadow: 0 0 5px 1px #c1c1c1;
+    padding: 10px;
+}

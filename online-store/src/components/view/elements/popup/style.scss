@@ -1,0 +1,21 @@
+.popup{
+    max-width: 500px;
+    visibility: hidden;
+    position: fixed;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    transition-duration: 0.25s;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #303030;
+    font-weight: bold;
+    padding: 5px 50px;
+    border-radius: 100px;
+    &_showed{
+        visibility:visible;
+        transform: translate(-50%, -100%);
+    }
+}

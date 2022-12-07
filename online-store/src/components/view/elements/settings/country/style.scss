@@ -1,0 +1,35 @@
+.country__title{
+    margin-bottom: 10px;
+}
+.country__container{
+    display: flex;
+    gap: 10px;
+}
+
+.country__flag{
+    width: 30px;
+    height: 20px;
+    box-shadow: inset 3px 3px 2px rgba(0,0,0, 0.5), inset -3px -3px 10px rgba(255,255,255, 0.2);
+    cursor: pointer;
+    &:hover{
+        box-shadow: 3px 3px 5px rgba(0,0,0, 0.3), inset 3px 3px 10px rgba(255,255,255, 0.2);
+    }
+
+    &_selected{
+        transform: scale(1.2);
+        box-shadow: 3px 3px 5px rgba(0,0,0, 0.3), inset 3px 3px 10px rgba(255,255,255, 0.2);
+    }
+}
+
+.flag{
+    background-size: cover;
+    &_usa{
+        background-image: url(../../../../../assets/flags/usa.svg);
+    }
+    &_europe{
+        background-image: url(../../../../../assets/flags/europe.svg);
+    }
+    &_russia{
+        background-image: url(../../../../../assets/flags/russia.svg);
+    }
+}
